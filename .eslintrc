@@ -10,14 +10,7 @@
 		"plugin:react/recommended",
 		"plugin:react/jsx-runtime"
 	],
-	"plugins": [
-		"react",
-		"import",
-		"jsx-a11y",
-		"react",
-		"react-hooks",
-		"prettier"
-	],
+	"plugins": ["react", "import", "jsx-a11y", "react", "react-hooks", "prettier"],
 	"rules": {
 		"react/jsx-filename-extension": [
 			"error",
@@ -26,6 +19,10 @@
 			}
 		],
 		"no-console": 0,
-		"import/no-unresolved": "off"
+		"import/no-unresolved": "off",
+		"no-unused-vars": 1,
+		"linebreak-style": 0,
+		"implicit-arrow-linebreak": 0,
+		"jsx-a11y/label-has-associated-control": 0
 	}
 }
