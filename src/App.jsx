@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import KakaoHandler from './pages/kakaoHandler/KakaoHandler';
 import GetUserInfo from './pages/login/GetUserInfo/GetUserInfo';
@@ -12,7 +11,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/login/profile" element={<GetUserInfo />} />
 
-      <Route path="/oauth/callback/kakao" element={<KakaoHandler />} />
+      <Route path="/api/kakaologin" element={<KakaoHandler />} />
     </Routes>
   );
 }
