@@ -3,9 +3,15 @@ import Navbar from '../../../components/container/navbar/Navbar';
 import styles from './login.module.css';
 
 function Login() {
-  const kakaoClientId = '090db84601698ec1838ac04fd493ef89';
-  const kakaoRedirectUri = 'http://localhost:3000/oauth/callback/kakao';
-  const googleCliendId = '907858032063-rlttpr7cjsapanf02cvks3am68sqhjgi.apps.googleusercontent.com';
+  const kakaoClientId = process.env.REACT_APP_KAKAO_CLIENT_ID;
+  const kakaoRedirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+  const googleCliendId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const googleRedirectUri = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
+
+  console.log(kakaoClientId);
+  console.log(kakaoRedirectUri);
+  console.log(googleCliendId);
+  console.log(googleRedirectUri);
 
   return (
     <>
@@ -14,7 +20,9 @@ function Login() {
         <a className={styles.kakao} href={`https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUri}&response_type=code`}>
           <img src="/images/kakao_login.png" alt="kakao login" />
         </a>
-        <button className={styles.google} type="button">구글로 로그인</button>
+        <a className={styles.kakao} href={`https://accounts.google.com/o/oauth2/v2/auth?scope=email&redirect_uri=${googleRedirectUri}}&response_type=code&client_id=${googleCliendId}`}>
+          google login
+        </a>
       </div>
     </>
   );

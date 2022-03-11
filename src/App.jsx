@@ -11,7 +11,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/login/profile" element={<GetUserInfo />} />
 
-      <Route path="/oauth/callback/kakao" element={<KakaoHandler />} />
+      <Route path="/api/kakaologin" element={<KakaoHandler />} />
     </Routes>
   );
 }

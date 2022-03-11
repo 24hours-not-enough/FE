@@ -1,17 +1,20 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useRef, useState } from 'react';
 import styles from './profileForm.module.css';
-import { kakaoSignIn } from '../../../state/redux/user/user';
+import UserApi from '../../../state/data/userApi';
+import { pushUserInfo } from '../../../state/redux/user/user';
 
-function ProfileForm(prop) {
+function ProfileForm() {
   const nicknameRef = useRef();
   const fileRef = useRef();
   const [preview, setPreview] = useState('/images/profile_default.jpg');
   const dispatch = useDispatch();
-  const { code } = prop;
+  const location = useLocation();
+
+  const userApi = new UserApi();
 
   const handleSelectFile = () => {
     fileRef.current.click();
@@ -34,9 +37,9 @@ function ProfileForm(prop) {
       return;
     }
 
-    const userInfo = { nickname };
+    const userInfo = { username: nickname };
 
-    dispatch(checkDuplication({ userInfo }));
+    userApi.checkDuplication({ userInfo });
   };
 
   const handleSubmit = (e) => {
@@ -50,9 +53,11 @@ function ProfileForm(prop) {
       return;
     }
 
-    const userInfo = { nickname, file: profileImage };
+    const userFormData = new FormData();
+    userFormData.append('file', profileImage);
+    userFormData.append('username', nickname);
 
-    dispatch(kakaoSignIn({ userInfo, code }));
+    dispatch(pushUserInfo({ email: location.state, userInfo: userFormData }));
   };
 
   return (
@@ -73,9 +78,5 @@ function ProfileForm(prop) {
     </>
   );
 }
-
-ProfileForm.PropTyles = {
-  code: PropTypes.string,
-};
 
 export default ProfileForm;

@@ -5,13 +5,23 @@ const userApi = new UserApi();
 
 const initialState = {
   userInfo: {
-    profileImg: 'aa',
-    nickname: 'aa',
+    profileImg: '',
+    username: '',
   },
 };
 
-export const kakaoSignIn = createAsyncThunk('user/kakaoSignIn', async (userInfo) => {
-  await userApi.kakaoSignIn(userInfo);
+export const kakaoLogin = createAsyncThunk('user/kakaoSignIn', async ({ code, navigate }) => {
+  const isLogin = await userApi.kakaoLogin({ code, navigate });
+  return isLogin;
+});
+
+export const googleLogin = createAsyncThunk('user/kakaoSignIn', async ({ code, navigate }) => {
+  const isLogin = await userApi.googleLogin({ code, navigate });
+  return isLogin;
+});
+
+export const pushUserInfo = createAsyncThunk('user/pushUserInfo', async ({ email, userInfo }) => {
+  await userApi.pushUserInfo({ email, userInfo });
 });
 
 export const checkDuplication = createAsyncThunk('user/checkDuplication', async (userInfo) => {
@@ -23,13 +33,31 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [kakaoSignIn.pending]: (state, action) => {
+    [kakaoLogin.pending]: (state, action) => {
       // state = state;
     },
-    [kakaoSignIn.fulfilled]: (state, action) => {
+    [kakaoLogin.fulfilled]: (state, action) => {
       // state = state;
     },
-    [kakaoSignIn.rejected]: (state, action) => {
+    [kakaoLogin.rejected]: (state, action) => {
+      // state = state;
+    },
+    [googleLogin.pending]: (state, action) => {
+      // state = state;
+    },
+    [googleLogin.fulfilled]: (state, action) => {
+      // state = state;
+    },
+    [googleLogin.rejected]: (state, action) => {
+      // state = state;
+    },
+    [pushUserInfo.pending]: (state, action) => {
+      // state = state;
+    },
+    [pushUserInfo.fulfilled]: (state, action) => {
+      // state = state;
+    },
+    [pushUserInfo.rejected]: (state, action) => {
       // state = state;
     },
   },
