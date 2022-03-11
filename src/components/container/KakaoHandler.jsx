@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../../components/container/loading/Loading';
+import Loading from '../presentation/Loading';
 import { kakaoLogin } from '../../state/redux/user/user';
 
 function KakaoHandler(props) {

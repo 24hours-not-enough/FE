@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import KakaoHandler from './pages/kakaoHandler/KakaoHandler';
+import KakaoHandler from './components/container/KakaoHandler';
 import GetUserInfo from './pages/login/GetUserInfo/GetUserInfo';
 import Login from './pages/login/Login/Login';
 import Main from './pages/main/Main';
