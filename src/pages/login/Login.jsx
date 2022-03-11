@@ -1,5 +1,5 @@
-import Navbar from '../../../components/container/Navbar';
-import LayoutWrapper from '../../../components/presentation/LayoutWrapper';
+import Navbar from '../../components/container/Navbar';
+import LayoutWrapper from '../../components/presentation/LayoutWrapper';
 import styles from './login.module.css';
 
 function Login() {

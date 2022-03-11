@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../presentation/Loading';
 import { kakaoLogin } from '../../state/redux/user/user';
 
-function KakaoHandler(props) {
+function LoginHandler(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -16,4 +16,4 @@ function KakaoHandler(props) {
   return <Loading />;
 }
 
-export default KakaoHandler;
+export default LoginHandler;
