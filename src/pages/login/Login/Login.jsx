@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import Navbar from '../../../components/container/navbar/Navbar';
+import Navbar from '../../../components/container/Navbar';
 import styles from './login.module.css';
 
 function Login() {

@@ -1,7 +1,0 @@
-.navbar {
-  @apply flex justify-center items-center sticky mb-8
-}
-
-.menuButton {
-  @apply absolute left-0 top-0
-}

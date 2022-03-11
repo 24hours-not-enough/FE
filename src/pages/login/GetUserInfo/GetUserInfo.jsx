@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import ProfileForm from '../../../components/container/profileFrom/ProfileForm';
-import Navbar from '../../../components/container/navbar/Navbar';
+import Navbar from '../../../components/container/Navbar';
 
 function GetUserInfo(props) {
   const location = useLocation();
