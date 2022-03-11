@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import KakaoHandler from './pages/kakaoHandler/KakaoHandler';
 import GetUserInfo from './pages/login/GetUserInfo/GetUserInfo';

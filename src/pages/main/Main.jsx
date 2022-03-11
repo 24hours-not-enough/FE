@@ -1,14 +1,12 @@
-import React from 'react';
 import Navbar from '../../components/container/navbar/Navbar';
+import LayoutWrapper from '../../components/presentation/LayoutWrapper';
 
-function Main() {
+export default function Main() {
   return (
-    <>
+    <LayoutWrapper>
       <Navbar />
       <div>검색창</div>
       <div>지도</div>
-    </>
+    </LayoutWrapper>
   );
 }
-
-export default Main;

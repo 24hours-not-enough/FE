@@ -5,8 +5,8 @@ const userApi = new UserApi();
 
 const initialState = {
   userInfo: {
-    profileImg: '',
-    nickname: '',
+    profileImg: 'aa',
+    nickname: 'aa',
   },
 };
 
