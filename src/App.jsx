@@ -12,6 +12,7 @@ function App() {
       <Route path="/login/profile" element={<GetUserInfo />} />
 
       <Route path="/api/kakaologin" element={<KakaoHandler />} />
+      <Route path="/api/googlelogin" element={<KakaoHandler />} />
     </Routes>
   );
 }

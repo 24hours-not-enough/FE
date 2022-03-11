@@ -20,7 +20,7 @@ function Login() {
         <a className={styles.kakao} href={`https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUri}&response_type=code`}>
           <img src="/images/kakao_login.png" alt="kakao login" />
         </a>
-        <a className={styles.kakao} href={`https://accounts.google.com/o/oauth2/v2/auth?scope=email&redirect_uri=${googleRedirectUri}}&response_type=code&client_id=${googleCliendId}`}>
+        <a className={styles.kakao} href={`https://accounts.google.com/o/oauth2/v2/auth?scope=email&redirect_uri=${googleRedirectUri}&response_type=code&client_id=${googleCliendId}`}>
           google login
         </a>
       </div>
