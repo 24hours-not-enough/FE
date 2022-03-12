@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 import UserApi from '../../state/data/userApi';
 import { pushUserInfo } from '../../state/redux/user/user';
 import ProfileForm from '../presentation/ProfileForm';
-import checkNickname from '../../shared/utils';
+import { checkNickname } from '../../shared/utils';
 
 function AddUserInfo() {
   const nicknameRef = useRef();

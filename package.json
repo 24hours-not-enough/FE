@@ -27,6 +27,7 @@
     "lint": "eslint ."
   },
   "eslintConfig": {
+  	"parser": "babel-eslint",
     "extends": [
       "react-app",
       "react-app/jest"
@@ -75,6 +76,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
+    "babel-eslint": "^10.1.0",
     "eslint": "8.2.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "^8.5.0",
