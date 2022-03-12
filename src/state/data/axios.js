@@ -1,37 +1,35 @@
 import axios from 'axios';
 
-class Axios {
-  constructor() {
-    this.base = process.env.REACT_APP_IP;
+const instance = axios.create({
+  baseURL: process.env.REACT_APP_IP,
+});
 
-    this.instance = axios.create({
-      baseURL: this.base,
-    });
-  }
+export default instance;
 
-  get(url, config) {
-    config
-      ? this.instance.get(url, config)
-      : this.instance.get(url);
-  }
+// class Axios {
+//   constructor() {
+//     this.base = process.env.REACT_APP_IP;
 
-  post(url, config) {
-    config
-      ? this.instance.post(url, config)
-      : this.instance.post(url);
-  }
+//     this.instance = axios.create({
+//       baseURL: this.base,
+//     });
+//   }
 
-  put(url, config) {
-    config
-      ? this.instance.put(url, config)
-      : this.instance.put(url);
-  }
+//   get(config) {
+//     return this.instance.get(config);
+//   }
 
-  delete(url, config) {
-    config
-      ? this.instance.delete(url, config)
-      : this.instance.delete(url);
-  }
-}
+//   post(config) {
+//     return this.instance.post(config);
+//   }
 
-export default Axios;
+//   put(config) {
+//     return this.instance.put(config);
+//   }
+
+//   delete(config) {
+//     return this.instance.delete(config);
+//   }
+// }
+
+// export default Axios;
