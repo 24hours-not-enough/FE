@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { setTokenToSession } from '../../../shared/utils';
 import UserApi from '../../data/userApi';
-import { setIsLogin, setTokenToSession } from '../status/status';
+import { setIsLogin } from '../status/status';
 
 const userApi = new UserApi();
 const RES_SUCCESS = 'success';
@@ -23,8 +24,8 @@ export const kakaoLogin = createAsyncThunk('user/kakaoSignIn', async ({ code, na
     if (isfirst) {
       navigate('/login/profile', { state: tokens, replace: true });
     } else {
-      dispatch(setTokenToSession(tokens));
       dispatch(setIsLogin(true));
+      setTokenToSession(tokens.access_token);
       navigate('/', { replace: true });
       // return user
     }
@@ -43,8 +44,8 @@ export const googleLogin = createAsyncThunk('user/googleSignIn', async ({ code, 
     if (isfirst) {
       navigate('/login/profile', { state: tokens, replace: true });
     } else {
-      dispatch(setTokenToSession(tokens));
       dispatch(setIsLogin(true));
+      setTokenToSession(tokens.access_token);
       navigate('/', { replace: true });
       // return user
     }
