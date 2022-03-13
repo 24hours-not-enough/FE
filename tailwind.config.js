@@ -10,6 +10,10 @@ module.exports = {
       '2xl': '1536px',
     },
     colors: ({ colors }) => ({
+      main: '#5A54F3',
+      kakao: '#FEE500',
+      decline: '#E7E6FE',
+      none: '#DEDDE5',
       inherit: colors.inherit,
       current: colors.current,
       transparent: colors.transparent,
@@ -101,6 +105,7 @@ module.exports = {
       64: '16rem',
       72: '18rem',
       80: '20rem',
+      88: '22rem',
       96: '24rem',
     },
     animation: {

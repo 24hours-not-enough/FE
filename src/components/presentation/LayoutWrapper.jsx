@@ -1,13 +1,18 @@
 import { memo } from 'react';
 
+import useLayout from '../../shared/useLayout';
+
 function LayoutWrapper({ children }) {
-  return (
-    <div className="bg-gray-400">
-      <div className="w-mobile bg-white h-screen mx-auto ">
+  const { pc } = useLayout();
+
+  if (!pc) {
+    return (
+      <div>
         {children}
       </div>
-    </div>
-  );
+    );
+  }
+  return children;
 }
 
 export default memo(LayoutWrapper);
