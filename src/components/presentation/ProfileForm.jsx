@@ -1,11 +1,19 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-
-import styles from './profileForm.module.css';
-
 function ProfileForm(props) {
   const {
-    handleSelectFile, preview, fileRef, selectProfile, handleSubmit, nicknameRef, checkDuplication,
+    handleSelectFile,
+    preview,
+    fileRef,
+    selectProfile,
+    handleSubmit,
+    nicknameRef,
+    checkDuplication,
+    nicknameDescription,
   } = props;
+
+  const nicknameDescriptionColor = nicknameDescription.color === 'blue'
+    ? 'text-xs text-blue-500 mb-8'
+    : 'text-xs text-red-500 mb-8';
 
   return (
     <>
@@ -19,8 +27,8 @@ function ProfileForm(props) {
           <input ref={nicknameRef} type="text" placeholder="숫자, 영어, 한글을 조합하여 2~8글자로 입력해주세요!" />
           <button type="button" onClick={checkDuplication}>중복 확인</button>
         </div>
-        <span className={styles.description}>숫자, 영어, 한글을 조합하여 2-8글자로 입력해주세요!</span>
-        <button className={styles.submitBtn} type="submit">완료</button>
+        <span className={nicknameDescriptionColor}>{nicknameDescription.value}</span>
+        <button className="rounded text-white bg-slate-700 py-1" type="submit">완료</button>
       </form>
     </>
   );

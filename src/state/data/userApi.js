@@ -1,87 +1,69 @@
-import Axios from './axios';
+import instance from './axios';
 
 class UserApi {
   constructor() {
-    this.base = 'http://15.164.216.191';
-    this.axios = new Axios();
+    this.axios = instance;
   }
 
   // 카카오 로그인
   async kakaoLogin({ code, navigate }) {
-    this.axios.get(`/api/kakaologin?code=${code}`)
-      .then((res) => {
-        console.log(res);
-        const {
-          result, msg, isfirst, email,
-        } = res.data;
-
-        if (isfirst) {
-          navigate('/login/profile', { state: email, replace: true });
-        } else {
-          alert('로그인 성공');
-          navigate('/', { replace: true });
-          // 토큰 받아서 session에 넣어주기
-        }
-
-        return isfirst === 'true';
-      })
+    return this.axios({
+      method: 'get',
+      url: `/api/kakaologin?code=${code}`,
+    })
+      .then((res) => res.data)
       .catch((error) => {
         console.log(error);
         console.log(error.response);
-        return false;
+        alert('로그인을 다시 시도해주세요'); // 모달창: 문구
+        navigate('/login', { replace: true });
       });
   }
 
   // 구글 로그인
   async googleLogin({ code, navigate }) {
-    this.axios.get(`/api/googlelogin?code=${code}`)
-      .then((res) => {
-        console.log(res);
-        const {
-          result, msg, isfirst, email,
-        } = res.data;
-
-        if (isfirst) {
-          navigate('/login/profile', { state: email, replace: true });
-        } else {
-          alert('로그인 성공');
-          navigate('/', { replace: true });
-          // 토큰 받아서 session에 넣어주기
-        }
-
-        return isfirst === 'true';
-      })
-      .catch((error) => {
-        console.log(error.response);
-        return false;
-      });
-  }
-
-  // 첫 로그인 시 프로필 이미지, 닉네임 등록
-  async pushUserInfo({ email, userInfo }) {
-    this.axios.post(`/api/login/userinfo/${email}`, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      data: userInfo,
+    return this.axios({
+      method: 'get',
+      url: `/api/googlelogin?code=${code}`,
     })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err.response));
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+        console.log(error.response);
+        alert('로그인을 다시 시도해주세요'); // 모달창: 문구
+        navigate('/login', { replace: true });
+      });
   }
 
   // 닉네임 중복 체크
   async checkDuplication({ userInfo }) {
-    this.axios.get('/api/login', {
+    return this.axios({
+      method: 'post',
+      url: 'http://15.164.216.191/api/username',
       headers: {
         'Content-Type': 'application/json',
       },
       data: JSON.stringify(userInfo),
+    });
+  }
+
+  // 첫 로그인 시 프로필 이미지, 닉네임 등록
+  async pushUserInfo({ tokens, userInfo }) {
+    return this.axios({
+      method: 'post',
+      url: 'http://15.164.216.191/api/login/userinfo',
+      headers: {
+        'X-AUTH-TOKEN': tokens.access_token,
+        'Content-Type': 'multipart/form-data',
+      },
+      data: userInfo,
     })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error.response);
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        // alert('로그인을 다시 시도해주세요'); // 모달창: 문구
+        // navigate('/login', { replace: true });
       });
   }
 }

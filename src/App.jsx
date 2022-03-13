@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
-import KakaoHandler from './components/container/KakaoHandler';
-import GetUserInfo from './pages/login/GetUserInfo/GetUserInfo';
-import Login from './pages/login/Login/Login';
+import LoginHandler from './components/container/LoginHandler';
+import AddTriplan from './pages/addTriplan/AddTriplan';
+import GetUserInfo from './pages/getUserInfo/GetUserInfo';
+import Login from './pages/login/Login';
 import Main from './pages/main/Main';
 
 function App() {
@@ -10,9 +11,10 @@ function App() {
       <Route path="/" element={<Main />} />
       <Route path="/login" element={<Login />} />
       <Route path="/login/profile" element={<GetUserInfo />} />
+      <Route path="/plan" element={<AddTriplan />} />
 
-      <Route path="/api/kakaologin" element={<KakaoHandler />} />
-      <Route path="/api/googlelogin" element={<KakaoHandler />} />
+      <Route path="/api/kakaologin" element={<LoginHandler />} />
+      <Route path="/api/googlelogin" element={<LoginHandler />} />
     </Routes>
   );
 }
