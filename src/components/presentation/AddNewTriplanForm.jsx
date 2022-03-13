@@ -1,9 +1,8 @@
-import Button from '../../elements/Button';
-
 function AddNewTriplanForm(props) {
   const {
-    titleRef, locationRef, findUser, createTriplan,
+    titleRef, locationRef, startRef, endRef, findUser, createTriplan,
   } = props;
+
   return (
     <form onSubmit={createTriplan}>
       <div>
@@ -16,13 +15,14 @@ function AddNewTriplanForm(props) {
       </div>
       <div>
         <label htmlFor="여행 기간">여행 기간</label>
-        <input type="text" />
+        <input type="text" ref={startRef} placeholder="언제부터" />
+        <input type="text" ref={endRef} placeholder="언제까지" />
       </div>
       <div>
         <label htmlFor="함께할 멤버 초대하기">함께할 멤버 초대하기</label>
         <input type="text" onChange={findUser} />
       </div>
-      <Button title="트리플랜 생성" />
+      <button type="submit">트리플랜 생성</button>
     </form>
   );
 }
