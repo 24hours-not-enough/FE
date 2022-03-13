@@ -1,0 +1,25 @@
+.base {
+    -webkit-tap-highlight-color: transparent;
+    @apply h-12 font-bold flex items-center justify-center cursor-pointer text-base;
+}
+
+
+.main{
+    @apply bg-main border-main border-solid text-white font-bold rounded-2xl;
+}
+
+.kakao{
+    @apply bg-kakao border-kakao border-solid text-black font-bold rounded-2xl;
+}
+
+.google{
+    @apply bg-white border-white border-solid text-black font-bold rounded-2xl;
+}
+
+.decline{
+    @apply bg-decline border-decline border-solid text-main font-bold rounded-2xl;
+}
+
+.none{
+    @apply bg-none border-none border-solid text-white font-bold rounded-2xl;
+}

@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-shadow */
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../presentation/Header';
 
@@ -10,23 +11,23 @@ function Navbar() {
 
   const [isTab, setIsTab] = useState(false);
 
-  const goToLogin = () => {
+  const goToLogin = useCallback(() => {
     navigate('/login');
-  };
+  }, [navigate]);
 
-  const toggleTab = () => {
+  const toggleTab = useCallback(() => {
     setIsTab((isTab) => !isTab);
-  };
+  }, [setIsTab]);
 
   return (
-    <>
+    <div>
       <Header openTab={toggleTab} />
       <MenuTab
         isTab={isTab}
         goToLogin={goToLogin}
         closeTab={toggleTab}
       />
-    </>
+    </div>
   );
 }
 
