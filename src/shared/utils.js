@@ -7,4 +7,9 @@ const setTokenToSession = (token) => {
   sessionStorage.setItem('token', token);
 };
 
-export { checkNickname, setTokenToSession };
+const getTokenFromSession = () => {
+  const token = sessionStorage.getItem('token');
+  return token || null;
+};
+
+export { checkNickname, setTokenToSession, getTokenFromSession };

@@ -1,4 +1,4 @@
-function Loading(props) {
+function Loading() {
   return <>loading</>;
 }
 

@@ -1,24 +1,75 @@
-import Axios from './axios';
+import instance from './axios';
 
 class PlanApi {
   constructor() {
-    this.axios = new Axios();
+    this.axios = instance;
   }
 
-  async createTriplan(planInfo) {
-    this.axios.post('/api/plan', {
+  // 계획 등록
+  createTriplan(data) {
+    return this.axios({
+      method: 'post',
+      url: '/api/plan',
+      data,
+    });
+  }
+
+  // 계획 수정
+  updateTriplan(data, planId) {
+    return this.axios({
+      method: 'put',
+      url: `/api/plan/${planId}`,
+      data,
+    });
+  }
+
+  // 계획 삭제
+  deleteTriplan(data, planId) {
+    return this.axios({
+      method: 'put',
+      url: `/api/plan/${planId}`,
+      data,
+    });
+  }
+
+  // 계획 단건 조회
+  getCertainTriplan(planId) {
+    return this.axios({
+      method: 'get',
+      url: `/api/plan/${planId}`,
+    });
+  }
+
+  // 나의 여행 계획 전체 조회
+  getMyTriplanList() {
+    return this.axios({
+      method: 'get',
+      url: '/api/plan',
+    });
+  }
+
+  // 계획에 친구 초대하기
+  inviteToTriplan(data, planId) {
+    return this.axios({
+      method: 'post',
+      url: `/api/member/plan/${planId}`,
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify(planInfo),
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response);
-      });
+      data,
+    });
+  }
+
+  // 계획에서 친구 내보내기
+  ejectFromTriplan(data, planId) {
+    return this.axios({
+      method: 'delete',
+      url: `/api/member/plan/${planId}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data,
+    });
   }
 }
 
