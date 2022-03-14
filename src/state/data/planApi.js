@@ -6,11 +6,11 @@ class PlanApi {
   }
 
   // 계획 등록
-  createTriplan(data) {
+  createTriplan({ planInfo }) {
     return this.axios({
       method: 'post',
       url: '/api/plan',
-      data,
+      data: planInfo,
     });
   }
 
@@ -67,11 +67,10 @@ class PlanApi {
   }
 
   // 닉네임으로 유저 검색
-  findByUsername(data) {
+  findByUsername(nickname) {
     return this.axios({
       method: 'get',
-      url: '/api/user',
-      data,
+      url: `/api/user/${nickname}`,
     });
   }
 }

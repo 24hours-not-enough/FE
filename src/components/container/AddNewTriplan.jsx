@@ -1,7 +1,8 @@
-import { useRef } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { createTriplan } from '../../state/redux/plan/plan';
+import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import _ from 'lodash';
+import { useNavigate } from 'react-router-dom';
+import { createTriplan } from '../../state/redux/plan/plan';
 import AddNewTriplanForm from '../presentation/AddNewTriplanForm';
 import PlanApi from '../../state/data/planApi';
 
@@ -10,29 +11,43 @@ function AddNewTriplan() {
   const locationRef = useRef();
   const startRef = useRef();
   const endRef = useRef();
-  // const dispatch = useDispatch();
+  const inviteRef = useRef();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [searchedUser, setSearchedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState([]);
 
   const planApi = new PlanApi();
 
   const findedUser = (e) => {
-    console.log(e.target.value);
-    // api 통신
-    // 유저가 있으면 아래에 표시
-    // 없으면 빈칸 표시
-    planApi.findByUsername({ nickName: e.target.value })
-      .then((res) => console.log(res))
+    planApi.findByUsername(e.target.value)
+      .then((res) => {
+        console.log(res);
+        setSearchedUser({
+          profileImg: res.data.data.file_store_course,
+          username: res.data.data.nickname,
+        });
+      })
       .catch((err) => console.log(err.response));
   };
 
-  const findUser = _.debounce(findedUser, 350);
+  const findUser = _.debounce(findedUser, 500);
+
+  const selectUserForInvite = () => {
+    const updated = [...selectedUser, searchedUser];
+    setSelectedUser(updated);
+
+    setSearchedUser(null);
+    inviteRef.current.value = '';
+  };
 
   const handleCreateTriplan = (e) => {
     e.preventDefault();
 
     const title = titleRef.current.value;
     const location = locationRef.current.value;
-    const start = startRef.current.value;
-    const end = endRef.current.value;
+    const start = startRef.current.props.selected;
+    const end = endRef.current.props.selected;
 
     if (title === '' || location === '' || start === '' || end === '') {
       alert('입력해주세요');
@@ -43,13 +58,13 @@ function AddNewTriplan() {
     const planInfo = {
       title,
       travel_destination: location,
-      travel_start: start,
-      travel_end: end,
-      memberList: [],
+      travel_start: new Date(start).toISOString(),
+      travel_end: new Date(end).toISOString(),
+      memberList: selectedUser,
     };
 
     console.log(planInfo);
-    // dispatch(createTriplan(planInfo));
+    dispatch(createTriplan({ planInfo, navigate }));
   };
 
   return (
@@ -58,8 +73,11 @@ function AddNewTriplan() {
       locationRef={locationRef}
       startRef={startRef}
       endRef={endRef}
+      inviteRef={inviteRef}
       findUser={findUser}
+      findedUser={searchedUser}
       createTriplan={handleCreateTriplan}
+      selectUserForInvite={selectUserForInvite}
     />
   );
 }

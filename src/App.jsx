@@ -11,7 +11,7 @@ function App() {
       <Route path="/" element={<Main />} />
       <Route path="/login" element={<Login />} />
       <Route path="/login/profile" element={<GetUserInfo />} />
-      <Route path="/plan" element={<AddTriplan />} />
+      <Route path="/plan/create" element={<AddTriplan />} />
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />
