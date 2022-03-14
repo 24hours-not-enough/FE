@@ -26,11 +26,16 @@ class PlanApi {
   }
 
   // 계획 삭제
-  deleteTriplan(data, planId) {
-    return this.axios({
-      method: 'put',
-      url: `/api/plan/${planId}`,
-      data,
+  deleteTriplan(planId) {
+    // return this.axios({
+    //   method: 'put',
+    //   url: `/api/plan/${planId}`,
+    //   data: { del_fl: false },
+    // });
+    console.log(planId);
+    return this.mock({
+      method: 'get',
+      url: 'http://localhost:3000/api/plan/delete.json',
     });
   }
 

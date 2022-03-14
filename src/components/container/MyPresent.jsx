@@ -1,10 +1,12 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteMyTriplan } from '../../state/redux/plan/plan';
 import { _myPresent } from '../../state/redux/plan/planSelectors';
 import Button from '../elements/button';
 import MyPresentCard from '../presentation/MyPresentCard';
 
 function MyPresent() {
   const planList = useSelector(_myPresent);
+  const dispatch = useDispatch();
   const pageState = document.location.href.split('/plan')[1];
 
   const openCardMenu = (plan) => {
@@ -13,6 +15,7 @@ function MyPresent() {
 
   const deleteCard = (plan) => {
     console.log(`카드 삭제: ${plan.plan_id}`);
+    dispatch(deleteMyTriplan(plan.plan_id));
   };
 
   const buttonSet = pageState === '/my_triplan'

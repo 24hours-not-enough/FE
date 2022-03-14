@@ -36,6 +36,21 @@ export const getMyTriplanList = createAsyncThunk(
   },
 );
 
+export const deleteMyTriplan = createAsyncThunk(
+  'plan/deleteMyTriplan',
+  async (planId) => {
+    const response = planApi.deleteTriplan(planId);
+    return response
+      .then((res) => {
+        console.log(res);
+        return { result: res.data.success, planId };
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+);
+
 export const planSlice = createSlice({
   name: 'plan',
   initialState,
@@ -69,6 +84,20 @@ export const planSlice = createSlice({
       state.myPresent = myPresent;
       state.myPast = myPast;
       state.myDeleted = myDeleted;
+    },
+    [deleteMyTriplan.fulfilled]: (state, action) => {
+      let deleted;
+      let updated;
+      if (action.payload.result) {
+        updated = state.myPresent.filter((plan) => {
+          if (plan.plan_id === action.payload.planId) {
+            deleted = plan;
+          }
+          return plan.plan_id !== action.payload.planId;
+        });
+        state.myPresent = updated;
+        state.myDeleted.push(deleted);
+      }
     },
   },
 });
