@@ -53,9 +53,6 @@ class PlanApi {
     return this.axios({
       method: 'post',
       url: `/api/member/plan/${planId}`,
-      headers: {
-        'Content-Type': 'application/json',
-      },
       data,
     });
   }
@@ -65,9 +62,15 @@ class PlanApi {
     return this.axios({
       method: 'delete',
       url: `/api/member/plan/${planId}`,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      data,
+    });
+  }
+
+  // 닉네임으로 유저 검색
+  findByUsername(data) {
+    return this.axios({
+      method: 'get',
+      url: '/api/user',
       data,
     });
   }

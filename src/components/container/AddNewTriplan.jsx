@@ -1,7 +1,9 @@
 import { useRef } from 'react';
 // import { useDispatch } from 'react-redux';
 // import { createTriplan } from '../../state/redux/plan/plan';
+import _ from 'lodash';
 import AddNewTriplanForm from '../presentation/AddNewTriplanForm';
+import PlanApi from '../../state/data/planApi';
 
 function AddNewTriplan() {
   const titleRef = useRef();
@@ -10,10 +12,19 @@ function AddNewTriplan() {
   const endRef = useRef();
   // const dispatch = useDispatch();
 
-  const findUser = (e) => {
+  const planApi = new PlanApi();
+
+  const findedUser = (e) => {
     console.log(e.target.value);
-    // 유저 검색 다 적고나서 한 번 검색 : debounce
+    // api 통신
+    // 유저가 있으면 아래에 표시
+    // 없으면 빈칸 표시
+    planApi.findByUsername({ nickName: e.target.value })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err.response));
   };
+
+  const findUser = _.debounce(findedUser, 350);
 
   const handleCreateTriplan = (e) => {
     e.preventDefault();

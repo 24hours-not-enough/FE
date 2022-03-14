@@ -8,6 +8,7 @@
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
     "axios": "^0.26.1",
+    "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -27,7 +28,7 @@
     "lint": "eslint ."
   },
   "eslintConfig": {
-  	"parser": "babel-eslint",
+    "parser": "babel-eslint",
     "extends": [
       "react-app",
       "react-app/jest"
