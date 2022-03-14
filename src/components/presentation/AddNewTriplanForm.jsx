@@ -1,3 +1,5 @@
+import Button from '../elements/button/Button';
+
 function AddNewTriplanForm(props) {
   const {
     titleRef, locationRef, startRef, endRef, findUser, createTriplan,
@@ -22,7 +24,7 @@ function AddNewTriplanForm(props) {
         <label htmlFor="함께할 멤버 초대하기">함께할 멤버 초대하기</label>
         <input type="text" onChange={findUser} />
       </div>
-      <button type="submit">트리플랜 생성</button>
+      <Button onClick={createTriplan} type="main" propsClassName="px-8">트리플랜 생성</Button>
     </form>
   );
 }
