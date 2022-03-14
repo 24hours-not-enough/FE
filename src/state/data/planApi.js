@@ -44,9 +44,12 @@ class PlanApi {
 
   // 나의 여행 계획 전체 조회
   getMyTriplanList() {
+    // return this.axios({
+    //   method: 'get',
+    //   url: '/api/plan',
+    // })
     return this.mock({
       method: 'get',
-      // url: '/api/plan',
       url: 'http://localhost:3000/api/plan.json',
     });
   }

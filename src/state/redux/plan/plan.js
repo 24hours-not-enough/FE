@@ -54,7 +54,7 @@ export const planSlice = createSlice({
         plan.travel_end = changeDate(plan.travel_end);
       };
       action.payload.forEach((plan) => {
-        if (!plan.del_fl) {
+        if (plan.del_fl === 'false') {
           changeDateFormat(plan);
           myDeleted.push(plan);
         } else if (plan.travel_end < nowDate) {

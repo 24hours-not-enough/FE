@@ -20,6 +20,10 @@
     @apply bg-decline border-decline border-solid text-main font-bold rounded-2xl;
 }
 
+.text{
+    @apply bg-white text-main
+}
+
 .none{
     @apply bg-none border-none border-solid text-white font-bold rounded-2xl;
 }

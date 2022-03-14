@@ -19,6 +19,8 @@ function Button({
         return styles.google;
       case 'decline':
         return styles.decline;
+      case 'text':
+        return styles.text;
       case 'none':
         return styles.none;
       default:

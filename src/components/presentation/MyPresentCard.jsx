@@ -1,9 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable camelcase */
-function MyPresentCard({ plan }) {
+function MyPresentCard({ plan, buttonSet }) {
   const {
     title, travel_destination, travel_start, travel_end, memberList,
   } = plan;
+  const { buttonTitle, handleClick } = buttonSet;
 
   return (
     <li className="p-2">
@@ -13,9 +14,7 @@ function MyPresentCard({ plan }) {
           <div>
             <div className="text-sm text-gray-400">{travel_destination}</div>
             <div className="text-sm text-gray-400">
-              <span>{travel_start}</span>
-              <span>-</span>
-              <span>{travel_end}</span>
+              <span>{`${travel_start} - ${travel_end}`}</span>
             </div>
           </div>
           <div className="flex">
@@ -29,7 +28,7 @@ function MyPresentCard({ plan }) {
             ))}
           </div>
         </div>
-        <button className="absolute right-4 top-4" type="button">더보기</button>
+        <button className="absolute right-4 top-4" type="button" onClick={() => handleClick(plan)}>{buttonTitle}</button>
       </div>
     </li>
   );

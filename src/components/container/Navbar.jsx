@@ -6,7 +6,7 @@ import Header from '../presentation/Header';
 
 import MenuTab from '../presentation/MenuTab';
 
-function Navbar() {
+function Navbar({ buttonSet }) {
   const navigate = useNavigate();
 
   const [isTab, setIsTab] = useState(false);
@@ -21,7 +21,7 @@ function Navbar() {
 
   return (
     <div>
-      <Header openTab={toggleTab} />
+      <Header openTab={toggleTab} buttonSet={buttonSet} />
       <MenuTab
         isTab={isTab}
         goToLogin={goToLogin}
