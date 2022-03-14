@@ -39,6 +39,20 @@ class PlanApi {
     });
   }
 
+  // 계획 복구
+  restoreTriplan(planId) {
+    // return this.axios({
+    //   method: 'put',
+    //   url: `/api/plan/${planId}`,
+    //   data: { del_fl: true },
+    // });
+    console.log(planId);
+    return this.mock({
+      method: 'get',
+      url: 'http://localhost:3000/api/plan/restore.json',
+    });
+  }
+
   // 계획 단건 조회
   getCertainTriplan(planId) {
     return this.axios({

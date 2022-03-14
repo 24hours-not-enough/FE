@@ -17,6 +17,7 @@ export const createTriplan = createAsyncThunk(
     const response = await planApi.createTriplan({ planInfo, navigate });
     // then에서 navigate('계획 페이지로 이동')
     // navigate('/plan/my_triplan', { replace: true });
+    console.log(response);
   },
 );
 
@@ -51,14 +52,27 @@ export const deleteMyTriplan = createAsyncThunk(
   },
 );
 
+export const restoreMyTriplan = createAsyncThunk(
+  'plan/restoreMyTriplan',
+  async (planId) => {
+    const response = planApi.restoreTriplan(planId);
+    return response
+      .then((res) => {
+        console.log(res);
+        return { result: res.data.success, planId };
+      })
+      .catch((err) => console.log(err));
+  },
+);
+
 export const planSlice = createSlice({
   name: 'plan',
   initialState,
   reducers: {},
   extraReducers: {
-    [createTriplan.fulfilled]: (state, action) => {
+    // [createTriplan.fulfilled]: (state, action) => {
 
-    },
+    // },
     [getMyTriplanList.fulfilled]: (state, action) => {
       const nowDate = new Date().toISOString();
       const myPresent = [];
@@ -91,12 +105,28 @@ export const planSlice = createSlice({
       if (action.payload.result) {
         updated = state.myPresent.filter((plan) => {
           if (plan.plan_id === action.payload.planId) {
+            plan.del_fl = false;
             deleted = plan;
           }
           return plan.plan_id !== action.payload.planId;
         });
         state.myPresent = updated;
         state.myDeleted.push(deleted);
+      }
+    },
+    [restoreMyTriplan.fulfilled]: (state, action) => {
+      let restored;
+      let updated;
+      if (action.payload.result) {
+        updated = state.myDeleted.filter((plan) => {
+          if (plan.plan_id === action.payload.planId) {
+            plan.del_fl = true;
+            restored = plan;
+          }
+          return plan.plan_id !== action.payload.planId;
+        });
+        state.myDeleted = updated;
+        state.myPresent.push(restored);
       }
     },
   },
