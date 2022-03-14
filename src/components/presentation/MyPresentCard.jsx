@@ -14,6 +14,7 @@ function MyPresentCard({ plan }) {
             <div className="text-sm text-gray-400">{travel_destination}</div>
             <div className="text-sm text-gray-400">
               <span>{travel_start}</span>
+              <span>-</span>
               <span>{travel_end}</span>
             </div>
           </div>
@@ -21,8 +22,7 @@ function MyPresentCard({ plan }) {
             {memberList.length > 0 && memberList.map((member, idx) => (
               <img
                 key={idx}
-              // src={member.profileImg}
-                src="/images/profile_default.jpg"
+                src={member.profileImg}
                 alt="profile"
                 className="inlint-block w-7 h-7 rounded-full"
               />

@@ -1,71 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { changeDate } from '../../../shared/utils';
 import PlanApi from '../../data/planApi';
 
 const planApi = new PlanApi();
 
 const initialState = {
-  myplans: [
-    {
-      plan_id: 1,
-      title: '드디어 간다 미국 우아악',
-      travel_destination: '미국',
-      travel_start: '시작날짜',
-      travel_end: '종료날짜',
-      del_tc: 'true',
-      memberList: [
-        { profileImg: 'url' },
-        { profileImg: 'url' },
-      ],
-    },
-    {
-      plan_id: 2,
-      title: '드디어 간다 미국 우아악',
-      travel_destination: '미국',
-      travel_start: '시작날짜',
-      travel_end: '종료날짜',
-      del_tc: 'true',
-      memberList: [
-        { profileImg: 'url' },
-        { profileImg: 'url' },
-      ],
-    },
-    {
-      plan_id: 1,
-      title: '드디어 간다 미국 우아악',
-      travel_destination: '미국',
-      travel_start: '시작날짜',
-      travel_end: '종료날짜',
-      del_tc: 'true',
-      memberList: [
-        { profileImg: 'url' },
-        { profileImg: 'url' },
-      ],
-    },
-    {
-      plan_id: 3,
-      title: '드디어 간다 미국 우아악',
-      travel_destination: '미국',
-      travel_start: '시작날짜',
-      travel_end: '종료날짜',
-      del_tc: 'true',
-      memberList: [
-        { profileImg: 'url' },
-        { profileImg: 'url' },
-      ],
-    },
-  ],
-  myplanDetail: {
-    plan_id: 4,
-    title: '드디어 간다 미국 우아악',
-    travel_destination: '미국',
-    travel_start: '시작날짜',
-    travel_end: '종료날짜',
-    del_tc: 'true',
-    memberList: [
-      { profileImg: 'url' },
-      { profileImg: 'url' },
-    ],
-  },
+  myPresent: [],
+  myPast: [],
+  myDeleted: [],
+  myplanDetail: {},
 };
 
 export const createTriplan = createAsyncThunk(
@@ -77,6 +20,22 @@ export const createTriplan = createAsyncThunk(
   },
 );
 
+export const getMyTriplanList = createAsyncThunk(
+  'plan/getMyTriplanList',
+  async () => {
+    const response = planApi.getMyTriplanList();
+    return response
+      .then((res) => {
+        console.log(res);
+        return res.data.data;
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+      });
+  },
+);
+
 export const planSlice = createSlice({
   name: 'plan',
   initialState,
@@ -84,6 +43,32 @@ export const planSlice = createSlice({
   extraReducers: {
     [createTriplan.fulfilled]: (state, action) => {
 
+    },
+    [getMyTriplanList.fulfilled]: (state, action) => {
+      const nowDate = new Date().toISOString();
+      const myPresent = [];
+      const myPast = [];
+      const myDeleted = [];
+      const changeDateFormat = (plan) => {
+        plan.travel_start = changeDate(plan.travel_start);
+        plan.travel_end = changeDate(plan.travel_end);
+      };
+      action.payload.forEach((plan) => {
+        if (!plan.del_fl) {
+          changeDateFormat(plan);
+          myDeleted.push(plan);
+        } else if (plan.travel_end < nowDate) {
+          changeDateFormat(plan);
+          myPast.push(plan);
+        } else {
+          changeDateFormat(plan);
+          myPresent.push(plan);
+        }
+      });
+
+      state.myPresent = myPresent;
+      state.myPast = myPast;
+      state.myDeleted = myDeleted;
     },
   },
 });

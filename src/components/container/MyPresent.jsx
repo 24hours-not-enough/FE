@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
-import { _myplans } from '../../state/redux/plan/planSelectors';
+import { _myPresent } from '../../state/redux/plan/planSelectors';
 import Button from '../elements/button';
 import MyPresentCard from '../presentation/MyPresentCard';
 
 function MyPresent() {
-  const planList = useSelector(_myplans);
+  const planList = useSelector(_myPresent);
 
   return (
     <>

@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
-import { _myplans } from '../../state/redux/plan/planSelectors';
+import { _myPast } from '../../state/redux/plan/planSelectors';
 import MyPastCard from '../presentation/MyPastCard';
 
 function MyPast() {
-  const planList = useSelector(_myplans);
+  const planList = useSelector(_myPast);
 
   return (
     <ul className="flex flex-wrap">

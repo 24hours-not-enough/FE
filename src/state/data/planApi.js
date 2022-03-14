@@ -1,8 +1,10 @@
+import axios from 'axios';
 import instance from './axios';
 
 class PlanApi {
   constructor() {
     this.axios = instance;
+    this.mock = axios;
   }
 
   // 계획 등록
@@ -42,9 +44,10 @@ class PlanApi {
 
   // 나의 여행 계획 전체 조회
   getMyTriplanList() {
-    return this.axios({
+    return this.mock({
       method: 'get',
-      url: '/api/plan',
+      // url: '/api/plan',
+      url: 'http://localhost:3000/api/plan.json',
     });
   }
 

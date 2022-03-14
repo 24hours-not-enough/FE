@@ -12,6 +12,7 @@ function MyPastCard({ plan }) {
         <div className="text-sm text-gray-400">{travel_destination}</div>
         <div className="text-sm text-gray-400">
           <span>{travel_start}</span>
+          <span>-</span>
           <span>{travel_end}</span>
         </div>
       </div>
