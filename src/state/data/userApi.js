@@ -39,11 +39,8 @@ class UserApi {
   async checkDuplication({ userInfo }) {
     return this.axios({
       method: 'post',
-      url: 'http://15.164.216.191/api/username',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: JSON.stringify(userInfo),
+      url: '/api/username',
+      data: userInfo,
     });
   }
 
@@ -51,7 +48,7 @@ class UserApi {
   async pushUserInfo({ tokens, userInfo }) {
     return this.axios({
       method: 'post',
-      url: 'http://15.164.216.191/api/login/userinfo',
+      url: '/api/login/userinfo',
       headers: {
         'X-AUTH-TOKEN': tokens.access_token,
         'Content-Type': 'multipart/form-data',

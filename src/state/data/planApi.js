@@ -1,16 +1,18 @@
+import axios from 'axios';
 import instance from './axios';
 
 class PlanApi {
   constructor() {
     this.axios = instance;
+    this.mock = axios;
   }
 
   // 계획 등록
-  createTriplan(data) {
+  createTriplan({ planInfo }) {
     return this.axios({
       method: 'post',
       url: '/api/plan',
-      data,
+      data: planInfo,
     });
   }
 
@@ -24,11 +26,30 @@ class PlanApi {
   }
 
   // 계획 삭제
-  deleteTriplan(data, planId) {
-    return this.axios({
-      method: 'put',
-      url: `/api/plan/${planId}`,
-      data,
+  deleteTriplan(planId) {
+    // return this.axios({
+    //   method: 'put',
+    //   url: `/api/plan/${planId}`,
+    //   data: { del_fl: false },
+    // });
+    console.log(planId);
+    return this.mock({
+      method: 'get',
+      url: 'http://localhost:3000/api/plan/delete.json',
+    });
+  }
+
+  // 계획 복구
+  restoreTriplan(planId) {
+    // return this.axios({
+    //   method: 'put',
+    //   url: `/api/plan/${planId}`,
+    //   data: { del_fl: true },
+    // });
+    console.log(planId);
+    return this.mock({
+      method: 'get',
+      url: 'http://localhost:3000/api/plan/restore.json',
     });
   }
 
@@ -42,9 +63,13 @@ class PlanApi {
 
   // 나의 여행 계획 전체 조회
   getMyTriplanList() {
-    return this.axios({
+    // return this.axios({
+    //   method: 'get',
+    //   url: '/api/plan',
+    // })
+    return this.mock({
       method: 'get',
-      url: '/api/plan',
+      url: 'http://localhost:3000/api/plan.json',
     });
   }
 
@@ -53,9 +78,6 @@ class PlanApi {
     return this.axios({
       method: 'post',
       url: `/api/member/plan/${planId}`,
-      headers: {
-        'Content-Type': 'application/json',
-      },
       data,
     });
   }
@@ -65,10 +87,15 @@ class PlanApi {
     return this.axios({
       method: 'delete',
       url: `/api/member/plan/${planId}`,
-      headers: {
-        'Content-Type': 'application/json',
-      },
       data,
+    });
+  }
+
+  // 닉네임으로 유저 검색
+  findByUsername(nickname) {
+    return this.axios({
+      method: 'get',
+      url: `/api/user/${nickname}`,
     });
   }
 }

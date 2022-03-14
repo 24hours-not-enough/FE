@@ -1,8 +1,12 @@
 import { memo } from 'react';
 
 import useLayout from '../../shared/useLayout';
+import Button from '../elements/button';
 
-function Header({ openTab }) {
+function Header({
+  openTab, buttonSet,
+}) {
+  const { title, buttonType, handleClick } = buttonSet;
   const { pc } = useLayout();
 
   if (!pc) {
@@ -14,6 +18,7 @@ function Header({ openTab }) {
           </svg>
         </div>
         <h1 className="font-bold">트리플랜(로고)</h1>
+        {title && <Button type={buttonType} onClick={handleClick}>{title}</Button>}
       </nav>
     );
   }

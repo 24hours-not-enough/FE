@@ -1,6 +1,17 @@
+import Button from '../elements/button/Button';
+import Calendar from '../elements/calendar/Calendar';
+
 function AddNewTriplanForm(props) {
   const {
-    titleRef, locationRef, startRef, endRef, findUser, createTriplan,
+    titleRef,
+    locationRef,
+    startRef,
+    endRef,
+    inviteRef,
+    findUser,
+    createTriplan,
+    findedUser,
+    selectUserForInvite,
   } = props;
 
   return (
@@ -13,16 +24,21 @@ function AddNewTriplanForm(props) {
         <label htmlFor="여행지">여행지</label>
         <input type="text" ref={locationRef} />
       </div>
-      <div>
+      <div className="flex">
         <label htmlFor="여행 기간">여행 기간</label>
-        <input type="text" ref={startRef} placeholder="언제부터" />
-        <input type="text" ref={endRef} placeholder="언제까지" />
+        <Calendar start={startRef} end={endRef} />
       </div>
       <div>
         <label htmlFor="함께할 멤버 초대하기">함께할 멤버 초대하기</label>
-        <input type="text" onChange={findUser} />
+        <input type="text" ref={inviteRef} onChange={findUser} />
       </div>
-      <button type="submit">트리플랜 생성</button>
+      {findedUser && (
+      <div onClick={selectUserForInvite}>
+        <img src={findedUser.profileImg} alt="profile" />
+        <span>{findedUser.username}</span>
+      </div>
+      )}
+      <Button onClick={createTriplan} type="main" propsClassName="px-8">트리플랜 생성</Button>
     </form>
   );
 }
