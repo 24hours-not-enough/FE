@@ -14,6 +14,7 @@ module.exports = {
       kakao: '#FEE500',
       decline: '#E7E6FE',
       none: '#DEDDE5',
+      'main-background': '#F7F6FF',
       inherit: colors.inherit,
       current: colors.current,
       transparent: colors.transparent,

@@ -7,7 +7,7 @@ function LayoutWrapper({ children }) {
 
   if (!pc) {
     return (
-      <div>
+      <div className="bg-main-background w-screen h-screen">
         {children}
       </div>
     );

@@ -4,15 +4,14 @@ import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../presentation/Header';
 
-import MenuTab from '../presentation/MenuTab';
+import MobileMenuTab from '../presentation/MobileMenuTab';
 
 function Navbar() {
   const navigate = useNavigate();
-
   const [isTab, setIsTab] = useState(false);
 
-  const goToLogin = useCallback(() => {
-    navigate('/login');
+  const handleRouter = useCallback((path) => () => {
+    navigate(path);
   }, [navigate]);
 
   const toggleTab = useCallback(() => {
@@ -22,10 +21,10 @@ function Navbar() {
   return (
     <div>
       <Header openTab={toggleTab} />
-      <MenuTab
+      <MobileMenuTab
         isTab={isTab}
-        goToLogin={goToLogin}
         closeTab={toggleTab}
+        handleRouter={handleRouter}
       />
     </div>
   );
