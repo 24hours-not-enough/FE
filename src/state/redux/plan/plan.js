@@ -16,10 +16,22 @@ const initialState = {
 export const createTriplan = createAsyncThunk(
   'plan/createTriplan',
   async ({ planInfo, navigate }) => {
-    const response = await planApi.createTriplan({ planInfo, navigate });
-    // then에서 navigate('계획 페이지로 이동')
-    // navigate('/plan/my_triplan', { replace: true });
-    console.log(response);
+    const response = await planApi.createTriplan({ planInfo, navigate })
+      .then((res) => {
+        console.log(res);
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+        return { result: 'fail' };
+      });
+
+    if (response.result === RES_SUCCESS) {
+      alert('계획 등록 성공, 계획 페이지로 이동');
+      navigate('/plan/my_triplan', { replace: true });
+      return { res: response, planInfo };
+    }
+    return { res: response };
   },
 );
 
@@ -72,11 +84,17 @@ export const planSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    // [createTriplan.fulfilled]: (state, action) => {
+    [createTriplan.fulfilled]: (state, action) => {
+      const myPresent = [];
+      if (action.payload.res.result === RES_SUCCESS) {
+        myPresent.push({ ...action.payload.planInfo, plan_id: action.payload.res.data[0].plan_id });
+        myPresent.concat([...state.myPresent]);
 
-    // },
+        state.myPresent = myPresent;
+      }
+    },
     [getMyTriplanList.fulfilled]: (state, action) => {
-      if (action.payload.resutl === RES_SUCCESS) {
+      if (action.payload.result === RES_SUCCESS) {
         const nowDate = new Date().toISOString();
         const myPresent = [];
         const myPast = [];

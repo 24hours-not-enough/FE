@@ -34,8 +34,16 @@ function AddNewTriplan() {
   const findUser = _.debounce(findedUser, 500);
 
   const selectUserForInvite = () => {
-    const updated = [...selectedUser, searchedUser];
-    setSelectedUser(updated);
+    let isSameUser = false;
+    selectedUser.forEach((user) => {
+      if (user.username === searchedUser.username) {
+        isSameUser = true;
+      }
+    });
+    if (!isSameUser) {
+      const updated = [...selectedUser, searchedUser];
+      setSelectedUser(updated);
+    }
 
     setSearchedUser(null);
     inviteRef.current.value = '';
@@ -60,7 +68,7 @@ function AddNewTriplan() {
       travel_destination: location,
       travel_start: new Date(start).toISOString(),
       travel_end: new Date(end).toISOString(),
-      memberList: selectedUser,
+      memberList: selectedUser.map((user) => ({ nickName: user.username })),
     };
 
     console.log(planInfo);
@@ -78,6 +86,7 @@ function AddNewTriplan() {
       findedUser={searchedUser}
       createTriplan={handleCreateTriplan}
       selectUserForInvite={selectUserForInvite}
+      selectedUser={selectedUser}
     />
   );
 }

@@ -9,10 +9,14 @@ class PlanApi {
 
   // 계획 등록
   createTriplan({ planInfo }) {
-    return this.axios({
-      method: 'post',
-      url: '/api/plan',
-      data: planInfo,
+    // return this.axios({
+    //   method: 'post',
+    //   url: '/api/plan',
+    //   data: planInfo,
+    // });
+    return this.mock({
+      method: 'get',
+      url: 'http://localhost:3000/api/plan/create.json',
     });
   }
 
