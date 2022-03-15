@@ -5,6 +5,18 @@ const iconSet = {
     myPageIcon: '/images/myPageIcon.png',
     settingIcon: '/images/settingIcon.png',
   },
+  webNavBar: {
+    mainPageIcon: '/images/webMainPageIcon.png',
+    searchIcon: '/images/webSearchIcon.png',
+    planIcon: '/images/webPlanIcon.png',
+    myPageIcon: '/images/webMyPageIcon.png',
+    settingIcon: '/images/webSettingIcon.png',
+    exitIcon: '/images/webExitIcon.png',
+  },
+  header: {
+    backIcon: '/images/backIcon.png',
+    exitIcon: '/images/exitIcon.png',
+  },
 };
 
 export default iconSet;

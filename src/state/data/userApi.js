@@ -1,97 +1,66 @@
-import axios from 'axios';
+import instance from './axios';
 
 class UserApi {
   constructor() {
-    this.base = process.env.REACT_APP_IP;
+    this.axios = instance;
   }
 
+  // 카카오 로그인
   async kakaoLogin({ code, navigate }) {
-    const kakaoLoginConfig = {
+    return this.axios({
       method: 'get',
-      url: `${this.base}/api/kakaologin?code=${code}`,
-    };
-
-    return axios(kakaoLoginConfig)
-      .then((res) => {
-        const {
-          result, msg, isFirst, email,
-        } = res.data;
-        console.log(res);
-
-        if (isFirst) {
-          navigate('/login/profile', { state: email, replace: true });
-        } else {
-          alert('로그인 성공');
-          navigate('/', { replace: true });
-        }
-
-        return isFirst === 'true';
-      })
+      url: `/api/kakaologin?code=${code}`,
+    })
+      .then((res) => res.data)
       .catch((error) => {
+        console.log(error);
         console.log(error.response);
-        return false;
+        alert('로그인을 다시 시도해주세요'); // 모달창: 문구
+        navigate('/login', { replace: true });
       });
   }
 
+  // 구글 로그인
   async googleLogin({ code, navigate }) {
-    const googleLoginConfig = {
+    return this.axios({
       method: 'get',
-      url: `${this.base}/api/googlelogin?code=${code}`,
-    };
-
-    return axios(googleLoginConfig)
-      .then((res) => {
-        const {
-          result, msg, isFirst, email,
-        } = res.data;
-        console.log(res);
-
-        if (isFirst) {
-          navigate('/login/profile', { state: email, replace: true });
-        } else {
-          alert('로그인 성공');
-          navigate('/', { replace: true });
-        }
-
-        return isFirst === 'true';
-      })
+      url: `/api/googlelogin?code=${code}`,
+    })
+      .then((res) => res.data)
       .catch((error) => {
+        console.log(error);
         console.log(error.response);
-        return false;
+        alert('로그인을 다시 시도해주세요'); // 모달창: 문구
+        navigate('/login', { replace: true });
       });
   }
 
-  async pushUserInfo({ email, userInfo }) {
-    const config = {
+  // 닉네임 중복 체크
+  async checkDuplication({ userInfo }) {
+    return this.axios({
       method: 'post',
-      url: `${this.base}/api/login/userinfo/${email}`,
+      url: '/api/username',
+      data: userInfo,
+    });
+  }
+
+  // 첫 로그인 시 프로필 이미지, 닉네임 등록
+  async pushUserInfo({ tokens, userInfo }) {
+    return this.axios({
+      method: 'post',
+      url: '/api/login/userinfo',
       headers: {
+        'X-AUTH-TOKEN': tokens.access_token,
         'Content-Type': 'multipart/form-data',
       },
       data: userInfo,
-    };
-
-    axios(config)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err.response));
-  }
-
-  async checkDuplication({ userInfo }) {
-    const checkDuplicationConfig = {
-      method: 'get',
-      url: `${this.base}/api/login`,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: JSON.stringify(userInfo),
-    };
-
-    return axios(checkDuplicationConfig)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error.response);
+    })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        // alert('로그인을 다시 시도해주세요'); // 모달창: 문구
+        // navigate('/login', { replace: true });
       });
   }
 }

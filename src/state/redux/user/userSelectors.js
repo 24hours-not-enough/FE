@@ -1,8 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-const user = createSelector(
-  (state) => state.user,
-  (v) => v,
-);
+const _username = createSelector((state) => state.user.username, (v) => v);
+const _profileImg = createSelector((state) => state.user.profileImg, (v) => v);
 
-export default user;
+export { _username, _profileImg };
