@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteMyTriplan } from '../../state/redux/plan/plan';
 import { _myPresent } from '../../state/redux/plan/planSelectors';
 import Button from '../elements/button';
@@ -28,11 +28,21 @@ function MyPresent() {
     navigate('/plan/create');
   };
 
+  const goToUpdate = (plan) => {
+    pageState === '/my_triplan' && navigate(`/plan/update/${plan.plan_id}`);
+  };
+
   return (
     <>
       <ul>
-        {planList.map((plan) =>
-          <MyPresentCard key={plan.plan_id} plan={plan} buttonSet={buttonSet} />)}
+        {planList.map((plan) => (
+          <MyPresentCard
+            key={plan.plan_id}
+            plan={plan}
+            buttonSet={buttonSet}
+            goToUpdate={goToUpdate}
+          />
+        ))}
       </ul>
       <Button type="decline" propsClassName="px-4 mx-2" onClick={goToCreate}>+ 새로운 트리플랜</Button>
     </>

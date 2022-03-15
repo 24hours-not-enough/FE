@@ -7,6 +7,7 @@ const RES_SUCCESS = 'success';
 const RES_FAIL = 'fail';
 
 const initialState = {
+  myPlans: [],
   myPresent: [],
   myPast: [],
   myDeleted: [],
@@ -76,6 +77,38 @@ export const restoreMyTriplan = createAsyncThunk(
         return { result: res.data.success, planId };
       })
       .catch((err) => console.log(err));
+  },
+);
+
+export const getCertaintriplan = createAsyncThunk(
+  'plan/getCertainTriplan',
+  async (planId) => {
+    const response = planApi.getCertainTriplan(planId);
+    return response
+      .then((res) => {
+        console.log(res);
+        return res.data.data;
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+      });
+  },
+);
+
+export const updateTriplan = createAsyncThunk(
+  'plan/updateTriplan',
+  async (planId) => {
+    const response = planApi.updateTriplan(planId);
+    return response
+      .then((res) => {
+        console.log(res);
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+      });
   },
 );
 
@@ -150,6 +183,11 @@ export const planSlice = createSlice({
         state.myDeleted = updated;
         state.myPresent.push(restored);
       }
+    },
+    [getCertaintriplan.fulfilled]: (state, action) => {
+      action.payload && (state.myplanDetail = { ...action.payload });
+    },
+    [updateTriplan.fulfilled]: (state, action) => {
     },
   },
 });
