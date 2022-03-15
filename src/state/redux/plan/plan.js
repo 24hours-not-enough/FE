@@ -3,6 +3,8 @@ import { changeDate } from '../../../shared/utils';
 import PlanApi from '../../data/planApi';
 
 const planApi = new PlanApi();
+const RES_SUCCESS = 'success';
+const RES_FAIL = 'fail';
 
 const initialState = {
   myPresent: [],
@@ -28,7 +30,7 @@ export const getMyTriplanList = createAsyncThunk(
     return response
       .then((res) => {
         console.log(res);
-        return res.data.data;
+        return res.data;
       })
       .catch((err) => {
         console.log(err);
@@ -74,35 +76,37 @@ export const planSlice = createSlice({
 
     // },
     [getMyTriplanList.fulfilled]: (state, action) => {
-      const nowDate = new Date().toISOString();
-      const myPresent = [];
-      const myPast = [];
-      const myDeleted = [];
-      const changeDateFormat = (plan) => {
-        plan.travel_start = changeDate(plan.travel_start);
-        plan.travel_end = changeDate(plan.travel_end);
-      };
-      action.payload.forEach((plan) => {
-        if (plan.del_fl === 'false') {
-          changeDateFormat(plan);
-          myDeleted.push(plan);
-        } else if (plan.travel_end < nowDate) {
-          changeDateFormat(plan);
-          myPast.push(plan);
-        } else {
-          changeDateFormat(plan);
-          myPresent.push(plan);
-        }
-      });
+      if (action.payload.resutl === RES_SUCCESS) {
+        const nowDate = new Date().toISOString();
+        const myPresent = [];
+        const myPast = [];
+        const myDeleted = [];
+        const changeDateFormat = (plan) => {
+          plan.travel_start = changeDate(plan.travel_start);
+          plan.travel_end = changeDate(plan.travel_end);
+        };
+        action.payload.data.forEach((plan) => {
+          if (plan.del_fl === 'false') {
+            changeDateFormat(plan);
+            myDeleted.push(plan);
+          } else if (plan.travel_end < nowDate) {
+            changeDateFormat(plan);
+            myPast.push(plan);
+          } else {
+            changeDateFormat(plan);
+            myPresent.push(plan);
+          }
+        });
 
-      state.myPresent = myPresent;
-      state.myPast = myPast;
-      state.myDeleted = myDeleted;
+        state.myPresent = myPresent;
+        state.myPast = myPast;
+        state.myDeleted = myDeleted;
+      }
     },
     [deleteMyTriplan.fulfilled]: (state, action) => {
       let deleted;
       let updated;
-      if (action.payload.result) {
+      if (action.payload.result === RES_SUCCESS) {
         updated = state.myPresent.filter((plan) => {
           if (plan.plan_id === action.payload.planId) {
             plan.del_fl = false;
@@ -117,7 +121,7 @@ export const planSlice = createSlice({
     [restoreMyTriplan.fulfilled]: (state, action) => {
       let restored;
       let updated;
-      if (action.payload.result) {
+      if (action.payload.result === RES_SUCCESS) {
         updated = state.myDeleted.filter((plan) => {
           if (plan.plan_id === action.payload.planId) {
             plan.del_fl = true;

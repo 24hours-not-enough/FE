@@ -5,7 +5,7 @@ import { setIsLogin } from '../status/status';
 
 const userApi = new UserApi();
 const RES_SUCCESS = 'success';
-// const RES_FAIL = 'fail';
+const RES_FAIL = 'fail';
 
 const initialState = {
   user: {
@@ -14,59 +14,92 @@ const initialState = {
   },
 };
 
-export const kakaoLogin = createAsyncThunk('user/kakaoSignIn', async ({ code, navigate }, { dispatch }) => {
-  const response = await userApi.kakaoLogin({ code, navigate });
-  if (!response) return; // response가 없을 경우 : error
+export const kakaoLogin = createAsyncThunk(
+  'user/kakaoLogin',
+  async ({ code, navigate }, { dispatch }) => {
+    const response = await userApi.kakaoLogin({ code })
+      .then((res) => {
+        console.log(res);
+        return { result: res.data.result, res: res.data, navigate };
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        return { result: 'fail', navigate };
+      });
 
-  // const { result, isfirst, tokens, user } = response;
-  const { result, isfirst, tokens } = response;
-  if (result === RES_SUCCESS) {
-    if (isfirst) {
-      navigate('/login/profile', { state: tokens, replace: true });
-    } else {
+    if (response.result === RES_SUCCESS) {
+      const { isfirst, tokens } = response.res;
+      if (isfirst) {
+        navigate('/login/profile', { state: tokens.access_token, replace: true });
+        return response;
+      }
       dispatch(setIsLogin(true));
       setTokenToSession(tokens.access_token);
       navigate('/', { replace: true });
-      // return user
+      return response;
+    } if (response.result === RES_FAIL) {
+      return response;
     }
-  }
+  },
+);
 
-  return { isfirst, user: { username: 'sunny', profileImg: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AProfileimg.png&psig=AOvVaw0Gg33GLv9A6EtkwA8m7FF6&ust=1647243309763000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCOjO2evJwvYCFQAAAAAdAAAAABAD' } };
-});
+export const googleLogin = createAsyncThunk(
+  'user/googleLogin',
+  async ({ code, navigate }, { dispatch }) => {
+    const response = await userApi.googleLogin({ code })
+      .then((res) => {
+        console.log(res);
+        return { result: res.data.result, res: res.data, navigate };
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        return { result: 'fail', navigate };
+      });
 
-export const googleLogin = createAsyncThunk('user/googleSignIn', async ({ code, navigate }, { dispatch }) => {
-  const response = await userApi.googleLogin({ code, navigate });
-  if (!response) return; // response가 없을 경우 : error
-
-  // const { result, isfirst, tokens, user } = response;
-  const { result, isfirst, tokens } = response;
-  if (result === RES_SUCCESS) {
-    if (isfirst) {
-      navigate('/login/profile', { state: tokens, replace: true });
-    } else {
+    if (response.result === RES_SUCCESS) {
+      const { isfirst, tokens } = response.res;
+      if (isfirst) {
+        navigate('/login/profile', { state: tokens.access_token, replace: true });
+        return response;
+      }
       dispatch(setIsLogin(true));
       setTokenToSession(tokens.access_token);
       navigate('/', { replace: true });
-      // return user
+      return response;
+    } if (response.result === RES_FAIL) {
+      return response;
     }
-  }
+  },
+);
 
-  return { isfirst, user: { username: 'sunny', profileImg: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AProfileimg.png&psig=AOvVaw0Gg33GLv9A6EtkwA8m7FF6&ust=1647243309763000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCOjO2evJwvYCFQAAAAAdAAAAABAD' } };
-});
+export const pushUserInfo = createAsyncThunk(
+  'user/pushUserInfo',
+  async ({ token, userInfo, navigate }, { dispatch }) => {
+    const response = await userApi.pushUserInfo({ token, userInfo, navigate })
+      .then((res) => {
+        console.log(res);
+        return { result: res.data.result, res, navigate };
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        return { result: 'fail', navigate };
+      });
 
-export const pushUserInfo = createAsyncThunk('user/pushUserInfo', async ({ tokens, userInfo, navigate }, { dispatch }) => {
-  const response = await userApi.pushUserInfo({ tokens, userInfo, navigate });
-  if (!response) return;
-
-  const { result, user } = response;
-  if (result === RES_SUCCESS) {
-    dispatch(setTokenToSession(tokens));
-    dispatch(setIsLogin(true));
-    navigate('/', { replace: true });
-    return user;
-  }
-  return { user: { username: 'sunny', profileImg: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AProfileimg.png&psig=AOvVaw0Gg33GLv9A6EtkwA8m7FF6&ust=1647243309763000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCOjO2evJwvYCFQAAAAAdAAAAABAD' } };
-});
+    if (response.result === RES_SUCCESS) {
+      dispatch(setIsLogin(true));
+      setTokenToSession(token);
+      navigate('/', { replace: true });
+      return response;
+    } if (response.result === RES_FAIL) {
+      alert('에러가 발생했습니다. 로그인을 다시 시도해주세요');
+      navigate('/login', { replace: true });
+      return response;
+    }
+  },
+);
 
 export const userSlice = createSlice({
   name: 'user',
@@ -76,19 +109,19 @@ export const userSlice = createSlice({
   },
   extraReducers: {
     [kakaoLogin.fulfilled]: (state, action) => {
-      if (!action.payload.isfirst) {
-        state.user.username = action.payload.user.username;
-        state.user.profileImg = action.payload.user.profileImg;
+      if (action.payload.result === RES_SUCCESS && !action.payload.res.isfirst) {
+        state.user = { ...action.payload.res.userbasicinfo };
       }
     },
     [googleLogin.fulfilled]: (state, action) => {
-      if (!action.payload.isfirst) {
-        state.user.username = action.payload.user.username;
-        state.user.profileImg = action.payload.user.profileImg;
+      if (action.payload.result === RES_SUCCESS && !action.payload.res.isfirst) {
+        state.user = { ...action.payload.res.userbasicinfo };
       }
     },
     [pushUserInfo.fulfilled]: (state, action) => {
-      state.user = action.payload.user;
+      if (action.payload.result === RES_SUCCESS) {
+        state.user = { ...action.payload.res.userbasicinfo };
+      }
     },
   },
 });

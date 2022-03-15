@@ -18,11 +18,11 @@ function AddNewTriplanForm(props) {
     <form onSubmit={createTriplan}>
       <div>
         <label htmlFor="제목">제목</label>
-        <input type="text" ref={titleRef} />
+        <input className="bg-gray-200 rounded" type="text" ref={titleRef} />
       </div>
       <div>
         <label htmlFor="여행지">여행지</label>
-        <input type="text" ref={locationRef} />
+        <input className="bg-gray-200 rounded" type="text" ref={locationRef} />
       </div>
       <div className="flex">
         <label htmlFor="여행 기간">여행 기간</label>
@@ -30,7 +30,7 @@ function AddNewTriplanForm(props) {
       </div>
       <div>
         <label htmlFor="함께할 멤버 초대하기">함께할 멤버 초대하기</label>
-        <input type="text" ref={inviteRef} onChange={findUser} />
+        <input className="bg-gray-200 rounded" type="text" ref={inviteRef} onChange={findUser} />
       </div>
       {findedUser && (
       <div onClick={selectUserForInvite}>
