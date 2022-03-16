@@ -1,4 +1,5 @@
 import Navbar from '../../components/container/Navbar';
+import Button from '../../components/elements/button';
 import LayoutWrapper from '../../components/presentation/LayoutWrapper';
 import { googleCodeUri, kakaoCodeUri } from '../../shared/loginVar';
 import styles from './login.module.css';
@@ -12,7 +13,7 @@ function Login() {
           <img src="/images/kakao_login.png" alt="kakao login" />
         </a>
         <a className={styles.kakao} href={googleCodeUri}>
-          google login
+          <Button type="google">google login</Button>
         </a>
       </div>
     </LayoutWrapper>

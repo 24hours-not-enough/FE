@@ -6,7 +6,7 @@ function Calendar({ start, end }) {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   return (
-    <>
+    <div className="flex">
       <DatePicker
         ref={start}
         selected={startDate}
@@ -32,7 +32,7 @@ function Calendar({ start, end }) {
         showPopperArrow={false}
         fixedHeight
       />
-    </>
+    </div>
   );
 }
 

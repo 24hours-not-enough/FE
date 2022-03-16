@@ -66,7 +66,7 @@ function AddUserInfo() {
     userFormData.append('file', profileImage);
     userFormData.append('username', nickname);
 
-    dispatch(pushUserInfo({ tokens: location.state, userInfo: userFormData, navigate }));
+    dispatch(pushUserInfo({ token: location.state, userInfo: userFormData, navigate }));
   };
 
   return (

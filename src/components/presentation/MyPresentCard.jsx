@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable camelcase */
-function MyPresentCard({ plan, buttonSet }) {
+function MyPresentCard({ plan, buttonSet, goToUpdate }) {
   const {
     title, travel_destination, travel_start, travel_end, memberList,
   } = plan;
@@ -8,7 +8,7 @@ function MyPresentCard({ plan, buttonSet }) {
 
   return (
     <li className="p-2">
-      <div className="rounded-lg border-solid border border-black p-4 relative">
+      <div onClick={() => goToUpdate(plan)} className="rounded-lg border-solid border border-black p-4 relative">
         <h3 className="text-lg font-bold mb-4">{title}</h3>
         <div className="flex justify-between">
           <div>

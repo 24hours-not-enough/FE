@@ -1,12 +1,15 @@
-import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+/* eslint-disable camelcase */
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import { useNavigate } from 'react-router-dom';
-import { createTriplan } from '../../state/redux/plan/plan';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createTriplan, getCertaintriplan, updateTriplan } from '../../state/redux/plan/plan';
 import AddNewTriplanForm from '../presentation/AddNewTriplanForm';
+import { _myplanDetail } from '../../state/redux/plan/planSelectors';
 import PlanApi from '../../state/data/planApi';
 
 function AddNewTriplan() {
+  const param = useParams();
   const titleRef = useRef();
   const locationRef = useRef();
   const startRef = useRef();
@@ -16,6 +19,24 @@ function AddNewTriplan() {
   const navigate = useNavigate();
   const [searchedUser, setSearchedUser] = useState(null);
   const [selectedUser, setSelectedUser] = useState([]);
+  const myplanDetail = useSelector(_myplanDetail);
+
+  param.plan_id && useEffect(() => {
+    param.plan_id && dispatch(getCertaintriplan(param.plan_id));
+  }, []);
+
+  useEffect(() => {
+    const {
+      plan_id, title, travel_destination, travel_start, travel_end, del_fl, memberList,
+    } = myplanDetail;
+
+    titleRef.current.value = title;
+    locationRef.current.value = travel_destination;
+    startRef.current.setSelected(new Date());
+    endRef.current.setSelected(new Date());
+    memberList.map((user) => ({ username: 'user', profileImg: user.profileImg }));
+    setSelectedUser(memberList);
+  }, [myplanDetail]);
 
   const planApi = new PlanApi();
 
@@ -31,11 +52,19 @@ function AddNewTriplan() {
       .catch((err) => console.log(err.response));
   };
 
-  const findUser = _.debounce(findedUser, 500);
+  const findUser = _.debounce(findedUser, 600);
 
   const selectUserForInvite = () => {
-    const updated = [...selectedUser, searchedUser];
-    setSelectedUser(updated);
+    let isSameUser = false;
+    selectedUser.forEach((user) => {
+      if (user.username === searchedUser.username) {
+        isSameUser = true;
+      }
+    });
+    if (!isSameUser) {
+      const updated = [...selectedUser, searchedUser];
+      setSelectedUser(updated);
+    }
 
     setSearchedUser(null);
     inviteRef.current.value = '';
@@ -60,11 +89,13 @@ function AddNewTriplan() {
       travel_destination: location,
       travel_start: new Date(start).toISOString(),
       travel_end: new Date(end).toISOString(),
-      memberList: selectedUser,
+      memberList: selectedUser.map((user) => ({ nickName: user.username })),
     };
 
     console.log(planInfo);
-    dispatch(createTriplan({ planInfo, navigate }));
+    param.plan_id
+      ? dispatch(updateTriplan({ planInfo, navigate }))
+      : dispatch(createTriplan({ planInfo, navigate }));
   };
 
   return (
@@ -78,6 +109,7 @@ function AddNewTriplan() {
       findedUser={searchedUser}
       createTriplan={handleCreateTriplan}
       selectUserForInvite={selectUserForInvite}
+      selectedUser={selectedUser}
     />
   );
 }

@@ -20,7 +20,7 @@ function MyTriplan() {
   };
 
   const updateMyPlan = () => {
-    console.log('수정된 걸로 업데이트하기');
+    navigate('/plan/my_triplan');
   };
 
   const buttonSet = pageState === '/my_triplan'
