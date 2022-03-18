@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable new-cap */
 /* eslint-disable no-new */
 import { useRef, useEffect, useState } from 'react';
@@ -9,17 +10,20 @@ import { dataMap, dataTriplan } from '../../mock/main';
 
 export default function Main() {
   const mapRef = useRef(null);
+  const searchRef = useRef(null);
   const [isFeedTab, setIsFeedTab] = useState(false);
   const [isPutLocationTab, setIsPutLocationTab] = useState(false);
   const [locationInfo, setLocationInfo] = useState(null);
 
-  const options = {
+  const mapOptions = {
     center: new window.kakao.maps.LatLng(37.566, 126.9786), // 처음 뜨는 주소 어떻게 할지
     level: 3,
   };
 
   useEffect(() => {
-    const map = new window.kakao.maps.Map(mapRef.current, options);
+    const map = new window.kakao.maps.Map(mapRef.current, mapOptions);
+    const position = map.getCenter();
+    console.log(position);
 
     dataMap.forEach((data) => {
       const imageSrc = data.imageUrl;
@@ -63,14 +67,31 @@ export default function Main() {
     setIsPutLocationTab(true);
   };
 
+  const places = new kakao.maps.services.Places();
+
+  const searchCallback = (result, status) => {
+    if (status === kakao.maps.services.Status.OK) {
+      console.log(result);
+    }
+  };
+
+  const searchPlace = (e) => {
+    e.preventDefault();
+
+    // eslint-disable-next-line no-useless-return
+    if (searchRef.current.value === '') return;
+
+    places.keywordSearch(searchRef.current.value, searchCallback);
+  };
+
   return (
     <LayoutWrapper>
       <div className="w-screen h-screen">
         <Navbar />
-        <div className="flex mt-[12px] mx-[20px] px-[20px] py-[11px] mb-[8px] bg-[#E7E6FE] rounded-[14px]">
-          <input type="text" placeholder="가고싶은 곳을 검색해보세요!" className="flex-1 bg-[#E7E6FE] text-black text-[14px] leading-[17px]" />
-          <button type="button">검색</button>
-        </div>
+        <form onSubmit={searchPlace} className="flex mt-[12px] mx-[20px] px-[20px] py-[11px] mb-[8px] bg-[#E7E6FE] rounded-[14px]">
+          <input ref={searchRef} type="text" placeholder="가고싶은 곳을 검색해보세요!" className="flex-1 bg-[#E7E6FE] text-black text-[14px] leading-[17px]" />
+          <button type="submit">검색</button>
+        </form>
         <div
           ref={mapRef}
           className="w-full h-full"
