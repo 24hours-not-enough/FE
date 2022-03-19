@@ -955,5 +955,6 @@ module.exports = {
     'active',
     'disabled',
   ],
-  plugins: [],
+  // eslint-disable-next-line global-require
+  plugins: [require('tailwind-scrollbar-hide')],
 };
