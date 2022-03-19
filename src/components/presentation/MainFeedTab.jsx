@@ -1,11 +1,14 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-undef */
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { dataPhoto } from '../../mock/main';
 
 function MainFeedTab({ locationInfo, openPutLocationTab }) {
   const { title, latitude, longitude } = locationInfo;
   const [addressName, setAddressName] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const photoTabStyle = isOpen
     ? 'absolute transition-all duration-300 ease-out overflow-y-hidden w-full h-[calc(100vh_-_10px)] left-0 bottom-0 z-10 bg-white rounded-t-[30px] p-[30px]'
@@ -32,13 +35,18 @@ function MainFeedTab({ locationInfo, openPutLocationTab }) {
     openPutLocationTab();
   };
 
+  const goToFeed = (feedId) => {
+    navigate(`/feed/${feedId}`);
+  };
+
   return (
     <section className={photoTabStyle}>
       <h5 className="text-[18px] font-[600] leading-[22px]">{title}</h5>
       <span className="text-[12px] text-gray-400 leading-[14px]">{addressName}</span>
       <ul className="mt-[27px] flex flex-wrap">
         {dataPhoto.map((photo) => (
-          <li key={photo.id} className="flex w-1/3 p-[2px]">
+          <li key={photo.id} onClick={() => goToFeed(photo.id)} className="flex w-1/3 p-[2px]">
+            {/* div로 바꾸고 background image로 바꾸기 */}
             <img
               className="rounded-[10px]"
               src={photo.url}

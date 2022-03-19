@@ -19,7 +19,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) =>
-    response,
+    response.data,
   (error) =>
     Promise.reject(error),
   // token 만료시간일 경우

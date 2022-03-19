@@ -1,3 +1,4 @@
+// id : location id
 const dataMap = [
   {
     locationId: 1,
@@ -33,6 +34,7 @@ const dataMap = [
   },
 ];
 
+// id : feed id
 const dataPhoto = [
   {
     id: 1,
@@ -57,9 +59,52 @@ const dataPhoto = [
 
 ];
 
+// id : triplan id, calendar id
 const dataTriplan = [
   { id: 1, title: '미국 가자 우아악', list: [{ id: 1, title: '1일차' }, { id: 2, title: '2일차' }] },
   { id: 2, title: '가자 제주도', list: [{ id: 1, title: '1일차' }, { id: 2, title: '2일차' }, { id: 3, title: '3일차' }, { id: 4, title: '4일차' }] },
 ];
 
-export { dataMap, dataPhoto, dataTriplan };
+const dataFeed = {
+  id: 1,
+  writer: { username: '닉네임', profileImg: 'https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png' },
+  date: '2022.01.18',
+  feedImg: ['/images/mock/1.jpg', '/images/mock/2.jpg', '/images/mock/3.jpg'],
+  content: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+  comments: [
+    {
+      id: 1,
+      username: '닉네임',
+      profileImg: 'https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png',
+      content: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+    },
+    {
+      id: 2,
+      username: '닉네임',
+      profileImg: 'https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png',
+      content: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+    },
+    {
+      id: 3,
+      username: '닉네임',
+      profileImg: 'https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png',
+      content: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+    },
+    {
+      id: 4,
+      username: '닉네임',
+      profileImg: 'https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png',
+      content: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+    },
+    {
+      id: 5,
+      username: '닉네임',
+      profileImg: 'https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png',
+      content: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+    },
+  ],
+};
+
+export {
+  dataMap, dataPhoto, dataTriplan, dataFeed,
+};

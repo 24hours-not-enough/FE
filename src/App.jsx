@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import LoginHandler from './components/container/LoginHandler';
 import MyDeleted from './components/container/MyDeleted';
 import AddTriplan from './pages/addTriplan/AddTriplan';
+import Feed from './pages/feed/Feed';
 import GetUserInfo from './pages/getUserInfo/GetUserInfo';
 import Login from './pages/login/Login';
 import Main from './pages/main/Main';
@@ -19,6 +20,7 @@ function App() {
       <Route path="/plan/my_triplan" element={<MyTriplan />}>
         <Route path="update" element={<MyDeleted />} />
       </Route>
+      <Route path="/feed/:feed_id" element={<Feed />} />
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />
