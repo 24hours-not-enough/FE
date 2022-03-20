@@ -23,9 +23,7 @@ function Navbar() {
       <Header
         handleRouter={handleRouter}
         openTab={toggleTab}
-      >
-        <div>완료</div>
-      </Header>
+      />
       <MobileMenuTab
         isTab={isTab}
         closeTab={toggleTab}

@@ -4,7 +4,7 @@ import { feed } from '../../data/mock';
 const initialState = feed;
 
 const feedSlice = createSlice({
-  neme: 'feed',
+  name: 'feed',
   initialState,
   reducers: {},
   extraReducers: {},
