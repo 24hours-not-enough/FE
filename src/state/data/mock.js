@@ -193,26 +193,45 @@ const feed = {
 
 const place = [
   {
+    placeId: 1,
     latitude: 37.566,
     longitude: 126.9786,
     placeName: '장소이름',
-    feeds: [{
-      feedId: 1,
-      date: '',
-      images: imagesData,
-      like: [userData, userData],
-      creator: userData,
-      content: '피드 메모',
-      comments: [
-        {
-          commentId: 1,
-          creator: userData,
-          content: '댓글 내용',
-        },
-      ],
-    }],
+    feeds: [
+      {
+        feedId: 1,
+        date: '',
+        images: imagesData,
+        like: [userData, userData],
+        creator: userData,
+        content: '피드 메모',
+        comments: [
+          {
+            commentId: 1,
+            creator: userData,
+            content: '댓글 내용',
+          },
+        ],
+      },
+      {
+        feedId: 2,
+        date: '',
+        images: imagesData,
+        like: [userData, userData],
+        creator: userData,
+        content: '피드 메모',
+        comments: [
+          {
+            commentId: 1,
+            creator: userData,
+            content: '댓글 내용',
+          },
+        ],
+      },
+    ],
   },
   {
+    placeId: 2,
     latitude: 37.563,
     longitude: 126.9790,
     placeName: '장소이름',
