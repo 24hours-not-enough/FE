@@ -93,6 +93,20 @@ const plan = [
           },
         ],
       },
+      {
+        calendarId: 2,
+        title: '2일차',
+        calendarDetails: [
+          {
+            calendarDatilId: 1,
+            locationName: '',
+            locationMemo: '',
+            latitude: 37.566,
+            longitude: 126.9786,
+            order: 1,
+          },
+        ],
+      },
     ],
     checkList: [
       {
@@ -109,7 +123,7 @@ const plan = [
   },
   {
     planId: 2,
-    title: 'title',
+    title: 'title2',
     travelDestination: '미국',
     travelStart: '',
     travelEnd: '',
@@ -119,6 +133,48 @@ const plan = [
       {
         calendarId: 1,
         title: '1일차',
+        calendarDetails: [
+          {
+            calendarDatilId: 1,
+            locationName: '',
+            locationMemo: '',
+            latitude: 37.566,
+            longitude: 126.9786,
+            order: 1,
+          },
+        ],
+      },
+      {
+        calendarId: 2,
+        title: '2일차',
+        calendarDetails: [
+          {
+            calendarDatilId: 1,
+            locationName: '',
+            locationMemo: '',
+            latitude: 37.566,
+            longitude: 126.9786,
+            order: 1,
+          },
+        ],
+      },
+      {
+        calendarId: 3,
+        title: '3일차',
+        calendarDetails: [
+          {
+            calendarDatilId: 1,
+            locationName: '',
+            locationMemo: '',
+            latitude: 37.566,
+            longitude: 126.9786,
+            order: 1,
+          },
+        ],
+      },
+      {
+        calendarId: 4,
+        title: '4일차',
         calendarDetails: [
           {
             calendarDatilId: 1,

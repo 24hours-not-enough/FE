@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { useEffect, useState } from 'react';
 
-function MainFeedTab({ feedTabData }) {
+function MainFeedTab({ feedTabData, openTriplanTab }) {
   const [address, setAddress] = useState(null);
   const [isSpread, setIsSpread] = useState(false);
 
@@ -48,7 +48,14 @@ function MainFeedTab({ feedTabData }) {
       </div>
       <div className="absolute top-[26px] right-[24px]">
         <button type="button">북마크</button>
-        <button type="button" className="ml-[22px]">메뉴탭</button>
+        <button
+          type="button"
+          onClick={() => openTriplanTab(placeId)}
+          className="ml-[22px]"
+        >
+          메뉴탭
+
+        </button>
       </div>
       <button
         type="button"
@@ -56,7 +63,6 @@ function MainFeedTab({ feedTabData }) {
         className="absolute top-[8px] left-1/2 -translate-x-1/2"
       >
         spread
-
       </button>
     </section>
   );

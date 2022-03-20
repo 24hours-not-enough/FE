@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MainFeedTab from '../components/container/MainFeedTab';
+import MainTriplanTab from '../components/container/MainTriplanTab';
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import _place from '../state/redux/place/placeSelector';
@@ -12,7 +13,9 @@ function Main() {
   const searchRef = useRef();
   const searchFormRef = useRef();
   const [isFeedTab, setIsFeedTab] = useState(false);
+  const [isTriplanTab, setIsTriplanTab] = useState(false);
   const [feedTabData, setFeedTabData] = useState(null);
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
   // 지도, 지도 위 마커 표시
   useEffect(() => {
@@ -72,7 +75,15 @@ function Main() {
       console.log(placeData);
     } else {
       setIsFeedTab(false);
+      setIsTriplanTab(false);
     }
+  };
+
+  // 내 트리플랜에 담기 탭 open
+  const openTriplanTab = (pId) => {
+    setIsFeedTab(false);
+    setIsTriplanTab(true);
+    setSelectedPlace(pId); // placeId
   };
 
   return (
@@ -93,10 +104,21 @@ function Main() {
       </form>
       <div
         ref={mapRef}
-        className="w-full h-full"
+        className="w-full h-full absolute left-0 top-0"
         onClick={openFeedTab}
       />
-      {isFeedTab && <MainFeedTab feedTabData={feedTabData} />}
+      {isFeedTab && (
+      <MainFeedTab
+        feedTabData={feedTabData}
+        openTriplanTab={openTriplanTab}
+      />
+      )}
+      {isTriplanTab && (
+      <MainTriplanTab
+        selectedPlaceId={selectedPlace}
+        setIsTriplanTab={setIsTriplanTab}
+      />
+      )}
     </LayoutWrapper>
   );
 }
