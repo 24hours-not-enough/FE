@@ -2,9 +2,11 @@ const userData = { userId: 1, userName: 'sunny', userProfileImage: '' };
 const imagesData = ['/images/mock/1.jpg', '/images/mock/2.jpg', '/images/mock/3.jpg'];
 
 const user = {
-  userId: '1',
-  userName: 'sunny',
-  userProfileImage: '',
+  userData: {
+    userId: '1',
+    userName: 'sunny',
+    userProfileImage: '',
+  },
   notification: [
     {
       code: '초대',
@@ -43,6 +45,7 @@ const user = {
   ],
   bookmark: [
     {
+      placeId: 1,
       latitude: 37.566,
       longitude: 126.9786,
       placeName: '땡땡식당',

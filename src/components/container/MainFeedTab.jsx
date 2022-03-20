@@ -1,16 +1,20 @@
 /* eslint-disable no-undef */
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { _bookmark } from '../../state/redux/user/userSelector';
 
 function MainFeedTab({ feedTabData, openTriplanTab }) {
+  const bookmark = useSelector(_bookmark);
+
   const [address, setAddress] = useState(null);
   const [isSpread, setIsSpread] = useState(false);
-
-  const tabStyle = isSpread ? 'h-[calc(100vh_-_10px)] overflow-y-auto scrollbar-hide' : 'max-h-[calc(50vh)]';
 
   const {
     placeId, placeName, latitude, longitude, feeds,
   } = feedTabData[0];
   console.log(placeId, placeName, latitude, longitude, feeds);
+
+  const tabStyle = isSpread ? 'h-[calc(100vh_-_10px)] overflow-y-auto scrollbar-hide' : 'max-h-[calc(50vh)]';
 
   // 해당 장소의 주소 구하기
   useEffect(() => {
@@ -32,6 +36,14 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
     isSpread ? setIsSpread(false) : setIsSpread(true);
   };
 
+  const putPlaceToBookmark = () => {
+    if (bookmark.filter((oneBookmark) => oneBookmark.placeId === placeId).length >= 1) {
+      console.log('이미 북마크 된 장소입니다.');
+      return;
+    }
+    console.log('북마크 하기'); // 북마크 통신하기
+  };
+
   return (
     <section className={`absolute transition-all duration-300 ease-out bottom-0 left-0 z-10 bg-white w-screen rounded-t-[30px] ${tabStyle}`}>
       <h5 className="text-[18px] font-[600] leading-[22px] px-[30px] pt-[30px]">{placeName}</h5>
@@ -47,7 +59,7 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
         ))}
       </div>
       <div className="absolute top-[26px] right-[24px]">
-        <button type="button">북마크</button>
+        <button type="button" onClick={putPlaceToBookmark}>북마크</button>
         <button
           type="button"
           onClick={() => openTriplanTab(placeId)}
