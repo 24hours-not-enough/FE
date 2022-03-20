@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 
 function MainFeedTab({ feedTabData }) {
   const [address, setAddress] = useState(null);
+  const [isSpread, setIsSpread] = useState(false);
+
+  const tabStyle = isSpread ? 'h-[calc(100vh_-_10px)] overflow-y-auto scrollbar-hide' : 'max-h-[calc(50vh)]';
 
   const {
     placeId, placeName, latitude, longitude, feeds,
@@ -20,8 +23,17 @@ function MainFeedTab({ feedTabData }) {
     geocoder.coord2RegionCode(longitude, latitude, callback);
   }, []);
 
+  // isSpread false
+  useEffect(() => {
+    setIsSpread(false);
+  }, []);
+
+  const toggleIsSpread = () => {
+    isSpread ? setIsSpread(false) : setIsSpread(true);
+  };
+
   return (
-    <section className="absolute bottom-0 left-0 z-10 bg-white w-screen rounded-t-[30px] max-h-[calc(50vh)]">
+    <section className={`absolute transition-all duration-300 ease-out bottom-0 left-0 z-10 bg-white w-screen rounded-t-[30px] ${tabStyle}`}>
       <h5 className="text-[18px] font-[600] leading-[22px] px-[30px] pt-[30px]">{placeName}</h5>
       <span className="text-[12px] text-gray-400 leading-[14px] px-[30px]">{address}</span>
       <div className="mt-[26px] flex flex-wrap px-[4px]">
@@ -38,7 +50,14 @@ function MainFeedTab({ feedTabData }) {
         <button type="button">북마크</button>
         <button type="button" className="ml-[22px]">메뉴탭</button>
       </div>
-      <button type="button" className="absolute top-[8px] left-1/2 -translate-x-1/2">spread</button>
+      <button
+        type="button"
+        onClick={toggleIsSpread}
+        className="absolute top-[8px] left-1/2 -translate-x-1/2"
+      >
+        spread
+
+      </button>
     </section>
   );
 }
