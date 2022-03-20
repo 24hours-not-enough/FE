@@ -2,13 +2,15 @@ import { Route, Routes } from 'react-router-dom';
 import LoginHandler from './components/container/LoginHandler';
 import Login from './pages/Login';
 import Main from './pages/Main';
+import MyLikeFeeds from './pages/MyLikeFeeds';
+import MyPage from './pages/MyPage';
 
-function App() {
+function App({ props }) {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/login" element={<Login />} />
-
+      <Route path="/mypage/*" element={<MyPage />} />
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />
     </Routes>
