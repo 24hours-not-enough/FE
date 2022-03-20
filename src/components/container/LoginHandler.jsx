@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { googleLogin, kakaoLogin } from '../../state/redux/user/userThunk';
 import Loading from '../presentation/Loading';
-import { kakaoLogin, googleLogin } from '../../state/redux/user/user';
 
 function LoginHandler() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function LoginHandler() {
     pathname === '/api/kakaologin'
       ? dispatch(kakaoLogin({ code, navigate }))
       : dispatch(googleLogin({ code, navigate }));
-  });
+  }, []);
 
   return <Loading />;
 }

@@ -40,7 +40,7 @@ function Header({
 
   if (!pc) {
     return (
-      <nav className="sticky h-10">
+      <nav className="sticky h-10 z-10 bg-white">
         {headerLeft()}
         <h1
           className="absolute left-1/2 top-4 trans font-bold"

@@ -1,26 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 import LoginHandler from './components/container/LoginHandler';
-import MyDeleted from './components/container/MyDeleted';
-import AddTriplan from './pages/addTriplan/AddTriplan';
-import Feed from './pages/feed/Feed';
-import GetUserInfo from './pages/getUserInfo/GetUserInfo';
-import Login from './pages/login/Login';
-import Main from './pages/main/Main';
-import MyTriplan from './pages/myTriplan/MyTriplan';
-import UpdateTriplan from './pages/updateTriplan/UpdateTriplan';
+import Login from './pages/Login';
+import Main from './pages/Main';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/login/profile" element={<GetUserInfo />} />
-      <Route path="/plan/create" element={<AddTriplan />} />
-      <Route path="/plan/update/:plan_id" element={<UpdateTriplan />} />
-      <Route path="/plan/my_triplan" element={<MyTriplan />}>
-        <Route path="update" element={<MyDeleted />} />
-      </Route>
-      <Route path="/feed/:feed_id" element={<Feed />} />
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />

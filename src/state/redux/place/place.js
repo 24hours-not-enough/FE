@@ -4,7 +4,7 @@ import { place } from '../../data/mock';
 const initialState = place;
 
 const placeSlice = createSlice({
-  neme: 'place',
+  name: 'place',
   initialState,
   reducers: {},
   extraReducers: {},

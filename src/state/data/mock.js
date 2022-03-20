@@ -1,4 +1,5 @@
 const userData = { userId: 1, userName: 'sunny', userProfileImage: '' };
+const imagesData = ['/images/mock/1.jpg', '/images/mock/2.jpg', '/images/mock/3.jpg'];
 
 const user = {
   userId: '1',
@@ -42,7 +43,8 @@ const user = {
   ],
   bookmark: [
     {
-      coordinates: ['latitude', 'longitude'],
+      latitude: 37.566,
+      longitude: 126.9786,
       placeName: '땡땡식당',
       placeAddress: '서울시 어딘가',
       feedData: [
@@ -85,7 +87,8 @@ const plan = [
             calendarDatilId: 1,
             locationName: '',
             locationMemo: '',
-            coordinates: ['latitude', 'longitude'],
+            latitude: 37.566,
+            longitude: 126.9786,
             order: 1,
           },
         ],
@@ -121,7 +124,8 @@ const plan = [
             calendarDatilId: 1,
             locationName: '',
             locationMemo: '',
-            coordinates: ['latitude', 'longitude'],
+            latitude: 37.566,
+            longitude: 126.9786,
             order: 1,
           },
         ],
@@ -150,7 +154,8 @@ const feed = {
           feedDetailLoc: [
             {
               feedDetailLocId: 1,
-              coordinates: ['latitude', 'longitude'],
+              latitude: 37.566,
+              longitude: 126.9786,
               placeName: '',
               feedDetailLocImg: [{ imgUrl: '' }],
             },
@@ -166,7 +171,7 @@ const feed = {
         feedId: 1,
         title: '장소이름',
         date: '',
-        images: [''],
+        images: imagesData,
         like: [userData, userData],
         creator: {
           userId: 2,
@@ -188,14 +193,33 @@ const feed = {
 
 const place = [
   {
-    coordinates: ['latitude', 'longitude'],
+    latitude: 37.566,
+    longitude: 126.9786,
     placeName: '장소이름',
-    placeAddress: '지역 주소',
     feeds: [{
       feedId: 1,
-      title: '장소이름',
       date: '',
-      images: [''],
+      images: imagesData,
+      like: [userData, userData],
+      creator: userData,
+      content: '피드 메모',
+      comments: [
+        {
+          commentId: 1,
+          creator: userData,
+          content: '댓글 내용',
+        },
+      ],
+    }],
+  },
+  {
+    latitude: 37.563,
+    longitude: 126.9790,
+    placeName: '장소이름',
+    feeds: [{
+      feedId: 1,
+      date: '',
+      images: imagesData,
       like: [userData, userData],
       creator: userData,
       content: '피드 메모',
