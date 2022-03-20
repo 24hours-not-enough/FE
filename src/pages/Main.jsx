@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import MainFeedTab from '../components/container/MainFeedTab';
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import _place from '../state/redux/place/placeSelector';
@@ -10,6 +11,8 @@ function Main() {
   const mapRef = useRef();
   const searchRef = useRef();
   const searchFormRef = useRef();
+  const [isFeedTab, setIsFeedTab] = useState(false);
+  const [feedTabData, setFeedTabData] = useState(null);
 
   // 지도, 지도 위 마커 표시
   useEffect(() => {
@@ -59,6 +62,19 @@ function Main() {
     searchFormRef.current.reset();
   };
 
+  // 마커 클릭 시 피드탭 open
+  const openFeedTab = (e) => {
+    if (e.target.nodeName === 'IMG') {
+      setIsFeedTab(true);
+      const pId = Number(e.target.alt.split('_')[1]);
+      const placeData = place.filter((data) => data.placeId === pId);
+      setFeedTabData(placeData);
+      console.log(placeData);
+    } else {
+      setIsFeedTab(false);
+    }
+  };
+
   return (
     <LayoutWrapper>
       <Navbar title="로고" />
@@ -75,7 +91,12 @@ function Main() {
         />
         <button type="button">검색</button>
       </form>
-      <div ref={mapRef} className="w-full h-full" />
+      <div
+        ref={mapRef}
+        className="w-full h-full"
+        onClick={openFeedTab}
+      />
+      {isFeedTab && <MainFeedTab feedTabData={feedTabData} />}
     </LayoutWrapper>
   );
 }
