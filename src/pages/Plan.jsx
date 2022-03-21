@@ -45,8 +45,8 @@ function Plan() {
       : setIsEditPage(true);
   }, [isEditPage]);
 
-  const openEditMenu = ({ planId, title }) => {
-    setSelectedPlan({ planId, title });
+  const openEditMenu = (planInfo) => {
+    setSelectedPlan(planInfo);
     setIsEditMenu(true);
   };
 

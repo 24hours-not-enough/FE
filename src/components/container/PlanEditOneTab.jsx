@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 function PlanEditOneTab({ selectedPlan, setIsEditMenu, deletePlan }) {
   const navigate = useNavigate();
 
-  const { planId, title } = selectedPlan;
+  const { plan, planId, title } = selectedPlan;
 
   const goToPlanEdit = () => {
-    navigate(`/plan/update/${planId}`);
+    navigate(`/plan/update/${planId}`, { state: plan });
   };
 
   return (

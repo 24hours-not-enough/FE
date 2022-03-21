@@ -16,6 +16,7 @@ function App() {
       <Route path="/feed/:feedId" element={<Feed />} />
       <Route path="/plan" element={<Plan />} />
       <Route path="/plan/create" element={<PlanCreate />} />
+      <Route path="/plan/update/:planId" element={<PlanCreate />} />
       <Route path="/plan/edit" element={<Plan />} />
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />

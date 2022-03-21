@@ -37,7 +37,7 @@ function PlanPresent({
         )
         : (
           <button
-            onClick={() => openEditMenu({ planId, title })}
+            onClick={() => openEditMenu({ plan, planId, title })}
             type="button"
             className="absolute top-[18px] right-[18px]"
           >

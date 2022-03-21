@@ -1,6 +1,8 @@
 import _ from 'lodash';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
+import Button from '../components/elements/button/Button';
 import Calendar from '../components/elements/calendar/Calendar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 
@@ -13,6 +15,32 @@ function PlanCreate() {
   const travelEndRef = useRef();
   const searchMemberRef = useRef();
   const [searchedUser, setSearchedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState([]);
+  const [isUpdatePage, setIsUpdatePage] = useState(false);
+
+  const param = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(param);
+    console.log(location.state);
+    if ((param && location.state) && Number(param.planId) === location.state.planId) {
+      const {
+        title, travelDestination, travelStart, travelEnd, members,
+      } = location.state;
+
+      titleRef.current.value = title;
+      travelDestinationRef.current.value = travelDestination;
+      travelStartRef.current.setSelected(new Date(travelStart));
+      travelEndRef.current.setSelected(new Date(travelEnd));
+      setSelectedUser(members);
+      setIsUpdatePage(true);
+    } else {
+      alert('계획 정보를 불러오지 못했습니다. 다시 시도해주세요.');
+      navigate(-1, { replace: true });
+    }
+  }, [param, location]);
 
   // 닉네임으로 유저찾기
   const findedUser = (e) => {
@@ -31,7 +59,7 @@ function PlanCreate() {
   };
   const findByUsername = _.debounce(findedUser, 600);
 
-  // create new triplan
+  // create new triplan, update triplan
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -54,10 +82,17 @@ function PlanCreate() {
 
     console.log(updatedPlan);
     // dispatch하고 /plan으로 이동
+    // create일 때, update일 때
   };
 
   const makeSubmitAction = () => {
     buttonRef.current.click();
+  };
+
+  // 초대 링크 복사 버튼 클릭
+  const inviteByLink = () => {
+    console.log('링크가 복사되었어요');
+    console.log(param.planId);
   };
 
   return (
@@ -120,7 +155,22 @@ function PlanCreate() {
             type="text"
           />
         </div>
+
+        <section className="flex gap-x-[16px]">
+          {selectedUser.map((user) => (
+            <div key={user.userId} className="flex items-center bg-black w-fit rounded-[16px] p-[3px]">
+              <img
+                src={user.userProfileImage}
+                alt={user.userName}
+                className="w-[26px] h-[26px] rounded-full mr-[10px]"
+              />
+              <span className="text-white mr-[14px]">{user.userName}</span>
+              <button type="button" className="bg-white text-black rounded-full">취소</button>
+            </div>
+          ))}
+        </section>
         <button ref={buttonRef} type="submit" className="hidden">동작을위한버튼</button>
+        {isUpdatePage && <Button onClick={inviteByLink} propsClassName="w-full mt-[42px]">링크로 초대하기</Button>}
       </form>
     </LayoutWrapper>
   );
