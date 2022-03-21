@@ -1,11 +1,11 @@
-const userData = { userId: 1, userName: 'sunny', userProfileImage: '' };
+const userData = { userId: 1, userName: 'sunny', userProfileImage: '/images/profile_default.jpg' };
 const imagesData = ['/images/mock/1.jpg', '/images/mock/2.jpg', '/images/mock/3.jpg'];
 
 const user = {
-  userData: {
+  userInfo: {
     userId: '1',
     userName: 'sunny',
-    userProfileImage: '',
+    userProfileImage: '/images/profile_default.jpg',
   },
   notification: [
     {
@@ -205,8 +205,8 @@ const feed = {
     {
       feedId: 1,
       title: '',
-      travelStart: '',
-      travelEnd: '',
+      travelStart: '2022.01.18',
+      travelEnd: '2022.01.18',
       feedDetail: [
         {
           title: '1일차',
@@ -229,7 +229,7 @@ const feed = {
       feeds: [{
         feedId: 1,
         title: '장소이름',
-        date: '',
+        date: '2022.01.18',
         images: imagesData,
         like: [userData, userData],
         creator: {
@@ -259,7 +259,7 @@ const place = [
     feeds: [
       {
         feedId: 1,
-        date: '',
+        date: '2022.01.18',
         images: imagesData,
         like: [userData, userData],
         creator: userData,
@@ -269,6 +269,16 @@ const place = [
             commentId: 1,
             creator: userData,
             content: '댓글 내용',
+          },
+          {
+            commentId: 2,
+            creator: userData,
+            content: '댓글 내용2',
+          },
+          {
+            commentId: 3,
+            creator: userData,
+            content: '댓글 내용3',
           },
         ],
       },

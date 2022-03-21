@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 const _userInfo = createSelector(
-  (state) => state.userInfo,
+  (state) => state.user.userInfo,
   (v) => v,
 );
 

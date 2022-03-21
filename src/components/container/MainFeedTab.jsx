@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-undef */
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { _bookmark } from '../../state/redux/user/userSelector';
 
 function MainFeedTab({ feedTabData, openTriplanTab }) {
@@ -8,6 +10,7 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
 
   const [address, setAddress] = useState(null);
   const [isSpread, setIsSpread] = useState(false);
+  const navigate = useNavigate();
 
   const {
     placeId, placeName, latitude, longitude, feeds,
@@ -44,6 +47,10 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
     console.log('북마크 하기'); // 북마크 통신하기
   };
 
+  const goToFeedPage = (feed) => {
+    navigate(`/feed/${feed.feedId}`, { state: { feed, placeName } });
+  };
+
   return (
     <section className={`absolute transition-all duration-300 ease-out bottom-0 left-0 z-10 bg-white w-screen rounded-t-[30px] ${tabStyle}`}>
       <h5 className="text-[18px] font-[600] leading-[22px] px-[30px] pt-[30px]">{placeName}</h5>
@@ -55,6 +62,7 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
             src={feed.images[0]}
             alt={feed.content}
             className="flex w-1/3 h-[calc((100vw_-_12px)_/_3)] p-[2px] rounded-[10px]"
+            onClick={() => goToFeedPage(feed)}
           />
         ))}
       </div>
