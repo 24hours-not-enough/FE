@@ -1,8 +1,18 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-const user = createSelector(
-  (state) => state.user,
+const _userInfo = createSelector(
+  (state) => state.user.userInfo,
   (v) => v,
 );
 
-export default user;
+const _notification = createSelector(
+  (state) => state.user.notification,
+  (v) => v,
+);
+
+const _bookmark = createSelector(
+  (state) => state.user.bookmark,
+  (v) => v,
+);
+
+export { _userInfo, _notification, _bookmark };

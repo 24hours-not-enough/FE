@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { memo } from 'react';
 import iconSet from '../../shared/imageUrl';
@@ -34,17 +35,23 @@ function MobileMenuTab({
             <ul>
               <li
                 role="presentation"
-                onClick={handleRouter('/login/profile')}
+                onClick={handleRouter('/')}
                 className="flex my-4"
               >
                 <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.searchIcon} />
                 <span>탐색</span>
               </li>
-              <li className="flex my-4">
+              <li
+                onClick={handleRouter('/plan')}
+                className="flex my-4"
+              >
                 <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.planIcon} />
                 <span>내 여행 계획</span>
               </li>
-              <li className="flex my-4">
+              <li
+                onClick={handleRouter('/mypage')}
+                className="flex my-4"
+              >
                 <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.myPageIcon} />
                 <span>마이페이지</span>
               </li>
