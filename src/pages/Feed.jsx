@@ -13,7 +13,7 @@ function Feed() {
 
   const { feed, placeName } = location.state;
   const {
-    images, like, creator, content, date, comments,
+    images, like,
   } = feed;
   console.log(feed, placeName);
 

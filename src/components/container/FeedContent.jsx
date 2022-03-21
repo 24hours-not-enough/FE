@@ -5,7 +5,7 @@ function FeedContent({ feed, userInfo }) {
   const commentRef = useRef();
   const commentFormRef = useRef();
   const {
-    feedId, images, like, creator, content, date, comments,
+    feedId, creator, content, date, comments,
   } = feed;
   console.log(userInfo);
 

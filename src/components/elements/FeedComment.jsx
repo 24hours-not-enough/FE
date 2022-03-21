@@ -1,5 +1,5 @@
 function FeedComment({ comment }) {
-  const { commentId, creator, content } = comment;
+  const { creator, content } = comment;
 
   return (
     <div className="flex items-center mb-[20px]">
