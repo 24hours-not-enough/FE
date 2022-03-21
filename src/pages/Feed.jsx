@@ -17,6 +17,12 @@ function Feed() {
   } = feed;
   console.log(feed, placeName);
 
+  const isLike = like.filter((user) => user.userId === Number(userInfo.userId)).length >= 1;
+  console.log(like);
+  console.log(userInfo.userId);
+  console.log(isLike);
+  const likeStyle = isLike ? 'text-red-600' : '';
+
   return (
     <LayoutWrapper>
       <Navbar title={placeName} back />
@@ -30,7 +36,7 @@ function Feed() {
             />
             <button
               type="button"
-              className="absolute right-[35px] bottom-[35px]"
+              className={`absolute right-[35px] bottom-[35px] ${likeStyle}`}
             >
               하트
             </button>
