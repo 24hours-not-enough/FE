@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Button from '../elements/button/Button';
 
 function PlanDeleted({ deletedPlan }) {
   const [isOpen, setIsOpen] = useState(false);

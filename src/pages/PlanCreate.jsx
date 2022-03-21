@@ -14,7 +14,7 @@ function PlanCreate() {
   const travelStartRef = useRef();
   const travelEndRef = useRef();
   const searchMemberRef = useRef();
-  const [searchedUser, setSearchedUser] = useState(null);
+  // const [searchedUser, setSearchedUser] = useState(null);
   const [selectedUser, setSelectedUser] = useState([]);
   const [isUpdatePage, setIsUpdatePage] = useState(false);
 

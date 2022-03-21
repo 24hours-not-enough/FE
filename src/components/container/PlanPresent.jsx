@@ -5,8 +5,7 @@ function PlanPresent({
   plan, openEditMenu, isEditPage, deletePlan,
 }) {
   const {
-    planId, title, travelDestination, travelStart, travelEnd,
-    isDeleted, members, calendars, checklist,
+    planId, title, travelDestination, travelStart, travelEnd, members,
   } = plan;
 
   return (
