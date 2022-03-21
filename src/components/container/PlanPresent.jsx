@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-function PlanPresent({ plan }) {
+function PlanPresent({ plan, openEditMenu }) {
   const {
     planId, title, travelDestination, travelStart, travelEnd,
     isDeleted, members, calendars, checklist,
@@ -19,7 +19,13 @@ function PlanPresent({ plan }) {
           />
         ))}
       </div>
-      <button type="button" className="absolute top-[18px] right-[18px]">버튼</button>
+      <button
+        onClick={() => openEditMenu({ planId, title })}
+        type="button"
+        className="absolute top-[18px] right-[18px]"
+      >
+        버튼
+      </button>
     </li>
   );
 }

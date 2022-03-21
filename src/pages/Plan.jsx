@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Navbar from '../components/container/Navbar';
+import PlanEditOneTab from '../components/container/PlanEditOneTab';
 import PlanPast from '../components/container/PlanPast';
 import PlanPresent from '../components/container/PlanPresent';
 import Button from '../components/elements/button/Button';
@@ -8,6 +10,13 @@ import _plan from '../state/redux/plan/planSelector';
 
 function Plan() {
   const plan = useSelector(_plan);
+  const [isEditMenu, setIsEditMenu] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
+  const openEditMenu = ({ planId, title }) => {
+    setSelectedPlan({ planId, title });
+    setIsEditMenu(true);
+  };
 
   return (
     <LayoutWrapper>
@@ -17,7 +26,13 @@ function Plan() {
 
       <section className="mt-[30px] mx-[20px]">
         <ul className="flex flex-col gap-y-[14px] mb-[14px]">
-          {plan.map((onePlan) => <PlanPresent key={plan.planId} plan={onePlan} />)}
+          {plan.map((onePlan) => (
+            <PlanPresent
+              key={plan.planId}
+              plan={onePlan}
+              openEditMenu={openEditMenu}
+            />
+          ))}
         </ul>
         <Button
           type="decline"
@@ -30,9 +45,17 @@ function Plan() {
       <section className="mx-[20px]">
         <span className="text-[12px] leading-[14px] text-[#A0A0A0] mb-[10px]">지난 트리플랜</span>
         <ul className="flex flex-wrap gap-x-[16px] gap-y-[14px]">
-          {plan.map((onePlan) => <PlanPast key={plan.planId} plan={onePlan} />)}
+          {plan.map((onePlan) => (
+            <PlanPast
+              key={plan.planId}
+              plan={onePlan}
+              openEditMenu={openEditMenu}
+            />
+          ))}
         </ul>
       </section>
+
+      {isEditMenu && <PlanEditOneTab selectedPlan={selectedPlan} setIsEditMenu={setIsEditMenu} />}
     </LayoutWrapper>
   );
 }
