@@ -4,6 +4,7 @@ import Feed from './pages/Feed';
 import Login from './pages/Login';
 import Main from './pages/Main';
 import MyPage from './pages/MyPage';
+import Plan from './pages/Plan';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/mypage/*" element={<MyPage />} />
       <Route path="/feed/:feedId" element={<Feed />} />
+      <Route path="/plan" element={<Plan />} />
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />

@@ -77,8 +77,8 @@ const plan = [
     planId: 1,
     title: 'title',
     travelDestination: '미국',
-    travelStart: '',
-    travelEnd: '',
+    travelStart: 'Jan 02',
+    travelEnd: 'Feb 02',
     isDeleted: true,
     members: [userData, userData],
     calendars: [
@@ -128,8 +128,8 @@ const plan = [
     planId: 2,
     title: 'title2',
     travelDestination: '미국',
-    travelStart: '',
-    travelEnd: '',
+    travelStart: 'Jan 02',
+    travelEnd: 'Feb 02',
     isDeleted: false,
     members: [userData, userData],
     calendars: [
