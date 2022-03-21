@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import _ from 'lodash';
+import { useRef, useState } from 'react';
 import Navbar from '../components/container/Navbar';
 import Calendar from '../components/elements/calendar/Calendar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
@@ -11,6 +12,24 @@ function PlanCreate() {
   const travelStartRef = useRef();
   const travelEndRef = useRef();
   const searchMemberRef = useRef();
+  const [searchedUser, setSearchedUser] = useState(null);
+
+  // 닉네임으로 유저찾기
+  const findedUser = (e) => {
+    if (e.target.value !== '') {
+    // planApi.findByUsername(e.target.value)
+    //   .then((res) => {
+    //     console.log(res);
+    //     setSearchedUser({
+    //       profileImg: res.data.data.file_store_course,
+    //       username: res.data.data.nickname,
+    //     });
+    //   })
+    //   .catch((err) => console.log(err.response));
+      console.log(e.target.value);
+    }
+  };
+  const findByUsername = _.debounce(findedUser, 600);
 
   // create new triplan
   const handleSubmit = (e) => {
@@ -96,6 +115,7 @@ function PlanCreate() {
           </label>
           <input
             ref={searchMemberRef}
+            onChange={findByUsername}
             className="bg-[#E7E6FE] rounded-[16px] text-[16px] leading-[19px] font-[600] px-[18px] py-[13px]"
             type="text"
           />

@@ -12,10 +12,32 @@ import _plan from '../state/redux/plan/planSelector';
 
 function Plan() {
   const plan = useSelector(_plan);
+  const [presentList, setPresentList] = useState([]);
+  const [pastList, setPastList] = useState([]);
+  const [deletedList, setDeletedList] = useState([]);
   const [isEditMenu, setIsEditMenu] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [isEditPage, setIsEditPage] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const now = new Date().toISOString();
+    const present = [];
+    const past = [];
+    const deleted = [];
+    plan.forEach((onePlan) => {
+      if (onePlan.isDeleted) {
+        deleted.push(onePlan);
+      } else if (onePlan.travelEnd < now) {
+        past.push(onePlan);
+      } else {
+        present.push(onePlan);
+      }
+    });
+    setPresentList(present);
+    setPastList(past);
+    setDeletedList(deleted);
+  }, [plan]);
 
   useEffect(() => {
     new URL(window.location.href).pathname === '/plan'
@@ -38,7 +60,7 @@ function Plan() {
   };
   const goToEditPage = () => {
     setIsEditPage(true);
-    navigate('/plan/edit');
+    navigate('/plan/edit', { replace: true });
   };
   const goToCreatePage = () => {
     navigate('/plan/create');
@@ -54,7 +76,7 @@ function Plan() {
 
       <section className="mt-[30px] mx-[20px]">
         <ul className="flex flex-col gap-y-[14px] mb-[14px]">
-          {plan.map((onePlan) => (
+          {presentList.map((onePlan) => (
             <PlanPresent
               key={plan.planId}
               plan={onePlan}
@@ -73,12 +95,12 @@ function Plan() {
         </Button>
       </section>
 
-      {isEditPage && <PlanDeleted deletedPlan={plan} />}
+      {isEditPage && <PlanDeleted deletedPlan={deletedList} />}
 
       <section className="mx-[20px] mt-[100px]">
         <span className="text-[12px] leading-[14px] text-[#A0A0A0] mb-[10px]">지난 트리플랜</span>
         <ul className="flex flex-wrap gap-x-[16px] gap-y-[14px]">
-          {plan.map((onePlan) => (
+          {pastList.map((onePlan) => (
             <PlanPast
               key={plan.planId}
               plan={onePlan}
