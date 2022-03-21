@@ -1,16 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 
-function PlanEditOneTab({ selectedPlan, setIsEditMenu }) {
+function PlanEditOneTab({ selectedPlan, setIsEditMenu, deletePlan }) {
   const navigate = useNavigate();
 
   const { planId, title } = selectedPlan;
 
   const goToPlanEdit = () => {
-    navigate(`/plan/edit/${planId}`);
-  };
-
-  const deletePlan = () => {
-    console.log(`계획 삭제 : ${planId}`);
+    navigate(`/plan/update/${planId}`);
   };
 
   return (
@@ -29,7 +25,7 @@ function PlanEditOneTab({ selectedPlan, setIsEditMenu }) {
           <button
             className="text-[16px] leading-[19px] text-red-400"
             type="button"
-            onClick={deletePlan}
+            onClick={() => deletePlan(planId)}
           >
             삭제하기
           </button>

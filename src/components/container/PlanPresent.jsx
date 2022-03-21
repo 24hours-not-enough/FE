@@ -1,5 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-function PlanPresent({ plan, openEditMenu }) {
+function PlanPresent({
+  plan, openEditMenu, isEditPage, deletePlan,
+}) {
   const {
     planId, title, travelDestination, travelStart, travelEnd,
     isDeleted, members, calendars, checklist,
@@ -19,13 +21,26 @@ function PlanPresent({ plan, openEditMenu }) {
           />
         ))}
       </div>
-      <button
-        onClick={() => openEditMenu({ planId, title })}
-        type="button"
-        className="absolute top-[18px] right-[18px]"
-      >
-        버튼
-      </button>
+      {isEditPage
+        ? (
+          <button
+            onClick={() => deletePlan(planId)}
+            type="button"
+            className="absolute top-[18px] right-[18px]"
+          >
+            삭제
+          </button>
+        )
+        : (
+          <button
+            onClick={() => openEditMenu({ planId, title })}
+            type="button"
+            className="absolute top-[18px] right-[18px]"
+          >
+            버튼
+          </button>
+        )}
+
     </li>
   );
 }

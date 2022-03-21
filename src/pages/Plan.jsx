@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
+import PlanDeleted from '../components/container/PlanDeleted';
 import PlanEditOneTab from '../components/container/PlanEditOneTab';
 import PlanPast from '../components/container/PlanPast';
 import PlanPresent from '../components/container/PlanPresent';
@@ -12,16 +14,39 @@ function Plan() {
   const plan = useSelector(_plan);
   const [isEditMenu, setIsEditMenu] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [isEditPage, setIsEditPage] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    new URL(window.location.href).pathname === '/plan'
+      ? setIsEditPage(false)
+      : setIsEditPage(true);
+  }, [isEditPage]);
 
   const openEditMenu = ({ planId, title }) => {
     setSelectedPlan({ planId, title });
     setIsEditMenu(true);
   };
 
+  const deletePlan = (planId) => {
+    console.log(`계획 삭제 : ${planId}`);
+  };
+
+  const goToPlanPage = () => {
+    setIsEditPage(false);
+    navigate('/plan');
+  };
+  const goToEditPage = () => {
+    setIsEditPage(true);
+    navigate('/plan/edit');
+  };
+
   return (
     <LayoutWrapper>
       <Navbar title="계획">
-        <button type="button">편집</button>
+        {isEditPage
+          ? <button type="button" onClick={goToPlanPage}>완료</button>
+          : <button type="button" onClick={goToEditPage}>편집</button>}
       </Navbar>
 
       <section className="mt-[30px] mx-[20px]">
@@ -31,18 +56,22 @@ function Plan() {
               key={plan.planId}
               plan={onePlan}
               openEditMenu={openEditMenu}
+              isEditPage={isEditPage}
+              deletePlan={deletePlan}
             />
           ))}
         </ul>
         <Button
           type="decline"
-          propsClassName="w-full mb-[100px]"
+          propsClassName="w-full"
         >
           + 새로운 트리플랜
         </Button>
       </section>
 
-      <section className="mx-[20px]">
+      {isEditPage && <PlanDeleted deletedPlan={plan} />}
+
+      <section className="mx-[20px] mt-[100px]">
         <span className="text-[12px] leading-[14px] text-[#A0A0A0] mb-[10px]">지난 트리플랜</span>
         <ul className="flex flex-wrap gap-x-[16px] gap-y-[14px]">
           {plan.map((onePlan) => (
@@ -50,12 +79,21 @@ function Plan() {
               key={plan.planId}
               plan={onePlan}
               openEditMenu={openEditMenu}
+              isEditPage={isEditPage}
+              deletePlan={deletePlan}
             />
           ))}
         </ul>
       </section>
 
-      {isEditMenu && <PlanEditOneTab selectedPlan={selectedPlan} setIsEditMenu={setIsEditMenu} />}
+      {isEditMenu
+      && (
+      <PlanEditOneTab
+        selectedPlan={selectedPlan}
+        setIsEditMenu={setIsEditMenu}
+        deletePlan={deletePlan}
+      />
+      )}
     </LayoutWrapper>
   );
 }

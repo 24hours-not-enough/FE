@@ -14,6 +14,7 @@ function App() {
       <Route path="/mypage/*" element={<MyPage />} />
       <Route path="/feed/:feedId" element={<Feed />} />
       <Route path="/plan" element={<Plan />} />
+      <Route path="/plan/edit" element={<Plan />} />
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />
