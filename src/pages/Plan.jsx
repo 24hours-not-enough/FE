@@ -40,6 +40,9 @@ function Plan() {
     setIsEditPage(true);
     navigate('/plan/edit');
   };
+  const goToCreatePage = () => {
+    navigate('/plan/create');
+  };
 
   return (
     <LayoutWrapper>
@@ -64,6 +67,7 @@ function Plan() {
         <Button
           type="decline"
           propsClassName="w-full"
+          onClick={goToCreatePage}
         >
           + 새로운 트리플랜
         </Button>
