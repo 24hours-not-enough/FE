@@ -1,10 +1,24 @@
+import { useRef } from 'react';
 import FeedComment from '../elements/FeedComment';
 
 function FeedContent({ feed, userInfo }) {
+  const commentRef = useRef();
+  const commentFormRef = useRef();
   const {
-    images, like, creator, content, date, comments,
+    feedId, images, like, creator, content, date, comments,
   } = feed;
   console.log(userInfo);
+
+  const addComment = (e) => {
+    e.preventDefault();
+    const commentValue = commentRef.current.value;
+    if (commentValue === '') {
+      return;
+    }
+    // 코멘트 등록 통신
+    console.log(`코멘트 등록: ${feedId}, ${commentValue}`);
+    commentFormRef.current.reset();
+  };
 
   return (
     <div className="absolute left-0 bottom-0 w-screen rounded-t-[20px] pt-[20px] px-[20px] h-[calc(100vh_-_56px_-_100vw_+_20px)] bg-white rounded-t-20px">
@@ -32,8 +46,13 @@ function FeedContent({ feed, userInfo }) {
           alt={userInfo.userName}
           className="w-[42px] h-[42px] rounded-full mr-[16px]"
         />
-        <form className="flex flex-auto border-[1px] border-solid border-[#EDEDED] px-[18px] py-[12px] rounded-[16px]">
+        <form
+          ref={commentFormRef}
+          onSubmit={addComment}
+          className="flex flex-auto border-[1px] border-solid border-[#EDEDED] px-[18px] py-[12px] rounded-[16px]"
+        >
           <input
+            ref={commentRef}
             type="text"
             placeholder="댓글 달기"
             className="flex-auto"
