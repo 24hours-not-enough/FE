@@ -87,12 +87,28 @@ const plan = [
         title: '1일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
-            locationName: '',
-            locationMemo: '',
+            calendarDetailId: 1,
+            locationName: '땡땡식당',
+            locationMemo: '우왕 공항에 내려서 밥먹기',
             latitude: 37.566,
             longitude: 126.9786,
             order: 1,
+          },
+          {
+            calendarDetailId: 2,
+            locationName: '장소장소장소',
+            locationMemo: '',
+            latitude: 37.566,
+            longitude: 126.9786,
+            order: 2,
+          },
+          {
+            calendarDetailId: 3,
+            locationName: '가나 카페',
+            locationMemo: '일정 작성한거',
+            latitude: 37.566,
+            longitude: 126.9786,
+            order: 3,
           },
         ],
       },
@@ -101,7 +117,7 @@ const plan = [
         title: '2일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
+            calendarDetailId: 1,
             locationName: '',
             locationMemo: '',
             latitude: 37.566,
@@ -114,12 +130,12 @@ const plan = [
     checkList: [
       {
         checkListId: 1,
-        checkItem: '',
+        checkItem: '치약',
         isChecked: true,
       },
       {
         checkListId: 2,
-        checkItem: '',
+        checkItem: '클렌징 폼',
         isChecked: false,
       },
     ],
@@ -138,7 +154,7 @@ const plan = [
         title: '1일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
+            calendarDetailId: 1,
             locationName: '',
             locationMemo: '',
             latitude: 37.566,
@@ -152,7 +168,7 @@ const plan = [
         title: '2일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
+            calendarDetailId: 1,
             locationName: '',
             locationMemo: '',
             latitude: 37.566,
@@ -166,7 +182,7 @@ const plan = [
         title: '3일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
+            calendarDetailId: 1,
             locationName: '',
             locationMemo: '',
             latitude: 37.566,
@@ -180,7 +196,7 @@ const plan = [
         title: '4일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
+            calendarDetailId: 1,
             locationName: '',
             locationMemo: '',
             latitude: 37.566,
@@ -212,7 +228,7 @@ const plan = [
         title: '1일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
+            calendarDetailId: 1,
             locationName: '',
             locationMemo: '',
             latitude: 37.566,
@@ -226,7 +242,7 @@ const plan = [
         title: '2일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
+            calendarDetailId: 1,
             locationName: '',
             locationMemo: '',
             latitude: 37.566,
@@ -240,7 +256,7 @@ const plan = [
         title: '3일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
+            calendarDetailId: 1,
             locationName: '',
             locationMemo: '',
             latitude: 37.566,
@@ -254,7 +270,7 @@ const plan = [
         title: '4일차',
         calendarDetails: [
           {
-            calendarDatilId: 1,
+            calendarDetailId: 1,
             locationName: '',
             locationMemo: '',
             latitude: 37.566,
