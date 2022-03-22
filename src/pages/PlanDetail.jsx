@@ -6,6 +6,7 @@ import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import PlanDetailCalendarCard from '../components/container/PlanDetailCalendarCard';
 import Button from '../components/elements/button/Button';
 import PlanDetailMap from '../components/container/PlanDetailMap';
+import PlanDetailMenuTab from '../components/container/PlanDetailMenuTab';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
@@ -13,13 +14,15 @@ const MAP = 'map';
 
 function PlanDetail() {
   const location = useLocation();
+  const plan = location.state;
   const {
     title, travelDestination, travelStart, travelEnd, members, calendars, checkList,
-  } = location.state;
+  } = plan;
 
   const [viewState, setViewState] = useState(PLAN);
   const [viewStatePlan, setViewStatePlan] = useState(PLAN);
   const [calendarList, setCalendarList] = useState(calendars);
+  const [onMenuTab, setOnMenuTab] = useState(false);
 
   const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
   const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
@@ -40,10 +43,14 @@ function PlanDetail() {
     setCalendarList(updated);
   };
 
+  const openMenuTab = () => {
+    setOnMenuTab(true);
+  };
+
   return (
     <LayoutWrapper>
       <Navbar title={title}>
-        <button type="button">메뉴</button>
+        <button type="button" onClick={openMenuTab}>메뉴</button>
       </Navbar>
       <div className="bg-main px-[30px] pt-[20px] pb-[10px] flex flex-col">
         <div className="flex mb-[20px]">
@@ -106,6 +113,7 @@ function PlanDetail() {
           </section>
         )
         : <PlanDetailMap calendars={calendars} toggleStatePlan={toggleStatePlan} />}
+      {onMenuTab && <PlanDetailMenuTab setOnMenuTab={setOnMenuTab} plan={plan} />}
     </LayoutWrapper>
   );
 }

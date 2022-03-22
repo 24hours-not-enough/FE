@@ -80,6 +80,7 @@ const plan = [
     travelStart: '2022-03-19T17:31:09.179Z',
     travelEnd: '2022-03-20T17:31:09.179Z',
     isDeleted: false,
+    creator: userData,
     members: [userData, userData],
     calendars: [
       {
@@ -147,6 +148,7 @@ const plan = [
     travelStart: '2022-03-21T17:31:09.179Z',
     travelEnd: '2022-03-25T17:31:09.179Z',
     isDeleted: false,
+    creator: userData,
     members: [userData, userData],
     calendars: [
       {
@@ -221,6 +223,7 @@ const plan = [
     travelStart: '2022-03-21T17:31:09.179Z',
     travelEnd: '2022-03-25T17:31:09.179Z',
     isDeleted: true,
+    creator: userData,
     members: [userData, userData],
     calendars: [
       {
