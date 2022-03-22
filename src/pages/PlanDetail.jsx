@@ -11,16 +11,24 @@ const CHAT = 'chat';
 
 function PlanDetail() {
   const location = useLocation();
-  const [viewState, setViewState] = useState(PLAN);
-
   const {
     title, travelDestination, travelStart, travelEnd, members, calendars, checkList,
   } = location.state;
+
+  const [viewState, setViewState] = useState(PLAN);
+  const [calendarList, setCalendarList] = useState(calendars);
+
   const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
   const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
 
   const toggleState = () => {
     viewState === PLAN ? setViewState(CHAT) : setViewState(PLAN);
+  };
+
+  const handleAddCalendar = () => {
+    // calendar 추가하는 api 통신 필요
+    const updated = [...calendarList, { calendarDetailId: new Date().getTime(), title: `${calendarList.length + 1}일차`, calendarDetails: [] }];
+    setCalendarList(updated);
   };
 
   return (
@@ -59,9 +67,9 @@ function PlanDetail() {
         </div>
 
         <section className="flex flex-col gap-y-[16px]">
-          {calendars.map((calendar) =>
+          {calendarList.map((calendar) =>
             <PlanDetailCalendarCard key={calendar.calendarId} calendar={calendar} />)}
-          <Button type="decline" propsClassName="w-full">+</Button>
+          <Button type="decline" propsClassName="w-full" onClick={handleAddCalendar}>+</Button>
         </section>
 
         <section className="mt-[110px] relative">
