@@ -7,6 +7,8 @@ import PlanDetailCalendarCard from '../components/container/PlanDetailCalendarCa
 import Button from '../components/elements/button/Button';
 import PlanDetailMap from '../components/container/PlanDetailMap';
 import PlanDetailMenuTab from '../components/container/PlanDetailMenuTab';
+import BottomTab from '../components/elements/bottomTab';
+import PlanDetailAddPlaceTab from '../components/container/PlanDetailAddPlaceTab';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
@@ -23,6 +25,7 @@ function PlanDetail() {
   const [viewStatePlan, setViewStatePlan] = useState(PLAN);
   const [calendarList, setCalendarList] = useState(calendars);
   const [onMenuTab, setOnMenuTab] = useState(false);
+  const [onUpdateTab, setOnUpdateTab] = useState(false);
 
   const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
   const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
@@ -88,12 +91,16 @@ function PlanDetail() {
           <section className="bg-[#F7F6FF] w-screen rounded-t-[20px] px-[20px] pt-[20px] -translate-y-[20px]">
             <div className="flex justify-between mb-[20px]">
               <button type="button" onClick={toggleStatePlan}>지도</button>
-              <button type="button">편집</button>
             </div>
 
             <section className="flex flex-col gap-y-[16px]">
-              {calendarList.map((calendar) =>
-                <PlanDetailCalendarCard key={calendar.calendarId} calendar={calendar} />)}
+              {calendarList.map((calendar) => (
+                <PlanDetailCalendarCard
+                  key={calendar.calendarId}
+                  calendar={calendar}
+                  setOnUpdateTab={setOnUpdateTab}
+                />
+              ))}
               <Button type="decline" propsClassName="w-full" onClick={handleAddCalendar}>+</Button>
             </section>
 
@@ -114,6 +121,12 @@ function PlanDetail() {
         )
         : <PlanDetailMap calendars={calendars} toggleStatePlan={toggleStatePlan} />}
       {onMenuTab && <PlanDetailMenuTab setOnMenuTab={setOnMenuTab} plan={plan} />}
+      {onUpdateTab
+        && (
+        <BottomTab closeTab={() => setOnUpdateTab(false)}>
+          <PlanDetailAddPlaceTab onUpdateTab={onUpdateTab} setOnUpdateTab={setOnUpdateTab} />
+        </BottomTab>
+        )}
     </LayoutWrapper>
   );
 }

@@ -1,11 +1,19 @@
-function PlanCalendarPlacePiece({ place }) {
+function PlanCalendarPlacePiece({ place, setOnUpdateTab, calendarId }) {
   console.log(place);
   const {
     order, locationName, locationMemo, latitude, longitude, calendarDetailId,
   } = place;
 
+  const updatePiece = () => {
+    console.log('updatePeice');
+    setOnUpdateTab({ type: 'update', calendarId, place });
+  };
+
   return (
-    <div className="flex h-[40px]">
+    <div
+      onClick={updatePiece}
+      className="flex h-[40px] w-full"
+    >
       <div className="bg-black text-white rounded-full w-[22px] h-[22px] text-center text-[13px] leading-[20px] text-[600] mr-[22px]">
         {order}
       </div>
