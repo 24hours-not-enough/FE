@@ -6,6 +6,7 @@ import Main from './pages/Main';
 import MyPage from './pages/MyPage';
 import Plan from './pages/Plan';
 import PlanCreate from './pages/PlanCreate';
+import PlanDetail from './pages/PlanDetail';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/plan/create" element={<PlanCreate />} />
       <Route path="/plan/update/:planId" element={<PlanCreate />} />
       <Route path="/plan/edit" element={<Plan />} />
+      <Route path="/plan/detail/:planId" element={<PlanDetail />} />
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />
