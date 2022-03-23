@@ -65,6 +65,9 @@ function Plan() {
   const goToCreatePage = () => {
     navigate('/plan/create');
   };
+  const goToPlanDetailPage = (planInfo) => {
+    !isEditPage && navigate(`/plan/detail/${planInfo.planId}`, { state: planInfo });
+  };
 
   return (
     <LayoutWrapper>
@@ -83,6 +86,7 @@ function Plan() {
               openEditMenu={openEditMenu}
               isEditPage={isEditPage}
               deletePlan={deletePlan}
+              goToPlanDetailPage={goToPlanDetailPage}
             />
           ))}
         </ul>
@@ -107,6 +111,7 @@ function Plan() {
               openEditMenu={openEditMenu}
               isEditPage={isEditPage}
               deletePlan={deletePlan}
+              goToPlanDetailPage={goToPlanDetailPage}
             />
           ))}
         </ul>

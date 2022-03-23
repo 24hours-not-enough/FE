@@ -23,8 +23,9 @@ function PlanCreate() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(param);
-    console.log(location.state);
+    if (!(param.planId || location.state)) {
+      return;
+    }
     if ((param && location.state) && Number(param.planId) === location.state.planId) {
       const {
         title, travelDestination, travelStart, travelEnd, members,
