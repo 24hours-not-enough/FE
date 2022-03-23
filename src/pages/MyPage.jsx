@@ -27,6 +27,8 @@ function MyPage() {
   const myFeed = useSelector(_myFeed);
 
   const [userNameChange, setUserNameChange] = useState(userInfo.username);
+  const [feedTitle, setFeedTitle] = useState('');
+  const [feedInfo, setFeedInfo] = useState({ images: [], comment: '' });
 
   const handleRouter = useCallback((query) => () => {
     navigate(query);
@@ -40,10 +42,21 @@ function MyPage() {
     dispatch(changeUserName({ userNameChange }));
   }, [userNameChange]);
 
+  const handleChangeTitle = useCallback((e) => {
+    setFeedTitle(e.target.value);
+  }, [feedTitle]);
+
+  const handleAddFeedInfo = useCallback((key, value) => {
+
+  }, []);
+
+  const onClickAddFeed = useCallback(() => {
+
+  }, []);
   return (
     <LayoutWrapper>
       <Navbar title={title(location.pathname).title} back={title(location.pathname).back}>
-        <div>ㅎㅇㅎㅇ</div>
+        <button onClick={onClickAddFeed} type="button">완료</button>
       </Navbar>
       <Routes>
         <Route
@@ -66,7 +79,15 @@ function MyPage() {
             />
           )}
         />
-        <Route path="/plan" element={<MyPagePlan />} />
+        <Route
+          path="/plan"
+          element={(
+            <MyPagePlan
+              handleChangeTitle={handleChangeTitle}
+              myFeed={myFeed}
+            />
+          )}
+        />
         <Route
           path="/mylike-feeds"
           element={<MyLikeFeeds myLikes={myLikes} />}

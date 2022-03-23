@@ -7,7 +7,7 @@ function LayoutWrapper({ children }) {
 
   if (!pc) {
     return (
-      <div className="bg-main-background w-screen h-screen overflow-auto scrollbar-hide">
+      <div className="bg-main-background w-full h-full overflow-auto scrollbar-hide">
         {children}
       </div>
     );
