@@ -16,3 +16,13 @@ export const googleLogin = createAsyncThunk(
     return isLogin;
   },
 );
+
+export const changeUserName = createAsyncThunk(
+  'user/changeUserName',
+  async ({ userNameChange }) => {
+    // const userName = await ...
+    // api 요청하고 success오면 return해서 userName반영
+    console.log(userNameChange);
+    return userNameChange;
+  },
+);
