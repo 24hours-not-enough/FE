@@ -2,11 +2,7 @@ const userData = { userId: 1, userName: 'sunny', userProfileImage: '/images/prof
 const imagesData = ['/images/mock/1.jpg', '/images/mock/2.jpg', '/images/mock/3.jpg'];
 
 const user = {
-  userInfo: {
-    userId: '1',
-    userName: 'sunny',
-    userProfileImage: '/images/profile_default.jpg',
-  },
+  userInfo: userData,
   notification: [
     {
       code: '초대',
@@ -278,9 +274,10 @@ const feed = {
   myFeed: [
     {
       feedId: 1,
-      title: '',
+      title: '기념여행',
       travelStart: '2022.01.18',
       travelEnd: '2022.01.18',
+      feedImages: [{ imgUrl: '', imgId: '12312' }, { imgUrl: '', imgId: '12312' }],
       feedDetail: [
         {
           title: '1일차',
@@ -289,6 +286,71 @@ const feed = {
               feedDetailLocId: 1,
               latitude: 37.566,
               longitude: 126.9786,
+              locationMemo: '',
+              placeName: '',
+              feedDetailLocImg: [{ imgUrl: '', imgId: '12312' }],
+            },
+            {
+              feedDetailLocId: 2,
+              latitude: 37.566,
+              longitude: 126.9786,
+              locationMemo: '',
+              placeName: '',
+              feedDetailLocImg: [{ imgUrl: '', imgId: '12332' }],
+            },
+          ],
+        },
+        {
+          title: '2일차',
+          feedDetailLoc: [
+            {
+              feedDetailLocId: 2,
+              latitude: 37.566,
+              longitude: 126.9786,
+              locationMemo: '',
+              placeName: '',
+              feedDetailLocImg: [{ imgUrl: '' }],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      feedId: 2,
+      title: '여행여행',
+      travelStart: '2022.01.18',
+      travelEnd: '2022.01.18',
+      feedImages: [{ imgUrl: '', imgId: '12314' }, { imgUrl: '', imgId: '12315' }],
+      feedDetail: [
+        {
+          title: '1일차',
+          feedDetailLoc: [
+            {
+              feedDetailLocId: 1,
+              latitude: 37.566,
+              longitude: 126.9786,
+              locationMemo: '',
+              placeName: '',
+              feedDetailLocImg: [{ imgUrl: '', imgId: '12312' }],
+            },
+            {
+              feedDetailLocId: 2,
+              latitude: 37.566,
+              longitude: 126.9786,
+              locationMemo: '',
+              placeName: '',
+              feedDetailLocImg: [{ imgUrl: '', imgId: '12332' }],
+            },
+          ],
+        },
+        {
+          title: '2일차',
+          feedDetailLoc: [
+            {
+              feedDetailLocId: 2,
+              latitude: 37.566,
+              longitude: 126.9786,
+              locationMemo: '',
               placeName: '',
               feedDetailLocImg: [{ imgUrl: '' }],
             },

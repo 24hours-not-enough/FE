@@ -21,6 +21,32 @@ const changeDate = (date) => {
   return `${_month} ${_date}`;
 };
 
+const title = (pathname) => {
+  let props = {
+    title: '마이페이지',
+    back: false,
+  };
+  if (pathname === '/mypage/profile') {
+    props = {
+      title: '프로필 수정',
+      back: true,
+    };
+  }
+  if (pathname === '/mypage/plan') {
+    props = {
+      title: '새로운 게시물',
+      back: true,
+    };
+  }
+  if (pathname === '/mypage/mylike-feeds') {
+    props = {
+      title: '좋아요한 게시물',
+      back: true,
+    };
+  }
+  return props;
+};
+
 export {
-  checkNickname, setTokenToSession, getTokenFromSession, changeDate,
+  checkNickname, setTokenToSession, getTokenFromSession, changeDate, title,
 };
