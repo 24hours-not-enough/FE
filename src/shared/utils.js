@@ -7,8 +7,8 @@ const setTokenToSession = (key, token) => {
   sessionStorage.setItem(key, token);
 };
 
-const getTokenFromSession = () => {
-  const token = sessionStorage.getItem('token');
+const getTokenFromSession = (key) => {
+  const token = sessionStorage.getItem(key);
   return token || null;
 };
 

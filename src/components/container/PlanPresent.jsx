@@ -5,8 +5,9 @@ function PlanPresent({
   plan, openEditMenu, isEditPage, deletePlan, goToPlanDetailPage,
 }) {
   const {
-    planId, title, travelDestination, travelStart, travelEnd, members,
+    planId, title, travelDestination, travelStart, travelEnd, members, roodId,
   } = plan;
+  console.log(plan);
 
   return (
     <li

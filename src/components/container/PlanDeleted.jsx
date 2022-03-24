@@ -7,6 +7,8 @@ function PlanDeleted({ deletedPlan }) {
     isOpen ? setIsOpen(false) : setIsOpen(true);
   };
 
+  console.log(deletedPlan);
+
   return (
     <section className="mx-[20px] mt-[14px] bg-[#E7E6FE] px-[16px] py-[17px] rounded-[20px]">
       <div className="flex justify-between items-center">

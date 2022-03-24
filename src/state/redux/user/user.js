@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { setTokenToSession } from '../../../shared/utils';
 import {
-  changeUserName, kakaoLogin, googleLogin, loginUserInfo,
+  changeUserName, kakaoLogin, googleLogin, loginUserInfo, getUser,
 } from './userThunk';
 
 const TRUE = 'true';
@@ -45,6 +45,10 @@ export const userSlice = createSlice({
           setTokenToSession('refreshToken', response.tokens.refresh_token);
           state.userInfo = response.userInfo;
         }
+      })
+      .addCase(getUser.fulfilled, (state, { payload }) => {
+        state.userInfo = payload.userInfo;
+        state.bookmark = payload.bookmark;
       });
   },
 });

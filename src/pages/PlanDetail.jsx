@@ -9,6 +9,7 @@ import PlanDetailMap from '../components/container/PlanDetailMap';
 import PlanDetailMenuTab from '../components/container/PlanDetailMenuTab';
 import BottomTab from '../components/elements/bottomTab';
 import PlanDetailAddPlaceTab from '../components/container/PlanDetailAddPlaceTab';
+import PlanApi from '../state/data/planApi';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
@@ -18,8 +19,9 @@ function PlanDetail() {
   const location = useLocation();
   const plan = location.state;
   const {
-    title, travelDestination, travelStart, travelEnd, members, calendars, checkList,
+    planId, title, travelDestination, travelStart, travelEnd, members, calendars, checkLists,
   } = plan;
+  const planApi = new PlanApi();
 
   const [viewState, setViewState] = useState(PLAN);
   const [viewStatePlan, setViewStatePlan] = useState(PLAN);
@@ -40,9 +42,28 @@ function PlanDetail() {
     viewStatePlan === PLAN ? setViewStatePlan(MAP) : setViewStatePlan(PLAN);
   };
 
-  const handleAddCalendar = () => {
+  const handleAddCalendar = async () => {
     // calendar 추가하는 api 통신 필요
-    const updated = [...calendarList, { calendarDetailId: new Date().getTime(), title: `${calendarList.length + 1}일차`, calendarDetails: [] }];
+    const response = await planApi.addDays(planId)
+      .then((res) => {
+        console.log(res);
+        if (res.result === 'fail') {
+          return false;
+        }
+        return true;
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        return false;
+      });
+
+    if (!response) {
+      alert('에러가 발생했습니다 다시 시도해주세요');
+      return;
+    }
+
+    const updated = [...calendarList, { calendarDetailId: new Date().getTime(), days: `${calendarList.length + 1}일차`, calendarDetails: [] }];
     setCalendarList(updated);
   };
 
@@ -51,7 +72,7 @@ function PlanDetail() {
   };
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper overflow="hide">
       <Navbar title={title}>
         <button type="button" onClick={openMenuTab}>메뉴</button>
       </Navbar>
@@ -107,7 +128,7 @@ function PlanDetail() {
             <section className="mt-[110px] relative">
               <h5 className="text-[14px] leading-[17px] font-[600] mb-[31px]">체크리스트</h5>
               <div className="flex flex-col gap-y-[26px]">
-                {checkList.map((list) => (
+                {checkLists.map((list) => (
                   <div key={list.checkListId} className="flex items-center">
                     <input type="checkbox" className="w-[22px] h-[22px] mr-[12px]" />
                     <span className="text-[14px] leading-[17px]">{list.checkItem}</span>

@@ -1,109 +1,82 @@
-import axios from 'axios';
 import instance from './axios';
 
 class PlanApi {
   constructor() {
     this.axios = instance;
-    this.mock = axios;
   }
 
-  // 계획 등록
-  createTriplan({ planInfo }) {
-    // return this.axios({
-    //   method: 'post',
-    //   url: '/api/plan',
-    //   data: planInfo,
-    // });
-    return this.mock({
-      method: 'get',
-      url: 'http://localhost:3000/api/plan/create.json',
-    });
-  }
-
-  // 계획 수정
-  updateTriplan(data, planId) {
+  // 내 플랜 전부 불러오기
+  async getPlans() {
     return this.axios({
-      method: 'put',
-      url: `/api/plan/${planId}`,
-      data,
-    });
-  }
-
-  // 계획 삭제
-  deleteTriplan(planId) {
-    // return this.axios({
-    //   method: 'put',
-    //   url: `/api/plan/${planId}`,
-    //   data: { del_fl: false },
-    // });
-    console.log(planId);
-    return this.mock({
       method: 'get',
-      url: 'http://localhost:3000/api/plan/delete.json',
-    });
+      // url: '/api/plan/planDetails'
+      url: '/api/plan/planDetails.json',
+    })
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
   }
 
-  // 계획 복구
-  restoreTriplan(planId) {
-    // return this.axios({
-    //   method: 'put',
-    //   url: `/api/plan/${planId}`,
-    //   data: { del_fl: true },
-    // });
-    console.log(planId);
-    return this.mock({
+  // 새로운 트리플랜 생성
+  async createPlan({ updatedPlan, navigate }) {
+    return this.axios({
       method: 'get',
-      url: 'http://localhost:3000/api/plan/restore.json',
-    });
+      // method: 'post',
+      // url: 'api/plan',
+      url: 'api/plan.json',
+      data: updatedPlan,
+    })
+      .then((res) => {
+        console.log(res);
+        alert('새로운 트리플랜을 생성했습니다');
+        navigate('/plan', { replace: true });
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        alert('에러가 발생했습니다 다시 시도해보세요');
+      });
   }
 
-  // 계획 단건 조회
-  getCertainTriplan(planId) {
-    // return this.axios({
-    //   method: 'get',
-    //   url: `/api/plan/${planId}`,
-    // });
-    return this.mock({
+  // 트리플랜 수정
+  async updatePlan({ updatedPlan, navigate }) {
+    return this.axios({
       method: 'get',
-      url: 'http://localhost:3000/api/plan/getOne.json',
-    });
+      // method: 'put',
+      // url: 'api/plan',
+      url: 'api/plan.json',
+      data: updatedPlan,
+    })
+      .then((res) => {
+        console.log(res);
+        alert('트리플랜 업데이트에 성공했습니다');
+        navigate('/plan', { replace: true });
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        alert('에러가 발생했습니다 다시 시도해보세요');
+      });
   }
 
-  // 나의 여행 계획 전체 조회
-  getMyTriplanList() {
-    // return this.axios({
-    //   method: 'get',
-    //   url: '/api/plan',
-    // })
-    return this.mock({
-      method: 'get',
-      url: 'http://localhost:3000/api/plan.json',
-    });
-  }
-
-  // 계획에 친구 초대하기
-  inviteToTriplan(data, planId) {
+  // days 추가
+  async addDays(planId) {
     return this.axios({
       method: 'post',
-      url: `/api/member/plan/${planId}`,
-      data,
+      url: `/api/pan/${planId}/days`,
     });
   }
 
-  // 계획에서 친구 내보내기
-  ejectFromTriplan(data, planId) {
-    return this.axios({
-      method: 'delete',
-      url: `/api/member/plan/${planId}`,
-      data,
-    });
-  }
-
-  // 닉네임으로 유저 검색
-  findByUsername(nickname) {
+  async searchUser(userName) {
     return this.axios({
       method: 'get',
-      url: `/api/user/${nickname}`,
+      // url: `api/user/${userName}`,
+      url: 'api/user/nickname.json',
     });
   }
 }

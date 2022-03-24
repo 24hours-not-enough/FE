@@ -26,7 +26,7 @@ function Plan() {
     const past = [];
     const deleted = [];
     plan.forEach((onePlan) => {
-      if (onePlan.isDeleted) {
+      if (!onePlan.delTc) {
         deleted.push(onePlan);
       } else if (onePlan.travelEnd < now) {
         past.push(onePlan);
@@ -68,6 +68,10 @@ function Plan() {
   const goToPlanDetailPage = (planInfo) => {
     !isEditPage && navigate(`/plan/detail/${planInfo.planId}`, { state: planInfo });
   };
+
+  console.log(presentList);
+  console.log(pastList);
+  console.log(deletedList);
 
   return (
     <LayoutWrapper>

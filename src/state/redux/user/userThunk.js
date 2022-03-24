@@ -36,3 +36,12 @@ export const changeUserName = createAsyncThunk(
     return userNameChange;
   },
 );
+
+export const getUser = createAsyncThunk(
+  'user/getUser',
+  async () => {
+    const response = await userApi.getUser();
+    console.log(response);
+    return response;
+  },
+);

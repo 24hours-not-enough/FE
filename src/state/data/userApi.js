@@ -106,6 +106,13 @@ class UserApi {
         }
       });
   }
+
+  async getUser() {
+    return this.axios({
+      method: 'get',
+      url: '/api/user.json',
+    });
+  }
 }
 
 export default UserApi;

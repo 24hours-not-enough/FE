@@ -1,0 +1,9 @@
+{
+	"result": "success",
+	"msg": "검색한 해당 사용자가 존재합니다.",
+	"data": {
+		"userId": 1,
+		"userName": "username",
+		"userProfileImage": "url"
+	}
+}
