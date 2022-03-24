@@ -1,11 +1,12 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   useNavigate, useLocation, Route, Routes,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { setFeedId } from '../state/redux/feed/feed';
 import { changeUserName } from '../state/redux/user/userThunk';
-import { _myFeed, _myLikes } from '../state/redux/feed/feedSelector';
+import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
 import { title } from '../shared/utils';
 
@@ -25,10 +26,11 @@ function MyPage() {
   const userInfo = useSelector(_userInfo);
   const myLikes = useSelector(_myLikes);
   const myFeed = useSelector(_myFeed);
+  const myFeedId = useSelector(_myFeedId);
 
   const [userNameChange, setUserNameChange] = useState(userInfo.username);
   const [feedTitle, setFeedTitle] = useState('');
-  const [feedInfo, setFeedInfo] = useState({ images: [], comment: '' });
+  const [feedInfo, setFeedInfo] = useState([{ title: myFeed, images: [], comment: '' }]);
 
   const handleRouter = useCallback((query) => () => {
     navigate(query);
@@ -46,17 +48,20 @@ function MyPage() {
     setFeedTitle(e.target.value);
   }, [feedTitle]);
 
-  const handleAddFeedInfo = useCallback((key, value) => {
-
+  const handleAddFeedDetail = useCallback(({
+    index, text, images, comment,
+  }) => () => {
+    setFeedInfo([...feedInfo, [text, images, comment]]);
   }, []);
 
-  const onClickAddFeed = useCallback(() => {
-
+  const handleGetFeedId = useCallback(({ feedId }) => () => {
+    dispatch(setFeedId(feedId));
   }, []);
+
   return (
     <LayoutWrapper>
       <Navbar title={title(location.pathname).title} back={title(location.pathname).back}>
-        <button onClick={onClickAddFeed} type="button">완료</button>
+        <button onClick={handleAddFeedDetail} type="button">완료</button>
       </Navbar>
       <Routes>
         <Route
@@ -83,6 +88,8 @@ function MyPage() {
           path="/plan"
           element={(
             <MyPagePlan
+              myFeedId={myFeedId}
+              handleGetFeedId={handleGetFeedId}
               handleChangeTitle={handleChangeTitle}
               myFeed={myFeed}
             />
