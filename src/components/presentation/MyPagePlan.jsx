@@ -6,6 +6,7 @@ function MyPagePlan({
   handleChangeTitle, handleGetFeedId, myFeed, myFeedId,
 }) {
   const feed = myFeed.filter((v) => v.feedId === myFeedId);
+
   return (
     <div className="p-5 mx-auto">
       <div className="flex justify-between">
