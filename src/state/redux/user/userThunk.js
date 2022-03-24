@@ -1,19 +1,29 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import userApi from '../../data/userApi';
+import UserApi from '../../data/userApi';
+
+const userApi = new UserApi();
 
 export const kakaoLogin = createAsyncThunk(
   'user/kakaoLogin',
-  async ({ code, navigate }, { dispatch }) => {
-    const isLogin = await userApi.kakaoLogin({ code });
-    return isLogin;
+  async ({ code, navigate }) => {
+    const response = await userApi.kakaoLogin({ code, navigate });
+    return { response };
   },
 );
 
 export const googleLogin = createAsyncThunk(
   'user/googleLogin',
-  async ({ code, navigate }, { dispatch }) => {
-    const isLogin = await userApi.googleLogin({ code });
-    return isLogin;
+  async ({ code, navigate }) => {
+    const response = await userApi.googleLogin({ code, navigate });
+    return { response };
+  },
+);
+
+export const loginUserInfo = createAsyncThunk(
+  'user/loginUserInfo',
+  async ({ tokens, userInfo, navigate }) => {
+    const response = await userApi.loginUserInfo({ tokens, userInfo, navigate });
+    return { response };
   },
 );
 

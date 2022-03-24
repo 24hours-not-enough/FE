@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import LoginHandler from './components/container/LoginHandler';
 import Feed from './pages/Feed';
 import Login from './pages/Login';
+import LoginProfile from './pages/LoginProfile';
 import Main from './pages/Main';
 import MyPage from './pages/MyPage';
 import Plan from './pages/Plan';
@@ -13,6 +14,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/login/profile" element={<LoginProfile />} />
       <Route path="/mypage/*" element={<MyPage />} />
       <Route path="/feed/:feedId" element={<Feed />} />
       <Route path="/plan" element={<Plan />} />
