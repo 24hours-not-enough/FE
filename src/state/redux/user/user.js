@@ -1,8 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { user } from '../../data/mock';
-import { changeUserName } from './userThunk';
+import { setTokenToSession } from '../../../shared/utils';
+import {
+  changeUserName, kakaoLogin, googleLogin, loginUserInfo,
+} from './userThunk';
 
-const initialState = user;
+const TRUE = 'true';
+const FALSE = 'false';
+
+const initialState = {
+  userInfo: null,
+  notification: null,
+  bookmark: null,
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -10,8 +19,32 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(kakaoLogin.fulfilled, (state, { payload }) => {
+        const { response } = payload;
+        if (response && response.isFirst === FALSE) {
+          setTokenToSession('accessToken', response.tokens.access_token);
+          setTokenToSession('refreshToken', response.tokens.refresh_token);
+          state.userInfo = response.userInfo;
+        }
+      })
+      .addCase(googleLogin.fulfilled, (state, { payload }) => {
+        const { response } = payload;
+        if (response && response.isFirst === FALSE) {
+          setTokenToSession('accessToken', response.tokens.access_token);
+          setTokenToSession('refreshToken', response.tokens.refresh_token);
+          state.userInfo = response.userInfo;
+        }
+      })
       .addCase(changeUserName.fulfilled, (state, { payload }) => {
         state.userInfo.userName = payload;
+      })
+      .addCase(loginUserInfo.fulfilled, (state, { payload }) => {
+        const { response } = payload;
+        if (response) {
+          setTokenToSession('accessToken', response.tokens.access_token);
+          setTokenToSession('refreshToken', response.tokens.refresh_token);
+          state.userInfo = response.userInfo;
+        }
       });
   },
 });

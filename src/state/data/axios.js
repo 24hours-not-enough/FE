@@ -2,7 +2,8 @@ import axios from 'axios';
 import { getTokenFromSession } from '../../shared/utils';
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_SERVER_IP,
+  // baseURL: process.env.REACT_APP_SERVER_IP,
+  baseURL: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
     accept: '*/*',

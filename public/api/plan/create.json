@@ -1,5 +1,0 @@
-{
-	"result": "success",
-	"msg": "여행 계획 등록되었습니다.",
-	"data": [{ "plan_id": "plan_id" }]
-}

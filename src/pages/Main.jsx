@@ -87,12 +87,12 @@ function Main() {
   };
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper overflow="hide">
       <Navbar title="로고" />
       <form
         ref={searchFormRef}
         onSubmit={searchPlace}
-        className="flex mt-[12px] mx-[20px] px-[20px] py-[11px] mb-[8px] bg-[#E7E6FE] rounded-[14px]"
+        className="flex mx-[20px] px-[20px] py-[11px] mb-[8px] bg-[#E7E6FE] rounded-[14px]"
       >
         <input
           ref={searchRef}
@@ -104,7 +104,7 @@ function Main() {
       </form>
       <div
         ref={mapRef}
-        className="w-full h-full absolute left-0 top-0"
+        className="w-full h-full absolute left-0 top-0 -z-10"
         onClick={openFeedTab}
       />
       {isFeedTab && (
