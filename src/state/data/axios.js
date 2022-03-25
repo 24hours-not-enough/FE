@@ -12,15 +12,21 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const token = getTokenFromSession();
-    token && (config.headers.common['X-AUTH-TOKEN'] = token);
+    const accessToken = getTokenFromSession('accessToken');
+    const refreshToken = getTokenFromSession('refreshToken');
+    if (accessToken && refreshToken) {
+      config.headers.common.authorization = accessToken;
+      config.headers.common.refreshToken = refreshToken;
+    }
     return config;
   },
 );
 
 instance.interceptors.response.use(
-  (response) =>
-    response.data,
+  (response) => {
+    console.log(response);
+    return response.data;
+  },
   (error) =>
     Promise.reject(error),
   // token 만료시간일 경우
