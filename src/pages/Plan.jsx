@@ -103,7 +103,7 @@ function Plan() {
         <ul className="flex flex-col gap-y-[14px] mb-[14px]">
           {presentList.map((onePlan) => (
             <PlanPresent
-              key={plan.planId}
+              key={onePlan.planId}
               plan={onePlan}
               openEditMenu={openEditMenu}
               isEditPage={isEditPage}

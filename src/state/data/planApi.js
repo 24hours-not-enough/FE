@@ -44,11 +44,12 @@ class PlanApi {
   }
 
   // 트리플랜 수정
-  async updatePlan({ updatedPlan, navigate }) {
+  async updatePlan({ planId, updatedPlan, navigate }) {
+    console.log(planId);
     return this.axios({
       // method: 'get',
       method: 'put',
-      url: 'api/plan',
+      url: `api/plan/${planId}`,
       // url: 'api/plan.json',
       data: updatedPlan,
     })
@@ -68,7 +69,7 @@ class PlanApi {
   async addDays(planId) {
     return this.axios({
       method: 'post',
-      url: `/api/pan/${planId}/days`,
+      url: `/api/plan/${planId}/days`,
     });
   }
 
@@ -85,7 +86,7 @@ class PlanApi {
     return this.axios({
       method: 'put',
       url: `/api/plan/${planId}`,
-      data: { delFl: true },
+      data: { delFl: false },
     });
   }
 
@@ -94,7 +95,7 @@ class PlanApi {
     return this.axios({
       method: 'put',
       url: `/api/plan/${planId}`,
-      data: { delFl: false },
+      data: { delFl: true },
     });
   }
 

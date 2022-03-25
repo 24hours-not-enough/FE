@@ -1,15 +1,19 @@
 import _ from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
 import Button from '../components/elements/button/Button';
 import Calendar from '../components/elements/calendar/Calendar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import PlanApi from '../state/data/planApi';
+import _plan from '../state/redux/plan/planSelector';
 import { createPlan, updatePlan } from '../state/redux/plan/planThunk';
+import { _userInfo } from '../state/redux/user/userSelector';
 
 function PlanCreate() {
+  const loginUser = useSelector(_userInfo);
+  const totalPlan = useSelector(_plan);
   const buttonRef = useRef();
   const formRef = useRef();
   const titleRef = useRef();
@@ -41,7 +45,8 @@ function PlanCreate() {
       travelDestinationRef.current.value = travelDestination;
       travelStartRef.current.setSelected(new Date(travelStart));
       travelEndRef.current.setSelected(new Date(travelEnd));
-      setSelectedUser(members);
+      const memberList = members.filter((member) => member.userId !== loginUser.userId);
+      setSelectedUser(memberList);
       setIsUpdatePage(true);
     } else {
       alert('계획 정보를 불러오지 못했습니다. 다시 시도해주세요.');
@@ -55,6 +60,9 @@ function PlanCreate() {
       planApi.searchUser(e.target.value)
         .then((res) => {
           console.log(res);
+          if (res.data.userId === loginUser.userId) {
+            return;
+          }
           setSearchedUser({
             userProfileImage: res.data.userProfileImage,
             userName: res.data.userName,
@@ -93,7 +101,7 @@ function PlanCreate() {
 
     console.log(updatedPlan);
     isUpdatePage
-      ? dispatch(updatePlan({ updatedPlan, navigate }))
+      ? dispatch(updatePlan({ planId: param.planId, updatedPlan, navigate }))
       : dispatch(createPlan({ updatedPlan, navigate }));
   };
 
@@ -125,7 +133,7 @@ function PlanCreate() {
   return (
     <LayoutWrapper>
       <Navbar title="새로운 트리플랜" back>
-        <button type="button" onClick={makeSubmitAction}>만들기</button>
+        <button type="button" onClick={makeSubmitAction}>{isUpdatePage ? '완료' : '만들기'}</button>
       </Navbar>
 
       <form

@@ -6,13 +6,21 @@ function PlanDetailMap({ calendars, toggleStatePlan }) {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    const mapOptions = {
-      center: new window.kakao.maps.LatLng(
-        calendars[0].calendarDetails[0].latitude,
-        calendars[0].calendarDetails[0].longitude,
-      ),
-      level: 5,
-    };
+    let mapOptions;
+    if (calendars.length > 0) {
+      mapOptions = {
+        center: new window.kakao.maps.LatLng(
+          calendars[0].calendarDetails[0].latitude,
+          calendars[0].calendarDetails[0].longitude,
+        ),
+        level: 5,
+      };
+    } else {
+      mapOptions = {
+        center: new window.kakao.maps.LatLng(37.566, 126.9786),
+        level: 5,
+      };
+    }
     const map = new window.kakao.maps.Map(mapRef.current, mapOptions);
     const forLineList = {};
 
