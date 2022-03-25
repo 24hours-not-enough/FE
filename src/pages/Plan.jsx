@@ -8,7 +8,9 @@ import PlanPast from '../components/container/PlanPast';
 import PlanPresent from '../components/container/PlanPresent';
 import Button from '../components/elements/button/Button';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
+import { getTokenFromSession } from '../shared/utils';
 import _plan from '../state/redux/plan/planSelector';
+import { _userInfo } from '../state/redux/user/userSelector';
 
 function Plan() {
   const plan = useSelector(_plan);
@@ -19,6 +21,15 @@ function Plan() {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [isEditPage, setIsEditPage] = useState(false);
   const navigate = useNavigate();
+
+  const isTokenInSession = getTokenFromSession('accessToken');
+
+  useEffect(() => {
+    if (!isTokenInSession) {
+      alert('로그인 후 이용해주세요');
+      navigate('/');
+    }
+  }, []);
 
   useEffect(() => {
     const now = new Date().toISOString();

@@ -306,8 +306,6 @@ const plan = [
   },
 ];
 
-console.log(JSON.stringify(plan));
-
 const feed = {
   myFeed: [
     {

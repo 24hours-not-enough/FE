@@ -45,3 +45,10 @@ export const getUser = createAsyncThunk(
     return response;
   },
 );
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async ({ navigate }) => {
+    navigate('/', { replace: true });
+  },
+);

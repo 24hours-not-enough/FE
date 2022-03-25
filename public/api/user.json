@@ -4,7 +4,7 @@
 	"userInfo": {
 		"userId": 1,
 		"userName": "babo",
-		"userProfileImage": "www.google.com"
+		"userProfileImage": "/images/profile_default.jpg"
 	},
 	"bookmark": [
 		{
@@ -27,7 +27,7 @@
 					"creator": {
 						"userId": 1,
 						"userName": "babo",
-						"userProfileImage": "www.google.com"
+						"userProfileImage": "/images/profile_default.jpg"
 					},
 					"content": "롯데타워 전망이 좋구만.",
 					"comments": [
@@ -36,7 +36,7 @@
 							"creator": {
 								"userId": 1,
 								"userName": "babo",
-								"userProfileImage": "www.google.com"
+								"userProfileImage": "/images/profile_default.jpg"
 							},
 							"content": "여기 좋지."
 						}

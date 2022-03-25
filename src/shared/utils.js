@@ -12,6 +12,10 @@ const getTokenFromSession = (key) => {
   return token || null;
 };
 
+const removeToken = () => {
+  sessionStorage.clear();
+};
+
 const title = (pathname) => {
   let props = {
     title: '마이페이지',
@@ -39,5 +43,5 @@ const title = (pathname) => {
 };
 
 export {
-  checkNickname, setTokenToSession, getTokenFromSession, title,
+  checkNickname, setTokenToSession, getTokenFromSession, removeToken, title,
 };

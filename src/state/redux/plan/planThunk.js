@@ -16,7 +16,7 @@ export const createPlan = createAsyncThunk(
   'plan/createPlan',
   async ({ updatedPlan, navigate }, { dispatch }) => {
     await planApi.createPlan({ updatedPlan, navigate });
-    dispatch(getPlans);
+    dispatch(getPlans());
   },
 );
 
@@ -24,6 +24,6 @@ export const updatePlan = createAsyncThunk(
   'plan/updatePlan',
   async ({ updatedPlan, navigate }, { dispatch }) => {
     await planApi.updatePlan({ updatedPlan, navigate });
-    dispatch(getPlans);
+    dispatch(getPlans());
   },
 );

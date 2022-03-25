@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setTokenToSession } from '../../../shared/utils';
+import { removeToken, setTokenToSession } from '../../../shared/utils';
 import {
-  changeUserName, kakaoLogin, googleLogin, loginUserInfo, getUser,
+  changeUserName, kakaoLogin, googleLogin, loginUserInfo, getUser, logout,
 } from './userThunk';
 
 const TRUE = 'true';
@@ -49,6 +49,12 @@ export const userSlice = createSlice({
       .addCase(getUser.fulfilled, (state, { payload }) => {
         state.userInfo = payload.userInfo;
         state.bookmark = payload.bookmark;
+      })
+      .addCase(logout.fulfilled, (state, { payload }) => {
+        removeToken();
+        state.userInfo = null;
+        state.notification = null;
+        state.bookmark = null;
       });
   },
 });
