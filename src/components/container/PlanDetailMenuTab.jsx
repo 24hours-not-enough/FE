@@ -1,13 +1,13 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { _userInfo } from '../../state/redux/user/userSelector';
-import Modal from '../elements/Modal';
 
 function PlanDetailMenuTab({ setOnMenuTab, plan }) {
   const userInfo = useSelector(_userInfo);
   const navigate = useNavigate();
 
+  console.log(userInfo);
+  console.log(plan.creator.userId);
   const isCreator = Number(userInfo.userId) === plan.creator.userId;
 
   const goToPlanEdit = () => {
@@ -16,9 +16,9 @@ function PlanDetailMenuTab({ setOnMenuTab, plan }) {
 
   // modal 창 띄우는 걸로 수정해야 함
   const deletePlan = () => {
-    // // 삭제하는 api 연결
+    // 삭제하는 api 연결
     console.log(`plan 삭제: ${plan.planId}`);
-    // // 성공하면 plan페이지로 이동
+    // 성공하면 plan페이지로 이동
     navigate('/plan');
   };
 

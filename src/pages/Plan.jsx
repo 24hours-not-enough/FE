@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
 import PlanDeleted from '../components/container/PlanDeleted';
@@ -10,7 +10,7 @@ import Button from '../components/elements/button/Button';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import { getTokenFromSession } from '../shared/utils';
 import _plan from '../state/redux/plan/planSelector';
-import { _userInfo } from '../state/redux/user/userSelector';
+import { deletePlanAxios, deletePlanPermanentlyAxios, restorePlanAxios } from '../state/redux/plan/planThunk';
 
 function Plan() {
   const plan = useSelector(_plan);
@@ -21,6 +21,7 @@ function Plan() {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [isEditPage, setIsEditPage] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const isTokenInSession = getTokenFromSession('accessToken');
 
@@ -62,7 +63,13 @@ function Plan() {
   };
 
   const deletePlan = (planId) => {
-    console.log(`계획 삭제 : ${planId}`);
+    dispatch(deletePlanAxios(planId));
+  };
+  const restorePlan = (planId) => {
+    dispatch(restorePlanAxios(planId));
+  };
+  const deletePlanPermanently = (planId) => {
+    dispatch(deletePlanPermanentlyAxios(planId));
   };
 
   const goToPlanPage = () => {
@@ -114,7 +121,13 @@ function Plan() {
         </Button>
       </section>
 
-      {isEditPage && <PlanDeleted deletedPlan={deletedList} />}
+      {isEditPage && (
+      <PlanDeleted
+        deletedPlan={deletedList}
+        restorePlan={restorePlan}
+        deletePlanPermanently={deletePlanPermanently}
+      />
+      )}
 
       <section className="mx-[20px] mt-[100px]">
         <span className="text-[12px] leading-[14px] text-[#A0A0A0] mb-[10px]">지난 트리플랜</span>

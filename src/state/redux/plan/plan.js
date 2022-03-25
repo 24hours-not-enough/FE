@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createPlan, getPlans, updatePlan } from './planThunk';
+import {
+  deletePlanAxios, deletePlanPermanentlyAxios, getPlans, restorePlanAxios,
+} from './planThunk';
 
 const initialState = {
   plan: [],
@@ -15,9 +17,28 @@ const planSlice = createSlice({
         const { response } = payload;
         state.plan = response.data;
       })
-      .addCase(createPlan.fulfilled, (state, { payload }) => {
+      // .addCase(createPlan.fulfilled, (state, { payload }) => {
+      // })
+      // .addCase(updatePlan.fulfilled, (state, { payload }) => {
+      // })
+      .addCase(deletePlanAxios.fulfilled, (state, { payload }) => {
+        state.plan = state.plan.map((onePlan) => {
+          if (onePlan.planId === payload) {
+            return { ...onePlan, delTc: false };
+          }
+          return onePlan;
+        });
       })
-      .addCase(updatePlan.fulfilled, (state, { payload }) => {
+      .addCase(restorePlanAxios.fulfilled, (state, { payload }) => {
+        state.plan = state.plan.map((onePlan) => {
+          if (onePlan.planId === payload) {
+            return { ...onePlan, delTc: true };
+          }
+          return onePlan;
+        });
+      })
+      .addCase(deletePlanPermanentlyAxios.fulfilled, (state, { payload }) => {
+        state.plan = state.plan.filter((onePlan) => onePlan.planId !== payload);
       });
   },
 });

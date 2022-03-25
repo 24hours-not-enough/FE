@@ -27,3 +27,27 @@ export const updatePlan = createAsyncThunk(
     dispatch(getPlans());
   },
 );
+
+export const deletePlanAxios = createAsyncThunk(
+  'plan/deletePlan',
+  async (planId) => {
+    await planApi.deletePlan(planId);
+    return planId;
+  },
+);
+
+export const restorePlanAxios = createAsyncThunk(
+  'plan/restorePlanAxios',
+  async (planId) => {
+    await planApi.restorePlan(planId);
+    return planId;
+  },
+);
+
+export const deletePlanPermanentlyAxios = createAsyncThunk(
+  'plan/deletePlanPermanentlyAxios',
+  async (planId) => {
+    await planApi.deletePlanPermanently(planId);
+    return planId;
+  },
+);

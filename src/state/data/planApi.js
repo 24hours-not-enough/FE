@@ -9,8 +9,8 @@ class PlanApi {
   async getPlans() {
     return this.axios({
       method: 'get',
-      // url: '/api/plan/planDetails'
-      url: '/api/plan/planDetails.json',
+      url: '/api/plan/planDetails',
+      // url: '/api/plan/planDetails.json',
     })
       .then((res) => {
         console.log(res);
@@ -25,10 +25,10 @@ class PlanApi {
   // 새로운 트리플랜 생성
   async createPlan({ updatedPlan, navigate }) {
     return this.axios({
-      method: 'get',
-      // method: 'post',
-      // url: 'api/plan',
-      url: 'api/plan.json',
+      // method: 'get',
+      method: 'post',
+      url: 'api/plan',
+      // url: 'api/plan.json',
       data: updatedPlan,
     })
       .then((res) => {
@@ -46,10 +46,10 @@ class PlanApi {
   // 트리플랜 수정
   async updatePlan({ updatedPlan, navigate }) {
     return this.axios({
-      method: 'get',
-      // method: 'put',
-      // url: 'api/plan',
-      url: 'api/plan.json',
+      // method: 'get',
+      method: 'put',
+      url: 'api/plan',
+      // url: 'api/plan.json',
       data: updatedPlan,
     })
       .then((res) => {
@@ -75,8 +75,34 @@ class PlanApi {
   async searchUser(userName) {
     return this.axios({
       method: 'get',
-      // url: `api/user/${userName}`,
-      url: 'api/user/nickname.json',
+      url: `api/user/${userName}`,
+      // url: 'api/user/nickname.json',
+    });
+  }
+
+  // 트리플랜 삭제
+  async deletePlan(planId) {
+    return this.axios({
+      method: 'put',
+      url: `/api/plan/${planId}`,
+      data: { delFl: true },
+    });
+  }
+
+  // 트리플랜 복원
+  async restorePlan(planId) {
+    return this.axios({
+      method: 'put',
+      url: `/api/plan/${planId}`,
+      data: { delFl: false },
+    });
+  }
+
+  // 트리플랜 영구삭제
+  async deletePlanPermanently(planId) {
+    return this.axios({
+      method: 'delete',
+      url: `/api/plan/${planId}`,
     });
   }
 }

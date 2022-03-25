@@ -10,16 +10,21 @@
 			"travelEnd": "2022-03-20T17:31:09.179Z",
 			"delTc": true,
 			"roomId": "3a634fa0-8778-4d54-888541",
+			"creator": {
+				"userId": 1,
+				"userName": "sunny",
+				"userProfileImage": "/images/profile_default.jpg"
+			},
 			"members": [
 				{
 					"userId": 1,
-					"serName": "sunny",
+					"userName": "sunny",
 					"userProfileImage": "/images/profile_default.jpg",
 					"roomRep": true
 				},
 				{
 					"userId": 2,
-					"serName": "sunny",
+					"userName": "sunny",
 					"userProfileImage": "/images/profile_default.jpg",
 					"roomRep": false
 				}
@@ -91,16 +96,21 @@
 			"travelEnd": "2022-03-25T17:31:09.179Z",
 			"delTc": false,
 			"roomId": "3a634fa0-8778-4d54-88852",
+			"creator": {
+				"userId": 1,
+				"userName": "sunny",
+				"userProfileImage": "/images/profile_default.jpg"
+			},
 			"members": [
 				{
 					"userId": 1,
-					"serName": "sunny",
+					"userName": "sunny",
 					"userProfileImage": "/images/profile_default.jpg",
 					"roomRep": false
 				},
 				{
 					"userId": 1,
-					"serName": "sunny",
+					"userName": "sunny",
 					"userProfileImage": "/images/profile_default.jpg",
 					"roomRep": false
 				}
@@ -179,16 +189,21 @@
 			"travelEnd": "2022-03-25T17:31:09.179Z",
 			"delTc": true,
 			"roomId": "3a634fa0-8778-4d54-88853",
+			"creator": {
+				"userId": 1,
+				"userName": "sunny",
+				"userProfileImage": "/images/profile_default.jpg"
+			},
 			"members": [
 				{
 					"userId": 1,
-					"serName": "sunny",
+					"userName": "sunny",
 					"userProfileImage": "/images/profile_default.jpg",
 					"roomRep": false
 				},
 				{
 					"userId": 1,
-					"serName": "sunny",
+					"userName": "sunny",
 					"userProfileImage": "/images/profile_default.jpg",
 					"roomRep": false
 				}
@@ -267,16 +282,21 @@
 			"travelEnd": "2022-03-20T17:31:09.179Z",
 			"delTc": true,
 			"roomId": "3a634fa0-8778-4d54-888541",
+			"creator": {
+				"userId": 1,
+				"userName": "sunny",
+				"userProfileImage": "/images/profile_default.jpg"
+			},
 			"members": [
 				{
 					"userId": 1,
-					"serName": "sunny",
+					"userName": "sunny",
 					"userProfileImage": "/images/profile_default.jpg",
 					"roomRep": true
 				},
 				{
 					"userId": 2,
-					"serName": "sunny",
+					"userName": "sunny",
 					"userProfileImage": "/images/profile_default.jpg",
 					"roomRep": false
 				}
