@@ -1,0 +1,48 @@
+{
+	"result": "success",
+	"msg": "유저 정보입니다.",
+	"userInfo": {
+		"userId": 1,
+		"userName": "babo",
+		"userProfileImage": "/images/profile_default.jpg"
+	},
+	"bookmark": [
+		{
+			"placeId": 1,
+			"placeName": "롯데타워",
+			"placeAddress": "서울",
+			"latitude": "100.43465",
+			"longitude": "151.3335",
+			"feedDetailLoc": [
+				{
+					"feedDetailLocId": 1,
+					"date": "2022-03-25",
+					"title": "롯데타워",
+					"images": ["url", "url"],
+					"like": [
+						{
+							"userId": 1
+						}
+					],
+					"creator": {
+						"userId": 1,
+						"userName": "babo",
+						"userProfileImage": "/images/profile_default.jpg"
+					},
+					"content": "롯데타워 전망이 좋구만.",
+					"comments": [
+						{
+							"commentId": 1,
+							"creator": {
+								"userId": 1,
+								"userName": "babo",
+								"userProfileImage": "/images/profile_default.jpg"
+							},
+							"content": "여기 좋지."
+						}
+					]
+				}
+			]
+		}
+	]
+}

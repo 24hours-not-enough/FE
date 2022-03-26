@@ -9,6 +9,6 @@
 	"userInfo": {
 		"userId": 1,
 		"userName": "sunny",
-		"userProfileImage": "url"
+		"userProfileImage": "/images/profile_default.jpg"
 	}
 }

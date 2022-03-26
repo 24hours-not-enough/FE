@@ -6,13 +6,21 @@ function PlanDetailMap({ calendars, toggleStatePlan }) {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    const mapOptions = {
-      center: new window.kakao.maps.LatLng(
-        calendars[0].calendarDetails[0].latitude,
-        calendars[0].calendarDetails[0].longitude,
-      ),
-      level: 5,
-    };
+    let mapOptions;
+    if (calendars.length > 0) {
+      mapOptions = {
+        center: new window.kakao.maps.LatLng(
+          calendars[0].calendarDetails[0].latitude,
+          calendars[0].calendarDetails[0].longitude,
+        ),
+        level: 5,
+      };
+    } else {
+      mapOptions = {
+        center: new window.kakao.maps.LatLng(37.566, 126.9786),
+        level: 5,
+      };
+    }
     const map = new window.kakao.maps.Map(mapRef.current, mapOptions);
     const forLineList = {};
 
@@ -20,13 +28,13 @@ function PlanDetailMap({ calendars, toggleStatePlan }) {
       const { calendarId, calendarDetails } = calendar;
 
       calendarDetails.forEach((onePlace) => {
-        const { latitude, longitude, order } = onePlace;
+        const { latitude, longitude, sort } = onePlace;
         let content;
-        if (order === 1) {
+        if (sort === 1) {
           content = `<span class="inline-block text-center w-[22px] h-[22px] rounded-full bg-main text-white">${calendarId}</span>`;
           forLineList[`${calendarId}`] = [new kakao.maps.LatLng(latitude, longitude)];
         } else {
-          content = `<span class="inline-block text-center w-[22px] h-[22px] rounded-full bg-black text-white">${order}</span>`;
+          content = `<span class="inline-block text-center w-[22px] h-[22px] rounded-full bg-black text-white">${sort}</span>`;
           forLineList[`${calendarId}`].push(new kakao.maps.LatLng(latitude, longitude));
         }
         const position = new kakao.maps.LatLng(latitude, longitude);

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
-function PlanDeleted({ deletedPlan }) {
+function PlanDeleted({ deletedPlan, restorePlan, deletePlanPermanently }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDeletedList = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
   };
+
+  console.log(deletedPlan);
 
   return (
     <section className="mx-[20px] mt-[14px] bg-[#E7E6FE] px-[16px] py-[17px] rounded-[20px]">
@@ -24,8 +26,20 @@ function PlanDeleted({ deletedPlan }) {
           <div key={plan.planId} className="flex justify-between">
             <span>{plan.title}</span>
             <div className="flex gap-x-[28px]">
-              <button type="button" className="text-[#F34A68]">영구삭제</button>
-              <button type="button" className="text-main">복구</button>
+              <button
+                type="button"
+                onClick={() => deletePlanPermanently(plan.planId)}
+                className="text-[#F34A68]"
+              >
+                영구삭제
+              </button>
+              <button
+                type="button"
+                onClick={() => restorePlan(plan.planId)}
+                className="text-main"
+              >
+                복구
+              </button>
             </div>
           </div>
         ))}

@@ -1,4 +1,9 @@
-const userData = { userId: 1, userName: 'sunny', userProfileImage: '/images/profile_default.jpg' };
+const userData = {
+  userId: 1,
+  serName: 'sunny',
+  userProfileImage: '/images/profile_default.jpg',
+  roomRep: false,
+};
 const imagesData = ['/images/mock/1.jpg', '/images/mock/2.jpg', '/images/mock/3.jpg'];
 
 const user = {
@@ -75,13 +80,25 @@ const plan = [
     travelDestination: '미국',
     travelStart: '2022-03-19T17:31:09.179Z',
     travelEnd: '2022-03-20T17:31:09.179Z',
-    isDeleted: false,
-    creator: userData,
-    members: [userData, userData],
+    delTc: false,
+    roomId: '3a634fa0-8778-4d54-888541',
+    members: [
+      {
+        userId: 1,
+        serName: 'sunny',
+        userProfileImage: '/images/profile_default.jpg',
+        roomRep: true,
+      }, {
+        userId: 2,
+        serName: 'sunny',
+        userProfileImage: '/images/profile_default.jpg',
+        roomRep: false,
+      },
+    ],
     calendars: [
       {
         calendarId: 1,
-        title: '1일차',
+        days: '1일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -89,7 +106,7 @@ const plan = [
             locationMemo: '우왕 공항에 내려서 밥먹기',
             latitude: 37.566,
             longitude: 126.9786,
-            order: 1,
+            sort: 1,
           },
           {
             calendarDetailId: 2,
@@ -97,7 +114,7 @@ const plan = [
             locationMemo: '',
             latitude: 37.567,
             longitude: 126.9787,
-            order: 2,
+            sort: 2,
           },
           {
             calendarDetailId: 3,
@@ -105,13 +122,13 @@ const plan = [
             locationMemo: '일정 작성한거',
             latitude: 37.569,
             longitude: 126.9783,
-            order: 3,
+            sort: 3,
           },
         ],
       },
       {
         calendarId: 2,
-        title: '2일차',
+        days: '2일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -119,7 +136,7 @@ const plan = [
             locationMemo: '',
             latitude: 37.562,
             longitude: 126.9768,
-            order: 1,
+            sort: 1,
           },
         ],
       },
@@ -143,13 +160,13 @@ const plan = [
     travelDestination: '미국',
     travelStart: '2022-03-21T17:31:09.179Z',
     travelEnd: '2022-03-25T17:31:09.179Z',
-    isDeleted: false,
-    creator: userData,
+    delTc: false,
+    roomId: '3a634fa0-8778-4d54-88852',
     members: [userData, userData],
     calendars: [
       {
         calendarId: 1,
-        title: '1일차',
+        days: '1일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -157,13 +174,13 @@ const plan = [
             locationMemo: '',
             latitude: 37.566,
             longitude: 126.9786,
-            order: 1,
+            sort: 1,
           },
         ],
       },
       {
         calendarId: 2,
-        title: '2일차',
+        days: '2일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -171,13 +188,13 @@ const plan = [
             locationMemo: '',
             latitude: 37.566,
             longitude: 126.9786,
-            order: 1,
+            sort: 1,
           },
         ],
       },
       {
         calendarId: 3,
-        title: '3일차',
+        days: '3일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -185,13 +202,13 @@ const plan = [
             locationMemo: '',
             latitude: 37.566,
             longitude: 126.9786,
-            order: 1,
+            sort: 1,
           },
         ],
       },
       {
         calendarId: 4,
-        title: '4일차',
+        days: '4일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -199,7 +216,7 @@ const plan = [
             locationMemo: '',
             latitude: 37.566,
             longitude: 126.9786,
-            order: 1,
+            sort: 1,
           },
         ],
       },
@@ -218,13 +235,13 @@ const plan = [
     travelDestination: '미국',
     travelStart: '2022-03-21T17:31:09.179Z',
     travelEnd: '2022-03-25T17:31:09.179Z',
-    isDeleted: true,
-    creator: userData,
+    delTc: true,
+    roomId: '3a634fa0-8778-4d54-88853',
     members: [userData, userData],
     calendars: [
       {
         calendarId: 1,
-        title: '1일차',
+        days: '1일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -232,13 +249,13 @@ const plan = [
             locationMemo: '',
             latitude: 37.566,
             longitude: 126.9786,
-            order: 1,
+            sort: 1,
           },
         ],
       },
       {
         calendarId: 2,
-        title: '2일차',
+        days: '2일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -246,13 +263,13 @@ const plan = [
             locationMemo: '',
             latitude: 37.566,
             longitude: 126.9786,
-            order: 1,
+            sort: 1,
           },
         ],
       },
       {
         calendarId: 3,
-        title: '3일차',
+        days: '3일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -260,13 +277,13 @@ const plan = [
             locationMemo: '',
             latitude: 37.566,
             longitude: 126.9786,
-            order: 1,
+            sort: 1,
           },
         ],
       },
       {
         calendarId: 4,
-        title: '4일차',
+        days: '4일차',
         calendarDetails: [
           {
             calendarDetailId: 1,
@@ -274,7 +291,7 @@ const plan = [
             locationMemo: '',
             latitude: 37.566,
             longitude: 126.9786,
-            order: 1,
+            sort: 1,
           },
         ],
       },

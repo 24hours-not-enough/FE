@@ -5,8 +5,14 @@ function PlanPresent({
   plan, openEditMenu, isEditPage, deletePlan, goToPlanDetailPage,
 }) {
   const {
-    planId, title, travelDestination, travelStart, travelEnd, members,
+    planId, title, travelDestination, travelStart, travelEnd, members, roodId,
   } = plan;
+  console.log(plan);
+
+  const handleOpenEditMenu = (e) => {
+    e.stopPropagation();
+    openEditMenu({ plan, planId, title });
+  };
 
   return (
     <li
@@ -15,7 +21,7 @@ function PlanPresent({
     >
       <h5 className="text-[18px] leading-[22px] font-[700]">{title}</h5>
       <span className="absolute left-[18px] bottom-[14px] text-[12px] leading-[14px] font-[600]">
-        {`${travelDestination}, ${moment(travelStart).format('MMM YY')} - ${moment(travelEnd).format('MMM YY')}`}
+        {`${travelDestination}, ${moment(travelStart).format('MMM DD')} - ${moment(travelEnd).format('MMM DD')}`}
       </span>
       <div className="flex absolute right-[18px] bottom-[14px]">
         {members.map((member) => (
@@ -39,11 +45,11 @@ function PlanPresent({
         )
         : (
           <button
-            onClick={() => openEditMenu({ plan, planId, title })}
+            onClick={handleOpenEditMenu}
             type="button"
             className="absolute top-[18px] right-[18px]"
           >
-            버튼
+            <img src="/images/menuIcon.png" alt="menu" className="inline-block w-[4px] h-[18px]" />
           </button>
         )}
 

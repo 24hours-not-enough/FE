@@ -1,12 +1,19 @@
 import _ from 'lodash';
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
 import Button from '../components/elements/button/Button';
 import Calendar from '../components/elements/calendar/Calendar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
+import PlanApi from '../state/data/planApi';
+import _plan from '../state/redux/plan/planSelector';
+import { createPlan, updatePlan } from '../state/redux/plan/planThunk';
+import { _userInfo } from '../state/redux/user/userSelector';
 
 function PlanCreate() {
+  const loginUser = useSelector(_userInfo);
+  const totalPlan = useSelector(_plan);
   const buttonRef = useRef();
   const formRef = useRef();
   const titleRef = useRef();
@@ -14,13 +21,16 @@ function PlanCreate() {
   const travelStartRef = useRef();
   const travelEndRef = useRef();
   const searchMemberRef = useRef();
-  // const [searchedUser, setSearchedUser] = useState(null);
+  const [searchedUser, setSearchedUser] = useState(null);
   const [selectedUser, setSelectedUser] = useState([]);
   const [isUpdatePage, setIsUpdatePage] = useState(false);
 
   const param = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const planApi = new PlanApi();
 
   useEffect(() => {
     if (!(param.planId || location.state)) {
@@ -35,7 +45,8 @@ function PlanCreate() {
       travelDestinationRef.current.value = travelDestination;
       travelStartRef.current.setSelected(new Date(travelStart));
       travelEndRef.current.setSelected(new Date(travelEnd));
-      setSelectedUser(members);
+      const memberList = members.filter((member) => member.userId !== loginUser.userId);
+      setSelectedUser(memberList);
       setIsUpdatePage(true);
     } else {
       alert('계획 정보를 불러오지 못했습니다. 다시 시도해주세요.');
@@ -46,16 +57,21 @@ function PlanCreate() {
   // 닉네임으로 유저찾기
   const findedUser = (e) => {
     if (e.target.value !== '') {
-    // planApi.findByUsername(e.target.value)
-    //   .then((res) => {
-    //     console.log(res);
-    //     setSearchedUser({
-    //       profileImg: res.data.data.file_store_course,
-    //       username: res.data.data.nickname,
-    //     });
-    //   })
-    //   .catch((err) => console.log(err.response));
+      planApi.searchUser(e.target.value)
+        .then((res) => {
+          console.log(res);
+          if (res.data.userId === loginUser.userId) {
+            return;
+          }
+          setSearchedUser({
+            userProfileImage: res.data.userProfileImage,
+            userName: res.data.userName,
+            userId: res.data.userId,
+          });
+        })
+        .catch((err) => console.log(err.response));
       console.log(e.target.value);
+      console.log(searchedUser);
     }
   };
   const findByUsername = _.debounce(findedUser, 600);
@@ -68,6 +84,7 @@ function PlanCreate() {
     const travelDestination = travelDestinationRef.current.value;
     const travelStart = travelStartRef.current.props.selected;
     const travelEnd = travelEndRef.current.props.selected;
+    const memberList = selectedUser;
 
     if (title === '' || travelDestination === '' || travelStart === '' || travelEnd === '') {
       alert('입력해주세요');
@@ -79,11 +96,13 @@ function PlanCreate() {
       travelDestination,
       travelStart: new Date(travelStart).toISOString(),
       travelEnd: new Date(travelEnd).toISOString(),
+      memberList,
     };
 
     console.log(updatedPlan);
-    // dispatch하고 /plan으로 이동
-    // create일 때, update일 때
+    isUpdatePage
+      ? dispatch(updatePlan({ planId: param.planId, updatedPlan, navigate }))
+      : dispatch(createPlan({ updatedPlan, navigate }));
   };
 
   const makeSubmitAction = () => {
@@ -96,10 +115,25 @@ function PlanCreate() {
     console.log(param.planId);
   };
 
+  // 찾은 유저 초대목록에 추가하기
+  const handleChooseUser = (userInfo) => {
+    const updated = [...selectedUser, userInfo];
+    setSelectedUser(updated);
+    setSearchedUser(null);
+    searchMemberRef.current.value = '';
+  };
+
+  // 초대목록에서 삭제하기
+  const cancleInviteUser = (userInfo) => {
+    const updated = selectedUser.filter((user) =>
+      userInfo.userId !== user.userId);
+    setSelectedUser(updated);
+  };
+
   return (
     <LayoutWrapper>
       <Navbar title="새로운 트리플랜" back>
-        <button type="button" onClick={makeSubmitAction}>만들기</button>
+        <button type="button" onClick={makeSubmitAction}>{isUpdatePage ? '완료' : '만들기'}</button>
       </Navbar>
 
       <form
@@ -155,6 +189,20 @@ function PlanCreate() {
             className="bg-[#E7E6FE] rounded-[16px] text-[16px] leading-[19px] font-[600] px-[18px] py-[13px]"
             type="text"
           />
+          {searchedUser && (
+          <button
+            type="button"
+            onClick={() => handleChooseUser(searchedUser)}
+            className="flex items-center bg-white w-fit rounded-[16px] p-[3px] mt-[12px]"
+          >
+            <img
+              src={searchedUser.userProfileImage}
+              alt={searchedUser.userName}
+              className="w-[26px] h-[26px] rounded-full mr-[10px]"
+            />
+            <span className="text-black mr-[14px]">{searchedUser.userName}</span>
+          </button>
+          )}
         </div>
 
         <section className="flex gap-x-[16px]">
@@ -166,7 +214,14 @@ function PlanCreate() {
                 className="w-[26px] h-[26px] rounded-full mr-[10px]"
               />
               <span className="text-white mr-[14px]">{user.userName}</span>
-              <button type="button" className="bg-white text-black rounded-full">취소</button>
+              <button
+                type="button"
+                onClick={() => cancleInviteUser(user)}
+                className="bg-white text-black rounded-full"
+              >
+                취소
+
+              </button>
             </div>
           ))}
         </section>

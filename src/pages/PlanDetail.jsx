@@ -1,6 +1,7 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import PlanDetailCalendarCard from '../components/container/PlanDetailCalendarCard';
@@ -9,17 +10,32 @@ import PlanDetailMap from '../components/container/PlanDetailMap';
 import PlanDetailMenuTab from '../components/container/PlanDetailMenuTab';
 import BottomTab from '../components/elements/bottomTab';
 import PlanDetailAddPlaceTab from '../components/container/PlanDetailAddPlaceTab';
+import PlanApi from '../state/data/planApi';
+import _plan from '../state/redux/plan/planSelector';
+import Chat from '../components/container/Chat';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
 const MAP = 'map';
 
+const planApi = new PlanApi();
+
 function PlanDetail() {
   const location = useLocation();
-  const plan = location.state;
+  const param = useParams();
+  const totalPlan = useSelector(_plan);
+  const [plan, setPlan] = useState(location.state);
+  const { planId } = param;
   const {
-    title, travelDestination, travelStart, travelEnd, members, calendars, checkList,
+    title, travelDestination, travelStart, travelEnd, members, calendars, checkLists,
   } = plan;
+
+  useEffect(() => {
+    setPlan(totalPlan.filter((data) => data.planId === Number(param.planId))[0]);
+  }, []);
+
+  console.log(plan);
+  console.log(members);
 
   const [viewState, setViewState] = useState(PLAN);
   const [viewStatePlan, setViewStatePlan] = useState(PLAN);
@@ -40,9 +56,28 @@ function PlanDetail() {
     viewStatePlan === PLAN ? setViewStatePlan(MAP) : setViewStatePlan(PLAN);
   };
 
-  const handleAddCalendar = () => {
+  const handleAddCalendar = async () => {
     // calendar 추가하는 api 통신 필요
-    const updated = [...calendarList, { calendarDetailId: new Date().getTime(), title: `${calendarList.length + 1}일차`, calendarDetails: [] }];
+    const response = await planApi.addDays(planId)
+      .then((res) => {
+        console.log(res);
+        if (res.result === 'fail') {
+          return false;
+        }
+        return true;
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        return false;
+      });
+
+    if (!response) {
+      alert('에러가 발생했습니다 다시 시도해주세요');
+      return;
+    }
+
+    const updated = [...calendarList, { calendarDetailId: new Date().getTime(), days: `${calendarList.length + 1}일차`, calendarDetails: [] }];
     setCalendarList(updated);
   };
 
@@ -51,7 +86,7 @@ function PlanDetail() {
   };
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper overflow="hide">
       <Navbar title={title}>
         <button type="button" onClick={openMenuTab}>메뉴</button>
       </Navbar>
@@ -86,40 +121,46 @@ function PlanDetail() {
           </span>
         </button>
       </div>
-      {viewStatePlan === PLAN
-        ? (
-          <section className="bg-[#F7F6FF] w-screen rounded-t-[20px] px-[20px] pt-[20px] -translate-y-[20px]">
-            <div className="flex justify-between mb-[20px]">
-              <button type="button" onClick={toggleStatePlan}>지도</button>
-            </div>
+      {(viewState === PLAN && viewStatePlan === PLAN)
+      && (
+        <section className="bg-[#F7F6FF] w-screen rounded-t-[20px] px-[20px] pt-[20px] -translate-y-[20px]">
+          <div className="flex justify-between mb-[20px]">
+            <button type="button" onClick={toggleStatePlan}>지도</button>
+          </div>
 
-            <section className="flex flex-col gap-y-[16px]">
-              {calendarList.map((calendar) => (
-                <PlanDetailCalendarCard
-                  key={calendar.calendarId}
-                  calendar={calendar}
-                  setOnUpdateTab={setOnUpdateTab}
-                />
-              ))}
-              <Button type="decline" propsClassName="w-full" onClick={handleAddCalendar}>+</Button>
-            </section>
-
-            <section className="mt-[110px] relative">
-              <h5 className="text-[14px] leading-[17px] font-[600] mb-[31px]">체크리스트</h5>
-              <div className="flex flex-col gap-y-[26px]">
-                {checkList.map((list) => (
-                  <div key={list.checkListId} className="flex items-center">
-                    <input type="checkbox" className="w-[22px] h-[22px] mr-[12px]" />
-                    <span className="text-[14px] leading-[17px]">{list.checkItem}</span>
-                  </div>
-                ))}
-              </div>
-              <button type="button" className="text-main text-[14px] leading-[17px] mt-[28px]">+ 추가하기</button>
-              <button type="button" className="absolute top-0 right-0">수정</button>
-            </section>
+          <section className="flex flex-col gap-y-[16px]">
+            {calendarList.map((calendar) => (
+              <PlanDetailCalendarCard
+                key={calendar.calendarId}
+                calendar={calendar}
+                setOnUpdateTab={setOnUpdateTab}
+              />
+            ))}
+            <Button type="decline" propsClassName="w-full" onClick={handleAddCalendar}>+</Button>
           </section>
-        )
-        : <PlanDetailMap calendars={calendars} toggleStatePlan={toggleStatePlan} />}
+
+          <section className="mt-[110px] relative">
+            <h5 className="text-[14px] leading-[17px] font-[600] mb-[31px]">체크리스트</h5>
+            <div className="flex flex-col gap-y-[26px]">
+              {checkLists.map((list) => (
+                <div key={list.checkListId} className="flex items-center">
+                  <input type="checkbox" className="w-[22px] h-[22px] mr-[12px]" />
+                  <span className="text-[14px] leading-[17px]">{list.checkItem}</span>
+                </div>
+              ))}
+            </div>
+            <button type="button" className="text-main text-[14px] leading-[17px] mt-[28px]">+ 추가하기</button>
+            <button type="button" className="absolute top-0 right-0">수정</button>
+          </section>
+        </section>
+      )}
+      {(viewState === PLAN && viewStatePlan === MAP)
+      && (
+        <PlanDetailMap calendars={calendars} toggleStatePlan={toggleStatePlan} />
+      )}
+      {(viewState === CHAT)
+      && <Chat planId={planId} />}
+
       {onMenuTab && <PlanDetailMenuTab setOnMenuTab={setOnMenuTab} plan={plan} />}
       {onUpdateTab
         && (

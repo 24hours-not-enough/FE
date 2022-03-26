@@ -7,9 +7,13 @@ const setTokenToSession = (key, token) => {
   sessionStorage.setItem(key, token);
 };
 
-const getTokenFromSession = () => {
-  const token = sessionStorage.getItem('token');
+const getTokenFromSession = (key) => {
+  const token = sessionStorage.getItem(key);
   return token || null;
+};
+
+const removeToken = () => {
+  sessionStorage.clear();
 };
 
 const title = (pathname) => {
@@ -39,5 +43,5 @@ const title = (pathname) => {
 };
 
 export {
-  checkNickname, setTokenToSession, getTokenFromSession, title,
+  checkNickname, setTokenToSession, getTokenFromSession, removeToken, title,
 };

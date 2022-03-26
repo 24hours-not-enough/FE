@@ -104,7 +104,7 @@ function Main() {
       </form>
       <div
         ref={mapRef}
-        className="w-full h-full absolute left-0 top-0 -z-10"
+        className="w-full h-full absolute left-0 top-0 z-0"
         onClick={openFeedTab}
       />
       {isFeedTab && (

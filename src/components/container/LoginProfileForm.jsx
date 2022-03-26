@@ -37,9 +37,10 @@ function LoginProfileForm() {
       return;
     }
 
-    const userInfo = { username: nickname };
+    const userInfo = { userName: nickname };
     userApi.checkDuplication({ tokens: location.state, userInfo })
       .then((res) => {
+        console.log(res);
         if (res.result === 'success') {
           setNicknameDescription({ color: 'blue', value: '사용 가능한 닉네임입니다.' });
           setDuplicationChecked(true);
@@ -48,7 +49,9 @@ function LoginProfileForm() {
           setDuplicationChecked(false);
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
         setNicknameDescription({ color: 'red', value: '다른 사용자가 이미 사용중입니다.' });
         setDuplicationChecked(false);
       });
@@ -58,7 +61,7 @@ function LoginProfileForm() {
     e.preventDefault();
 
     const nickname = nicknameRef.current.value;
-    const profileImage = fileRef.current.files.length > 0 ? fileRef.current.files[0] : '';
+    const profileImage = fileRef.current.files.length > 0 ? fileRef.current.files[0] : '/images/profile_default.jpg';
 
     if (!duplicationChecked) {
       setNicknameDescription({ color: 'red', value: '닉네임 중복 체크를 완료해주세요' });
@@ -69,7 +72,8 @@ function LoginProfileForm() {
     userFormData.append('file', profileImage);
     userFormData.append('username', nickname);
 
-    dispatch(loginUserInfo({ tokens: location.state, userInfo: userFormData, navigate }));
+    console.log(profileImage);
+    // dispatch(loginUserInfo({ tokens: location.state, userInfo: userFormData, navigate }));
   };
 
   const nicknameDescriptionColor = nicknameDescription.color === 'blue'

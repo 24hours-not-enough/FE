@@ -1,11 +1,17 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
 import iconSet from '../../shared/imageUrl';
+import { getTokenFromSession } from '../../shared/utils';
+import { _userInfo } from '../../state/redux/user/userSelector';
 
 function MobileMenuTab({
   closeTab, isTab, handleRouter,
 }) {
+  const userInfo = useSelector(_userInfo);
+  const loginStyle = userInfo ? 'bg-no-repeat bg-center bg-contain' : 'bg-gray-400';
+
   if (isTab) {
     return (
       <div className="md:hidden flex absolute w-full h-full top-0 left-0 right-0 bottom-0">
@@ -20,16 +26,22 @@ function MobileMenuTab({
           </section>
           <section className="w-full grid place-content-center h-56">
             <div
-              className="w-20 h-20 rounded-full bg-gray-400"
+              className={`w-20 h-20 rounded-full ${loginStyle}`}
+              style={userInfo && { backgroundImage: `url(${userInfo.userProfileImage})` }}
             />
-            <div
-              className="text-center"
-              role="button"
-              tabIndex={0}
-              onClick={handleRouter('/login')}
-            >
-              로그인
-            </div>
+            {userInfo
+              ? (<div className="text-center">{userInfo.userName}</div>)
+              : (
+                <div
+                  className="text-center"
+                  role="button"
+                  tabIndex={0}
+                  onClick={handleRouter('/login')}
+                >
+                  로그인
+                </div>
+              )}
+
           </section>
           <section className="flex flex-col h-64 pt-4 border-y">
             <ul>
@@ -58,7 +70,7 @@ function MobileMenuTab({
             </ul>
           </section>
           <section className="flex flex-col h-64 mt-2">
-            <div className="flex my-4">
+            <div className="flex my-4" onClick={handleRouter('/mypage/settings')}>
               <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.settingIcon} />
               <span>설정</span>
             </div>
