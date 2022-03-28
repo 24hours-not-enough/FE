@@ -8,7 +8,6 @@ function PlanPast({
   const {
     planId, title, travelDestination, travelStart, travelEnd,
   } = plan;
-  console.log(plan);
 
   return (
     <li

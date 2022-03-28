@@ -7,7 +7,6 @@ export const getPlans = createAsyncThunk(
   'plan/getPlans',
   async () => {
     const response = await planApi.getPlans();
-    console.log(response);
     return { response };
   },
 );

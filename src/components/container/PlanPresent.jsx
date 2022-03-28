@@ -7,7 +7,6 @@ function PlanPresent({
   const {
     planId, title, travelDestination, travelStart, travelEnd, members, roodId,
   } = plan;
-  console.log(plan);
 
   const handleOpenEditMenu = (e) => {
     e.stopPropagation();

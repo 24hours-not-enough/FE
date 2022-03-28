@@ -34,9 +34,6 @@ function PlanDetail() {
     setPlan(totalPlan.filter((data) => data.planId === Number(param.planId))[0]);
   }, []);
 
-  console.log(plan);
-  console.log(members);
-
   const [viewState, setViewState] = useState(PLAN);
   const [viewStatePlan, setViewStatePlan] = useState(PLAN);
   const [calendarList, setCalendarList] = useState(calendars);

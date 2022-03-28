@@ -87,10 +87,6 @@ function Plan() {
     !isEditPage && navigate(`/plan/detail/${planInfo.planId}`, { state: planInfo });
   };
 
-  console.log(presentList);
-  console.log(pastList);
-  console.log(deletedList);
-
   return (
     <LayoutWrapper>
       <Navbar title="계획">

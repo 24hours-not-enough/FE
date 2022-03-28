@@ -17,7 +17,6 @@ class UserApi {
       // url: '/api/kakaologin.json',
     })
       .then((res) => {
-        console.log(res);
         if (res.result === this.SUCCESS) {
           if (res && res.first === true) {
             navigate('/login/profile', { state: res.tokens, replace: true });
