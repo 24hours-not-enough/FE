@@ -5,7 +5,10 @@ import MainFeedTab from '../components/container/MainFeedTab';
 import MainTriplanTab from '../components/container/MainTriplanTab';
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
+import PlaceApi from '../state/data/placeApi';
 import _place from '../state/redux/place/placeSelector';
+
+const placeApi = new PlaceApi();
 
 function Main() {
   const place = useSelector(_place);
@@ -16,14 +19,23 @@ function Main() {
   const [isTriplanTab, setIsTriplanTab] = useState(false);
   const [feedTabData, setFeedTabData] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
+  let bounds;
 
   // 지도, 지도 위 마커 표시
-  useEffect(() => {
+  useEffect(async () => {
     const mapOptions = {
       center: new window.kakao.maps.LatLng(37.566, 126.9786),
       level: 3,
     };
     const map = new window.kakao.maps.Map(mapRef.current, mapOptions);
+    bounds = map.getBounds();
+    const {
+      qa, pa, ha, oa,
+    } = bounds;
+
+    await placeApi.getPlaceAxios({
+      x1: qa, x2: pa, y1: ha, y2: oa,
+    });
 
     place.forEach((onePlace) => {
       const {
