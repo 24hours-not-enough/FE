@@ -49,7 +49,7 @@ function Plan() {
     setPresentList(present);
     setPastList(past);
     setDeletedList(deleted);
-  }, [plan]);
+  }, []);
 
   useEffect(() => {
     new URL(window.location.href).pathname === '/plan'
@@ -130,7 +130,7 @@ function Plan() {
         <ul className="flex flex-wrap gap-x-[16px] gap-y-[14px]">
           {pastList.map((onePlan) => (
             <PlanPast
-              key={plan.planId}
+              key={onePlan.planId}
               plan={onePlan}
               openEditMenu={openEditMenu}
               isEditPage={isEditPage}

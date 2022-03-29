@@ -35,7 +35,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/login/profile" element={<LoginProfile />} />
       <Route path="/mypage/*" element={<MyPage />} />
-      <Route path="/feed/:feedId" element={<Feed />} />
+      <Route path="/feed/:placeId/:feedId" element={<Feed />} />
       <Route path="/plan" element={<Plan />} />
       <Route path="/plan/create" element={<PlanCreate />} />
       <Route path="/plan/update/:planId" element={<PlanCreate />} />

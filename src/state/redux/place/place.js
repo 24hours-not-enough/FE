@@ -1,13 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { place } from '../../data/mock';
+import { getPlace, addFeedComment } from './placeThunk';
 
-const initialState = place;
+const initialState = {
+  place: [],
+};
 
 const placeSlice = createSlice({
   name: 'place',
   initialState,
   reducers: {},
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getPlace.fulfilled, (state, { payload }) => {
+        state.place = payload.response;
+      })
+      .addCase(addFeedComment.fulfilled, (state, { payload }) => {
+
+      });
+  },
 });
 
 export default placeSlice.reducer;
