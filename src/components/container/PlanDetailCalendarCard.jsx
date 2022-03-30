@@ -4,7 +4,6 @@ function PlanDetailCalendarCard({ calendar, setOnUpdateTab }) {
   const { calendarId, days, calendarDetails } = calendar;
 
   const addCalendarPlace = () => {
-    console.log('장소 추가하기 : 어떻게 하면 될지 생각해보자!');
     setOnUpdateTab({ type: 'add', calendarId });
   };
 

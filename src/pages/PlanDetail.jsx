@@ -73,7 +73,7 @@ function PlanDetail() {
       return;
     }
 
-    const updated = { calendarDetailId: response.calendarId, days: `${calendarList.length + 1}일차`, calendarDetails: [] };
+    const updated = { calendarId: response.calendarId, days: `${calendarList.length + 1}일차`, calendarDetails: [] };
     setCalendarList((res) => [...res, updated]);
   };
 

@@ -28,7 +28,9 @@ function PlanDetailAddPlaceTab({ onUpdateTab, setOnUpdateTab }) {
       <div className="flex flex-col items-start">
         <div className=" flex mb-[30px]">
           <span className="mr-[12px]">{title}</span>
-          <button type="button">선택</button>
+          <button type="button">
+            <img src="/images/chooseIcon.png" alt="select place" />
+          </button>
         </div>
         <input
           ref={memoRef}
