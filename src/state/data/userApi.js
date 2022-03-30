@@ -122,6 +122,22 @@ class UserApi {
       // url: '/api/user.json',
     });
   }
+
+  // 로그아웃
+  async logoutAxios() {
+    return this.axios({
+      method: 'get',
+      url: '/api/logout',
+    });
+  }
+
+  // 회원탈퇴
+  async withdrawalAxios() {
+    return this.axios({
+      method: 'post',
+      url: '/api/withdrawal',
+    });
+  }
 }
 
 export default UserApi;

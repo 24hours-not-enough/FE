@@ -49,6 +49,16 @@ export const getUser = createAsyncThunk(
 export const logout = createAsyncThunk(
   'user/logout',
   async ({ navigate }) => {
+    await userApi.logoutAxios();
+    navigate('/', { replace: true });
+  },
+);
+
+export const withdrawal = createAsyncThunk(
+  'user/withdrawal',
+  async ({ navigate }, { dispatch }) => {
+    dispatch(logout());
+    await userApi.withdrawalAxios();
     navigate('/', { replace: true });
   },
 );
