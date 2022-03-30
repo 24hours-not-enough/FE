@@ -77,12 +77,16 @@ function PlanDetail() {
     setCalendarList((res) => [...res, updated]);
   };
 
+  const handleAddSchedule = () => {
+    console.log('일정 추가하기');
+  };
+
   const openMenuTab = () => {
     setOnMenuTab(true);
   };
 
   return (
-    <LayoutWrapper overflow="hide">
+    <LayoutWrapper overflow="auto">
       <Navbar title={title}>
         <button type="button" onClick={openMenuTab}>메뉴</button>
       </Navbar>
@@ -161,7 +165,11 @@ function PlanDetail() {
       {onUpdateTab
         && (
         <BottomTab closeTab={() => setOnUpdateTab(false)}>
-          <PlanDetailAddPlaceTab onUpdateTab={onUpdateTab} setOnUpdateTab={setOnUpdateTab} />
+          <PlanDetailAddPlaceTab
+            onUpdateTab={onUpdateTab}
+            setOnUpdateTab={setOnUpdateTab}
+            handleAddSchedule={handleAddSchedule}
+          />
         </BottomTab>
         )}
     </LayoutWrapper>

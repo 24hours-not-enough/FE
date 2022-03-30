@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 const ADD = 'add';
 const UPDATE = 'update';
 
-function PlanDetailAddPlaceTab({ onUpdateTab, setOnUpdateTab }) {
+function PlanDetailAddPlaceTab({ onUpdateTab, setOnUpdateTab, handleAddSchedule }) {
   const memoRef = useRef();
   const title = onUpdateTab.type === ADD ? '장소 추가하기' : onUpdateTab.place.locationName;
 
@@ -19,6 +19,10 @@ function PlanDetailAddPlaceTab({ onUpdateTab, setOnUpdateTab }) {
     }
     console.log(memoRef.current.value);
     console.log(onUpdateTab);
+    const added = {
+      locationMemo: memoRef.current.value,
+    };
+    handleAddSchedule({ added, calendarId: onUpdateTab.calendarId });
     // 추가하기 통신
     setOnUpdateTab(false);
   };
