@@ -29,8 +29,8 @@ export const updatePlan = createAsyncThunk(
 
 export const deletePlanAxios = createAsyncThunk(
   'plan/deletePlan',
-  async (planId) => {
-    await planApi.deletePlan(planId);
+  async ({ planId, navigate, isInDetail }) => {
+    await planApi.deletePlan({ planId, navigate, isInDetail });
     return planId;
   },
 );

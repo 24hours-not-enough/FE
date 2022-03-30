@@ -54,28 +54,27 @@ function PlanDetail() {
   };
 
   const handleAddCalendar = async () => {
-    // calendar 추가하는 api 통신 필요
     const response = await planApi.addDays(planId)
       .then((res) => {
         console.log(res);
         if (res.result === 'fail') {
-          return false;
+          return { result: false };
         }
-        return true;
+        return { result: true, calendarId: res.data.calendarId };
       })
       .catch((err) => {
         console.log(err);
         console.log(err.response);
-        return false;
+        return { result: false };
       });
 
-    if (!response) {
+    if (!response.result) {
       alert('에러가 발생했습니다 다시 시도해주세요');
       return;
     }
 
-    const updated = [...calendarList, { calendarDetailId: new Date().getTime(), days: `${calendarList.length + 1}일차`, calendarDetails: [] }];
-    setCalendarList(updated);
+    const updated = { calendarDetailId: response.calendarId, days: `${calendarList.length + 1}일차`, calendarDetails: [] };
+    setCalendarList((res) => [...res, updated]);
   };
 
   const openMenuTab = () => {

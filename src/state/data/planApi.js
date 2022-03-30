@@ -92,12 +92,16 @@ class PlanApi {
   }
 
   // 트리플랜 삭제
-  async deletePlan(planId) {
+  async deletePlan({ planId, navigate, isInDetail }) {
     return this.axios({
       method: 'put',
       url: `/api/plan/${planId}`,
       data: { delFl: false },
-    });
+    })
+      .then((res) => {
+        console.log(res);
+        isInDetail && navigate('/plan', { replace: true });
+      });
   }
 
   // 트리플랜 복원

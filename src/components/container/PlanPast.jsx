@@ -27,7 +27,7 @@ function PlanPast({
       {isEditPage
         ? (
           <button
-            onClick={() => deletePlan(planId)}
+            onClick={() => deletePlan({ planId })}
             type="button"
             className="absolute top-[18px] right-[18px]"
           >
