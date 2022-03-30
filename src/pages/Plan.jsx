@@ -10,7 +10,9 @@ import Button from '../components/elements/button/Button';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import { getTokenFromSession } from '../shared/utils';
 import _plan from '../state/redux/plan/planSelector';
-import { deletePlanAxios, deletePlanPermanentlyAxios, restorePlanAxios } from '../state/redux/plan/planThunk';
+import {
+  deletePlanAxios, deletePlanPermanentlyAxios, getPlans, restorePlanAxios,
+} from '../state/redux/plan/planThunk';
 
 function Plan() {
   const plan = useSelector(_plan);
@@ -29,7 +31,9 @@ function Plan() {
     if (!isTokenInSession) {
       alert('로그인 후 이용해주세요');
       navigate('/');
+      return;
     }
+    dispatch(getPlans());
   }, []);
 
   useEffect(() => {
