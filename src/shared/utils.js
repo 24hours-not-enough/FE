@@ -21,7 +21,7 @@ const changeDate = (date) => {
   return `${_month} ${_date}`;
 };
 
-const title = (pathname) => {
+const headerTitle = (pathname) => {
   let props = {
     title: '마이페이지',
     back: false,
@@ -48,5 +48,5 @@ const title = (pathname) => {
 };
 
 export {
-  checkNickname, setTokenToSession, getTokenFromSession, changeDate, title,
+  checkNickname, setTokenToSession, getTokenFromSession, changeDate, headerTitle,
 };
