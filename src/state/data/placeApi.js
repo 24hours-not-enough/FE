@@ -25,7 +25,7 @@ class PlaceApi {
     })
       .then((res) => {
         console.log(res);
-        return res.data.allLocationsDtoList;
+        return res.allLocationsDtoList;
       });
   }
 
