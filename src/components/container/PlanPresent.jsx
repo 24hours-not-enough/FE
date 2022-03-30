@@ -39,7 +39,7 @@ function PlanPresent({
             type="button"
             className="absolute top-[18px] right-[18px]"
           >
-            삭제
+            <img src="/images/planDeleteIcon.png" alt="delete" className="inline-block w-[18px] h-[18px]" />
           </button>
         )
         : (

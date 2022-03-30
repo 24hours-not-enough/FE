@@ -49,7 +49,7 @@ function Plan() {
     setPresentList(present);
     setPastList(past);
     setDeletedList(deleted);
-  }, []);
+  }, [plan]);
 
   useEffect(() => {
     new URL(window.location.href).pathname === '/plan'
@@ -64,6 +64,7 @@ function Plan() {
 
   const deletePlan = (planId) => {
     dispatch(deletePlanAxios(planId));
+    setIsEditMenu(false);
   };
   const restorePlan = (planId) => {
     dispatch(restorePlanAxios(planId));
