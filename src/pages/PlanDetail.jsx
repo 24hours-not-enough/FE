@@ -1,7 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import PlanDetailCalendarCard from '../components/container/PlanDetailCalendarCard';
@@ -13,10 +13,14 @@ import PlanDetailAddPlaceTab from '../components/container/PlanDetailAddPlaceTab
 import PlanApi from '../state/data/planApi';
 import _plan from '../state/redux/plan/planSelector';
 import Chat from '../components/container/Chat';
+import { updatePlanDetailAxios } from '../state/redux/plan/planThunk';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
 const MAP = 'map';
+
+const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
+const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
 
 const planApi = new PlanApi();
 
@@ -25,23 +29,23 @@ function PlanDetail() {
   const param = useParams();
   const totalPlan = useSelector(_plan);
   const [plan, setPlan] = useState(location.state);
+  const dispatch = useDispatch();
   const { planId } = param;
-  const {
-    title, travelDestination, travelStart, travelEnd, members, calendars, checkLists,
-  } = plan;
 
   useEffect(() => {
     setPlan(totalPlan.filter((data) => data.planId === Number(param.planId))[0]);
+    console.log(totalPlan.filter((data) => data.planId === Number(param.planId))[0]);
   }, []);
+
+  const {
+    title, travelDestination, travelStart, travelEnd, members, calendars, checkLists,
+  } = plan;
 
   const [viewState, setViewState] = useState(PLAN);
   const [viewStatePlan, setViewStatePlan] = useState(PLAN);
   const [calendarList, setCalendarList] = useState(calendars);
   const [onMenuTab, setOnMenuTab] = useState(false);
   const [onUpdateTab, setOnUpdateTab] = useState(false);
-
-  const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
-  const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
 
   // 계획, 채팅 상태 변경
   const toggleState = () => {
@@ -77,8 +81,21 @@ function PlanDetail() {
     setCalendarList((res) => [...res, updated]);
   };
 
-  const handleAddSchedule = () => {
-    console.log('일정 추가하기');
+  console.log(calendarList);
+
+  const handleUpdateSchedule = ({ updated, calendarId }) => {
+    const updatedList = [...calendarList].map((calendar) => {
+      if (calendar.calendarId === calendarId) {
+        const updatedCalendarDetails = [...calendar.calendarDetails, {
+          ...updated,
+          sort: calendar.calendarDetails.length + 1,
+        }];
+        return { ...calendar, calendarDetails: updatedCalendarDetails };
+      }
+      return calendar;
+    });
+    setCalendarList(updatedList);
+    dispatch(updatePlanDetailAxios({ planId, planDetailData: updatedList }));
   };
 
   const openMenuTab = () => {
@@ -102,7 +119,7 @@ function PlanDetail() {
           ))}
         </div>
         <span className="text-[12px] leading-[14px] font-[600] mb-[35px]">
-          {`${travelDestination}, ${moment(travelStart).format('MMM YY')} - ${moment(travelEnd).format('MMM YY')}`}
+          {`${travelDestination}, ${moment(travelStart).format('MMM DD')} - ${moment(travelEnd).format('MMM DD')}`}
         </span>
         <button
           type="button"
@@ -168,7 +185,7 @@ function PlanDetail() {
           <PlanDetailAddPlaceTab
             onUpdateTab={onUpdateTab}
             setOnUpdateTab={setOnUpdateTab}
-            handleAddSchedule={handleAddSchedule}
+            handleUpdateSchedule={handleUpdateSchedule}
           />
         </BottomTab>
         )}

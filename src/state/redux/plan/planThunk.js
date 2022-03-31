@@ -50,3 +50,11 @@ export const deletePlanPermanentlyAxios = createAsyncThunk(
     return planId;
   },
 );
+
+export const updatePlanDetailAxios = createAsyncThunk(
+  'plan/updatePlanDetailAxios',
+  async ({ planId, planDetailData }) => {
+    await planApi.updatePlanDetail({ planId, planDetailData });
+    return { planId, planDetailData };
+  },
+);

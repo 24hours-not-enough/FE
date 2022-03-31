@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  deletePlanAxios, deletePlanPermanentlyAxios, getPlans, restorePlanAxios,
+  deletePlanAxios, deletePlanPermanentlyAxios, getPlans, restorePlanAxios, updatePlanDetailAxios,
 } from './planThunk';
 
 const initialState = {
@@ -39,6 +39,9 @@ const planSlice = createSlice({
       })
       .addCase(deletePlanPermanentlyAxios.fulfilled, (state, { payload }) => {
         state.plan = state.plan.filter((onePlan) => onePlan.planId !== payload);
+      })
+      .addCase(updatePlanDetailAxios.fulfilled, (state, { payload }) => {
+
       });
   },
 });

@@ -73,8 +73,8 @@ class PlanApi {
     });
   }
 
-  // 일정 상세등록
-  async updatePlanDetailAxios({ planId, planDetailData }) {
+  // 일정 상세등록, 수정
+  async updatePlanDetail({ planId, planDetailData }) {
     return this.axios({
       method: 'post',
       url: `/api/plan/${planId}/days/calendar`,

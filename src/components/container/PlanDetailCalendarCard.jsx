@@ -1,8 +1,8 @@
 import PlanCalendarPlacePiece from './PlanCalendarPlacePiece';
 
 function PlanDetailCalendarCard({ calendar, setOnUpdateTab }) {
+  console.log(calendar);
   const { calendarId, days, calendarDetails } = calendar;
-
   const addCalendarPlace = () => {
     setOnUpdateTab({ type: 'add', calendarId });
   };
@@ -13,7 +13,7 @@ function PlanDetailCalendarCard({ calendar, setOnUpdateTab }) {
       <section className="flex flex-col items-start gap-y-[28px] mb-[16px]">
         {calendarDetails.map((place) => (
           <PlanCalendarPlacePiece
-            key={place.calendarDetailId}
+            key={place.sort}
             place={place}
             setOnUpdateTab={setOnUpdateTab}
             calendarId={calendarId}
