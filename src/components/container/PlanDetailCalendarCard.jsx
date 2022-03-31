@@ -1,10 +1,9 @@
 import PlanCalendarPlacePiece from './PlanCalendarPlacePiece';
 
 function PlanDetailCalendarCard({ calendar, setOnUpdateTab }) {
+  console.log(calendar);
   const { calendarId, days, calendarDetails } = calendar;
-
   const addCalendarPlace = () => {
-    console.log('장소 추가하기 : 어떻게 하면 될지 생각해보자!');
     setOnUpdateTab({ type: 'add', calendarId });
   };
 
@@ -14,7 +13,7 @@ function PlanDetailCalendarCard({ calendar, setOnUpdateTab }) {
       <section className="flex flex-col items-start gap-y-[28px] mb-[16px]">
         {calendarDetails.map((place) => (
           <PlanCalendarPlacePiece
-            key={place.calendarDetailId}
+            key={place.sort}
             place={place}
             setOnUpdateTab={setOnUpdateTab}
             calendarId={calendarId}

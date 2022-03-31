@@ -1,11 +1,9 @@
 function PlanCalendarPlacePiece({ place, setOnUpdateTab, calendarId }) {
-  console.log(place);
   const {
     sort, locationName, locationMemo, latitude, longitude, calendarDetailId,
   } = place;
 
   const updatePiece = () => {
-    console.log('updatePeice');
     setOnUpdateTab({ type: 'update', calendarId, place });
   };
 

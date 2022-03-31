@@ -13,7 +13,6 @@ import { _userInfo } from '../state/redux/user/userSelector';
 
 function PlanCreate() {
   const loginUser = useSelector(_userInfo);
-  const totalPlan = useSelector(_plan);
   const buttonRef = useRef();
   const formRef = useRef();
   const titleRef = useRef();

@@ -3,9 +3,9 @@ import { useEffect, useRef } from 'react';
 const ADD = 'add';
 const UPDATE = 'update';
 
-function PlanDetailAddPlaceTab({ onUpdateTab, setOnUpdateTab }) {
+function PlanDetailAddPlaceTab({ onUpdateTab, setOnUpdateTab, handleUpdateSchedule }) {
   const memoRef = useRef();
-  const title = onUpdateTab.type === ADD ? '장소 추가하기' : onUpdateTab.place.locationName;
+  const title = (onUpdateTab.type === ADD || !onUpdateTab.place.locationName) ? '장소 추가하기' : onUpdateTab.place.locationName;
 
   useEffect(() => {
     if (onUpdateTab.type === UPDATE) {
@@ -17,8 +17,14 @@ function PlanDetailAddPlaceTab({ onUpdateTab, setOnUpdateTab }) {
     if (memoRef.current.value === '') {
       return;
     }
-    console.log(memoRef.current.value);
-    console.log(onUpdateTab);
+
+    const updated = {
+      location: null,
+      latitude: null,
+      longitude: null,
+      locationMemo: memoRef.current.value,
+    };
+    handleUpdateSchedule({ updated, calendarId: onUpdateTab.calendarId });
     // 추가하기 통신
     setOnUpdateTab(false);
   };
@@ -28,7 +34,9 @@ function PlanDetailAddPlaceTab({ onUpdateTab, setOnUpdateTab }) {
       <div className="flex flex-col items-start">
         <div className=" flex mb-[30px]">
           <span className="mr-[12px]">{title}</span>
-          <button type="button">선택</button>
+          <button type="button">
+            <img src="/images/chooseIcon.png" alt="select place" />
+          </button>
         </div>
         <input
           ref={memoRef}

@@ -4,9 +4,6 @@ import {
   changeUserName, kakaoLogin, googleLogin, loginUserInfo, getUser, logout,
 } from './userThunk';
 
-// const TRUE = 'true';
-// const FALSE = 'false';
-
 const initialState = {
   userInfo: null,
   notification: null,
@@ -21,7 +18,6 @@ export const userSlice = createSlice({
     builder
       .addCase(kakaoLogin.fulfilled, (state, { payload }) => {
         const { response } = payload;
-        console.log(response);
         if (response && response.first === false) {
           setTokenToSession('accessToken', response.tokens.access_token);
           setTokenToSession('refreshToken', response.tokens.refresh_token);
@@ -30,7 +26,6 @@ export const userSlice = createSlice({
       })
       .addCase(googleLogin.fulfilled, (state, { payload }) => {
         const { response } = payload;
-        console.log(response);
         if (response && response.first === false) {
           setTokenToSession('accessToken', response.tokens.access_token);
           setTokenToSession('refreshToken', response.tokens.refresh_token);

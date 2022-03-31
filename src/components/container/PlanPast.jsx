@@ -8,7 +8,11 @@ function PlanPast({
   const {
     planId, title, travelDestination, travelStart, travelEnd,
   } = plan;
-  console.log(plan);
+
+  const handleOpenEditMenu = (e) => {
+    e.stopPropagation();
+    openEditMenu({ plan, planId, title });
+  };
 
   return (
     <li
@@ -23,20 +27,20 @@ function PlanPast({
       {isEditPage
         ? (
           <button
-            onClick={() => deletePlan(planId)}
+            onClick={() => deletePlan({ planId })}
             type="button"
             className="absolute top-[18px] right-[18px]"
           >
-            삭제
+            <img src="/images/planDeleteIcon.png" alt="delete" className="inline-block w-[18px] h-[18px]" />
           </button>
         )
         : (
           <button
-            onClick={() => openEditMenu({ plan, planId, title })}
+            onClick={handleOpenEditMenu}
             type="button"
             className="absolute top-[18px] right-[18px]"
           >
-            버튼
+            <img src="/images/menuIcon_black.png" alt="menu" className="inline-block w-[4px] h-[18px]" />
           </button>
         )}
 

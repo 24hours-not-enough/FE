@@ -42,6 +42,10 @@ const headerTitle = (pathname) => {
   return props;
 };
 
+const defaultImg = (e) => {
+  e.target.src = '/images/profile_default.jpg';
+};
+
 export {
-  checkNickname, setTokenToSession, getTokenFromSession, removeToken, headerTitle,
+  checkNickname, setTokenToSession, getTokenFromSession, removeToken, headerTitle, defaultImg,
 };

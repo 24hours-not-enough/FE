@@ -73,6 +73,16 @@ class PlanApi {
     });
   }
 
+  // 일정 상세등록, 수정
+  async updatePlanDetail({ planId, planDetailData }) {
+    return this.axios({
+      method: 'post',
+      url: `/api/plan/${planId}/days/calendar`,
+      data: planDetailData,
+    });
+  }
+
+  // 초대하기 위한 유저 닉네임 검색
   async searchUser(userName) {
     return this.axios({
       method: 'get',
@@ -82,12 +92,16 @@ class PlanApi {
   }
 
   // 트리플랜 삭제
-  async deletePlan(planId) {
+  async deletePlan({ planId, navigate, isInDetail }) {
     return this.axios({
       method: 'put',
       url: `/api/plan/${planId}`,
       data: { delFl: false },
-    });
+    })
+      .then((res) => {
+        console.log(res);
+        isInDetail && navigate('/plan', { replace: true });
+      });
   }
 
   // 트리플랜 복원
@@ -104,6 +118,31 @@ class PlanApi {
     return this.axios({
       method: 'delete',
       url: `/api/plan/${planId}`,
+    });
+  }
+
+  // 체크리스트 등록 및 수정
+  async updateChecklistAxios({ planId, checklistData }) {
+    return this.axios({
+      method: 'post',
+      url: `/api/plan/${planId}/checkLists`,
+      data: checklistData,
+    });
+  }
+
+  // 여행계획 나가기
+  async goOutFromPlanAxios(planId) {
+    return this.axios({
+      method: 'delete',
+      url: `/api/plan/${planId}/member`,
+    });
+  }
+
+  // 알림 초대 수락하기
+  async acceptInvitationAxios(planId) {
+    return this.axios({
+      method: 'post',
+      url: `api/member/plan/${planId}/active`,
     });
   }
 }

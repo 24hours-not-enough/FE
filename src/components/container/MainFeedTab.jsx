@@ -13,9 +13,9 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
   const navigate = useNavigate();
 
   const {
-    placeId, placeName, latitude, longitude, feeds,
+    placeId, locationName, latitude, longitude, feedPerLocations,
   } = feedTabData[0];
-  console.log(placeId, placeName, latitude, longitude, feeds);
+  console.log(feedTabData);
 
   const tabStyle = isSpread ? 'h-[calc(100vh_-_10px)] overflow-y-auto scrollbar-hide' : 'max-h-[calc(50vh)]';
 
@@ -48,19 +48,19 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
   };
 
   const goToFeedPage = (feed) => {
-    navigate(`/feed/${feed.feedId}`, { state: { feed, placeName } });
+    navigate(`/feed/${placeId}/${feed.feedId}`, { state: { feed, locationName } });
   };
 
   return (
     <section className={`absolute transition-all duration-300 ease-out bottom-0 left-0 z-10 bg-white w-screen rounded-t-[30px] ${tabStyle}`}>
-      <h5 className="text-[18px] font-[600] leading-[22px] px-[30px] pt-[30px]">{placeName}</h5>
+      <h5 className="text-[18px] font-[600] leading-[22px] px-[30px] pt-[30px]">{locationName}</h5>
       <span className="text-[12px] text-gray-400 leading-[14px] px-[30px]">{address}</span>
       <div className="mt-[26px] flex flex-wrap px-[4px]">
-        {feeds.map((feed) => (
+        {feedPerLocations.map((feed) => (
           <img
             key={feed.feedId}
-            src={feed.images[0]}
-            alt={feed.content}
+            src={feed.images[0].imgUrl}
+            alt={feed.memo}
             className="flex w-1/3 h-[calc((100vw_-_12px)_/_3)] p-[2px] rounded-[10px]"
             onClick={() => goToFeedPage(feed)}
           />
