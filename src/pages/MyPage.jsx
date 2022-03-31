@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { useCallback, useEffect, useState } from 'react';
 import {
   useNavigate, useLocation, Route, Routes,
@@ -8,7 +9,7 @@ import { setFeedId } from '../state/redux/feed/feed';
 import { changeUserName } from '../state/redux/user/userThunk';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
-import { title } from '../shared/utils';
+import { headerTitle } from '../shared/utils';
 
 import MyPagePlan from '../components/presentation/MyPagePlan';
 import MyPageMain from '../components/presentation/MyPageMain';
@@ -30,7 +31,22 @@ function MyPage() {
 
   const [userNameChange, setUserNameChange] = useState(userInfo.username);
   const [feedTitle, setFeedTitle] = useState('');
-  const [feedInfo, setFeedInfo] = useState([{ title: myFeed, images: [], comment: '' }]);
+  const [feedNum, setFeedNum] = useState();
+  const [feedInfo, setFeedInfo] = useState([
+    {
+      title: '1일차',
+      feedDetailLoc: [
+        {
+          feedDetailLocId: 1,
+          latitude: 0,
+          longitude: 0,
+          locationMemo: '',
+          placeName: '',
+          feedDetailLocImg: [{ imgUrl: '', imgId: '12312' }],
+        },
+      ],
+    },
+  ]);
 
   const handleRouter = useCallback((query) => () => {
     navigate(query);
@@ -48,20 +64,56 @@ function MyPage() {
     setFeedTitle(e.target.value);
   }, [feedTitle]);
 
-  const handleAddFeedDetail = useCallback(({
-    index, text, images, comment,
-  }) => () => {
-    setFeedInfo([...feedInfo, [text, images, comment]]);
-  }, []);
+  const handleAddFeedDetailLoc = useCallback(({ index }) => () => {
+    const newFeedInfo = feedInfo;
+    newFeedInfo[index].feedDetailLoc = newFeedInfo[index].feedDetailLoc.concat([{
+      feedDetailLocId: 111,
+      latitude: 123123,
+      longitude: 0,
+      locationMemo: '',
+      placeName: '',
+      feedDetailLocImg: [{ imgUrl: '', imgId: '' }],
+    }]);
+    setFeedInfo(newFeedInfo);
+  }, [feedInfo]);
+
+  const handleAddFeedDetail = useCallback(() => {
+    setFeedInfo([...feedInfo, {
+      title: 'aa',
+      feedDetailLoc: [
+        {
+          feedDetailLocId: 1,
+          latitude: 0,
+          longitude: 0,
+          locationMemo: '',
+          placeName: '',
+          feedDetailLocImg: [{ imgUrl: '', imgId: '12312' }],
+        },
+      ],
+    }]);
+  }, [feedInfo]);
 
   const handleGetFeedId = useCallback(({ feedId }) => () => {
     dispatch(setFeedId(feedId));
-  }, []);
+    const feedDetailTitleTemp = [];
+    const feed = myFeed.filter((v) => v.feedId === feedId);
+    feed[0].feedDetail.map((item) => {
+      feedDetailTitleTemp.push(item);
+    });
+    setFeedInfo(feedDetailTitleTemp);
+  }, [feedInfo]);
+
+  const handleFocusFeedNumber = ({ key }) => () => {
+    setFeedNum(key);
+  };
 
   return (
     <LayoutWrapper>
-      <Navbar title={title(location.pathname).title} back={title(location.pathname).back}>
-        <button onClick={handleAddFeedDetail} type="button">완료</button>
+      <Navbar
+        title={headerTitle(location.pathname).title}
+        back={headerTitle(location.pathname).back}
+      >
+        <button onClick={() => {}} type="button">완료</button>
       </Navbar>
       <Routes>
         <Route
@@ -89,8 +141,12 @@ function MyPage() {
           element={(
             <MyPagePlan
               myFeedId={myFeedId}
+              feedInfo={feedInfo}
               handleGetFeedId={handleGetFeedId}
+              handleFocusFeedNumber={handleFocusFeedNumber}
               handleChangeTitle={handleChangeTitle}
+              handleAddFeedDetail={handleAddFeedDetail}
+              handleAddFeedDetailLoc={handleAddFeedDetailLoc}
               myFeed={myFeed}
             />
           )}

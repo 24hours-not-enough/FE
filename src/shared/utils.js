@@ -16,7 +16,7 @@ const removeToken = () => {
   sessionStorage.clear();
 };
 
-const title = (pathname) => {
+const headerTitle = (pathname) => {
   let props = {
     title: '마이페이지',
     back: false,
@@ -47,5 +47,5 @@ const defaultImg = (e) => {
 };
 
 export {
-  checkNickname, setTokenToSession, getTokenFromSession, removeToken, title, defaultImg,
+  checkNickname, setTokenToSession, getTokenFromSession, removeToken, headerTitle,
 };
