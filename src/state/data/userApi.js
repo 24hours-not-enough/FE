@@ -17,7 +17,6 @@ class UserApi {
       // url: '/api/kakaologin.json',
     })
       .then((res) => {
-        console.log(res);
         if (res.result === this.SUCCESS) {
           if (res && res.first === true) {
             navigate('/login/profile', { state: res.tokens, replace: true });
@@ -121,6 +120,22 @@ class UserApi {
       method: 'get',
       url: '/api/user',
       // url: '/api/user.json',
+    });
+  }
+
+  // 로그아웃
+  async logoutAxios() {
+    return this.axios({
+      method: 'get',
+      url: '/api/logout',
+    });
+  }
+
+  // 회원탈퇴
+  async withdrawalAxios() {
+    return this.axios({
+      method: 'post',
+      url: '/api/withdrawal',
     });
   }
 }

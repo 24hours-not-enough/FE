@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { defaultImg } from '../../shared/utils';
 import FeedComment from '../elements/FeedComment';
 
 function FeedContent({ feed, userInfo }) {
@@ -7,10 +8,14 @@ function FeedContent({ feed, userInfo }) {
   const {
     feedId, creator, content, date, comments,
   } = feed;
-  console.log(userInfo);
 
   const addComment = (e) => {
     e.preventDefault();
+    if (!userInfo) {
+      alert('로그인 후 이용가능합니다. 로그인해주세요.');
+      commentFormRef.current.reset();
+      return;
+    }
     const commentValue = commentRef.current.value;
     if (commentValue === '') {
       return;
@@ -27,6 +32,7 @@ function FeedContent({ feed, userInfo }) {
           <img
             src={creator.userProfileImage}
             alt={creator.userName}
+            onError={(e) => defaultImg(e)}
             className="w-[42px] h-[42px] rounded-full"
           />
           <span>{creator.userName}</span>
@@ -41,11 +47,17 @@ function FeedContent({ feed, userInfo }) {
       </section>
 
       <section className="absolute bottom-0 left-0 flex items-center w-screen h-[80px] px-[20px] bg-white">
-        <img
-          src={userInfo.userProfileImage}
-          alt={userInfo.userName}
-          className="w-[42px] h-[42px] rounded-full mr-[16px]"
-        />
+        {
+          userInfo
+          && (
+          <img
+            src={userInfo.userProfileImage}
+            alt={userInfo.userName}
+            onError={(e) => defaultImg(e)}
+            className="w-[42px] h-[42px] rounded-full mr-[16px]"
+          />
+          )
+        }
         <form
           ref={commentFormRef}
           onSubmit={addComment}
@@ -57,7 +69,7 @@ function FeedContent({ feed, userInfo }) {
             placeholder="댓글 달기"
             className="flex-auto"
           />
-          <button type="button">전송</button>
+          <button type="submit">전송</button>
         </form>
       </section>
     </div>

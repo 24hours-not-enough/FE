@@ -7,7 +7,6 @@ export const getPlans = createAsyncThunk(
   'plan/getPlans',
   async () => {
     const response = await planApi.getPlans();
-    console.log(response);
     return { response };
   },
 );
@@ -22,16 +21,16 @@ export const createPlan = createAsyncThunk(
 
 export const updatePlan = createAsyncThunk(
   'plan/updatePlan',
-  async ({ updatedPlan, navigate }, { dispatch }) => {
-    await planApi.updatePlan({ updatedPlan, navigate });
+  async ({ planId, updatedPlan, navigate }, { dispatch }) => {
+    await planApi.updatePlan({ planId, updatedPlan, navigate });
     dispatch(getPlans());
   },
 );
 
 export const deletePlanAxios = createAsyncThunk(
   'plan/deletePlan',
-  async (planId) => {
-    await planApi.deletePlan(planId);
+  async ({ planId, navigate, isInDetail }) => {
+    await planApi.deletePlan({ planId, navigate, isInDetail });
     return planId;
   },
 );
@@ -49,5 +48,13 @@ export const deletePlanPermanentlyAxios = createAsyncThunk(
   async (planId) => {
     await planApi.deletePlanPermanently(planId);
     return planId;
+  },
+);
+
+export const updatePlanDetailAxios = createAsyncThunk(
+  'plan/updatePlanDetailAxios',
+  async ({ planId, planDetailData }) => {
+    await planApi.updatePlanDetail({ planId, planDetailData });
+    return { planId, planDetailData };
   },
 );

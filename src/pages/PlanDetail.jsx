@@ -1,7 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import PlanDetailCalendarCard from '../components/container/PlanDetailCalendarCard';
@@ -13,10 +13,14 @@ import PlanDetailAddPlaceTab from '../components/container/PlanDetailAddPlaceTab
 import PlanApi from '../state/data/planApi';
 import _plan from '../state/redux/plan/planSelector';
 import Chat from '../components/container/Chat';
+import { updatePlanDetailAxios } from '../state/redux/plan/planThunk';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
 const MAP = 'map';
+
+const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
+const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
 
 const planApi = new PlanApi();
 
@@ -25,26 +29,23 @@ function PlanDetail() {
   const param = useParams();
   const totalPlan = useSelector(_plan);
   const [plan, setPlan] = useState(location.state);
+  const dispatch = useDispatch();
   const { planId } = param;
-  const {
-    title, travelDestination, travelStart, travelEnd, members, calendars, checkLists,
-  } = plan;
 
   useEffect(() => {
     setPlan(totalPlan.filter((data) => data.planId === Number(param.planId))[0]);
+    console.log(totalPlan.filter((data) => data.planId === Number(param.planId))[0]);
   }, []);
 
-  console.log(plan);
-  console.log(members);
+  const {
+    title, travelDestination, travelStart, travelEnd, members, calendars, checkLists,
+  } = plan;
 
   const [viewState, setViewState] = useState(PLAN);
   const [viewStatePlan, setViewStatePlan] = useState(PLAN);
   const [calendarList, setCalendarList] = useState(calendars);
   const [onMenuTab, setOnMenuTab] = useState(false);
   const [onUpdateTab, setOnUpdateTab] = useState(false);
-
-  const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
-  const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
 
   // 계획, 채팅 상태 변경
   const toggleState = () => {
@@ -57,28 +58,44 @@ function PlanDetail() {
   };
 
   const handleAddCalendar = async () => {
-    // calendar 추가하는 api 통신 필요
     const response = await planApi.addDays(planId)
       .then((res) => {
         console.log(res);
         if (res.result === 'fail') {
-          return false;
+          return { result: false };
         }
-        return true;
+        return { result: true, calendarId: res.data.calendarId };
       })
       .catch((err) => {
         console.log(err);
         console.log(err.response);
-        return false;
+        return { result: false };
       });
 
-    if (!response) {
+    if (!response.result) {
       alert('에러가 발생했습니다 다시 시도해주세요');
       return;
     }
 
-    const updated = [...calendarList, { calendarDetailId: new Date().getTime(), days: `${calendarList.length + 1}일차`, calendarDetails: [] }];
-    setCalendarList(updated);
+    const updated = { calendarId: response.calendarId, days: `${calendarList.length + 1}일차`, calendarDetails: [] };
+    setCalendarList((res) => [...res, updated]);
+  };
+
+  console.log(calendarList);
+
+  const handleUpdateSchedule = ({ updated, calendarId }) => {
+    const updatedList = [...calendarList].map((calendar) => {
+      if (calendar.calendarId === calendarId) {
+        const updatedCalendarDetails = [...calendar.calendarDetails, {
+          ...updated,
+          sort: calendar.calendarDetails.length + 1,
+        }];
+        return { ...calendar, calendarDetails: updatedCalendarDetails };
+      }
+      return calendar;
+    });
+    setCalendarList(updatedList);
+    dispatch(updatePlanDetailAxios({ planId, planDetailData: updatedList }));
   };
 
   const openMenuTab = () => {
@@ -86,7 +103,7 @@ function PlanDetail() {
   };
 
   return (
-    <LayoutWrapper overflow="hide">
+    <LayoutWrapper overflow="auto">
       <Navbar title={title}>
         <button type="button" onClick={openMenuTab}>메뉴</button>
       </Navbar>
@@ -102,7 +119,7 @@ function PlanDetail() {
           ))}
         </div>
         <span className="text-[12px] leading-[14px] font-[600] mb-[35px]">
-          {`${travelDestination}, ${moment(travelStart).format('MMM YY')} - ${moment(travelEnd).format('MMM YY')}`}
+          {`${travelDestination}, ${moment(travelStart).format('MMM DD')} - ${moment(travelEnd).format('MMM DD')}`}
         </span>
         <button
           type="button"
@@ -139,19 +156,27 @@ function PlanDetail() {
             <Button type="decline" propsClassName="w-full" onClick={handleAddCalendar}>+</Button>
           </section>
 
-          <section className="mt-[110px] relative">
+          {/* <section className="mt-[110px] relative">
             <h5 className="text-[14px] leading-[17px] font-[600] mb-[31px]">체크리스트</h5>
             <div className="flex flex-col gap-y-[26px]">
-              {checkLists.map((list) => (
+              {checklist.map((list) => (
                 <div key={list.checkListId} className="flex items-center">
                   <input type="checkbox" className="w-[22px] h-[22px] mr-[12px]" />
-                  <span className="text-[14px] leading-[17px]">{list.checkItem}</span>
+                  {onChecklist
+                    ? <input className="text-[14px] leading-[17px]" />
+                    : <span className="text-[14px] leading-[17px]">{list.checkItem}</span>}
                 </div>
               ))}
             </div>
-            <button type="button" className="text-main text-[14px] leading-[17px] mt-[28px]">+ 추가하기</button>
+            <button
+              type="button"
+              onClick={addChecklist}
+              className="text-main text-[14px] leading-[17px] mt-[28px]"
+            >
+              + 추가하기
+            </button>
             <button type="button" className="absolute top-0 right-0">수정</button>
-          </section>
+          </section> */}
         </section>
       )}
       {(viewState === PLAN && viewStatePlan === MAP)
@@ -165,7 +190,11 @@ function PlanDetail() {
       {onUpdateTab
         && (
         <BottomTab closeTab={() => setOnUpdateTab(false)}>
-          <PlanDetailAddPlaceTab onUpdateTab={onUpdateTab} setOnUpdateTab={setOnUpdateTab} />
+          <PlanDetailAddPlaceTab
+            onUpdateTab={onUpdateTab}
+            setOnUpdateTab={setOnUpdateTab}
+            handleUpdateSchedule={handleUpdateSchedule}
+          />
         </BottomTab>
         )}
     </LayoutWrapper>

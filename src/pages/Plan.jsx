@@ -10,7 +10,9 @@ import Button from '../components/elements/button/Button';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import { getTokenFromSession } from '../shared/utils';
 import _plan from '../state/redux/plan/planSelector';
-import { deletePlanAxios, deletePlanPermanentlyAxios, restorePlanAxios } from '../state/redux/plan/planThunk';
+import {
+  deletePlanAxios, deletePlanPermanentlyAxios, getPlans, restorePlanAxios,
+} from '../state/redux/plan/planThunk';
 
 function Plan() {
   const plan = useSelector(_plan);
@@ -29,7 +31,9 @@ function Plan() {
     if (!isTokenInSession) {
       alert('로그인 후 이용해주세요');
       navigate('/');
+      return;
     }
+    dispatch(getPlans());
   }, []);
 
   useEffect(() => {
@@ -64,6 +68,7 @@ function Plan() {
 
   const deletePlan = (planId) => {
     dispatch(deletePlanAxios(planId));
+    setIsEditMenu(false);
   };
   const restorePlan = (planId) => {
     dispatch(restorePlanAxios(planId));
@@ -86,10 +91,6 @@ function Plan() {
   const goToPlanDetailPage = (planInfo) => {
     !isEditPage && navigate(`/plan/detail/${planInfo.planId}`, { state: planInfo });
   };
-
-  console.log(presentList);
-  console.log(pastList);
-  console.log(deletedList);
 
   return (
     <LayoutWrapper>
@@ -134,7 +135,7 @@ function Plan() {
         <ul className="flex flex-wrap gap-x-[16px] gap-y-[14px]">
           {pastList.map((onePlan) => (
             <PlanPast
-              key={plan.planId}
+              key={onePlan.planId}
               plan={onePlan}
               openEditMenu={openEditMenu}
               isEditPage={isEditPage}

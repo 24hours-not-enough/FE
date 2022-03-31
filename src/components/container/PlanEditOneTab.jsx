@@ -25,7 +25,7 @@ function PlanEditOneTab({ selectedPlan, setIsEditMenu, deletePlan }) {
           <button
             className="text-[16px] leading-[19px] text-red-400"
             type="button"
-            onClick={() => deletePlan(planId)}
+            onClick={() => deletePlan({ planId })}
           >
             삭제하기
           </button>
