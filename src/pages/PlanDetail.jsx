@@ -156,19 +156,27 @@ function PlanDetail() {
             <Button type="decline" propsClassName="w-full" onClick={handleAddCalendar}>+</Button>
           </section>
 
-          <section className="mt-[110px] relative">
+          {/* <section className="mt-[110px] relative">
             <h5 className="text-[14px] leading-[17px] font-[600] mb-[31px]">체크리스트</h5>
             <div className="flex flex-col gap-y-[26px]">
-              {checkLists.map((list) => (
+              {checklist.map((list) => (
                 <div key={list.checkListId} className="flex items-center">
                   <input type="checkbox" className="w-[22px] h-[22px] mr-[12px]" />
-                  <span className="text-[14px] leading-[17px]">{list.checkItem}</span>
+                  {onChecklist
+                    ? <input className="text-[14px] leading-[17px]" />
+                    : <span className="text-[14px] leading-[17px]">{list.checkItem}</span>}
                 </div>
               ))}
             </div>
-            <button type="button" className="text-main text-[14px] leading-[17px] mt-[28px]">+ 추가하기</button>
+            <button
+              type="button"
+              onClick={addChecklist}
+              className="text-main text-[14px] leading-[17px] mt-[28px]"
+            >
+              + 추가하기
+            </button>
             <button type="button" className="absolute top-0 right-0">수정</button>
-          </section>
+          </section> */}
         </section>
       )}
       {(viewState === PLAN && viewStatePlan === MAP)

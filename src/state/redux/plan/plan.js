@@ -41,7 +41,7 @@ const planSlice = createSlice({
         state.plan = state.plan.filter((onePlan) => onePlan.planId !== payload);
       })
       .addCase(updatePlanDetailAxios.fulfilled, (state, { payload }) => {
-
+        const { planId, planDetailData } = payload;
       });
   },
 });
