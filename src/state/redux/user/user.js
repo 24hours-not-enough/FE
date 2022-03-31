@@ -3,12 +3,13 @@ import { removeToken, setTokenToSession } from '../../../shared/utils';
 import {
   changeUserName, kakaoLogin, googleLogin, loginUserInfo, getUser, logout,
 } from './userThunk';
+import { user } from '../../data/mock';
 
 // const TRUE = 'true';
 // const FALSE = 'false';
 
 const initialState = {
-  userInfo: null,
+  userInfo: user,
   notification: null,
   bookmark: null,
 };
