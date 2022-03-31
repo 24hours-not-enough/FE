@@ -5,8 +5,12 @@ import AddPlanForm from './AddPlanForm';
 function MyPagePlan({
   myFeed,
   feedInfo,
+  feedDetailNum,
   handleAddFeedDetailLoc,
+  handleFocusFeedDetailNumber,
   handleFocusFeedNumber,
+  handleChangePlace,
+  handleChangeComment,
   handleAddFeedDetail,
   handleChangeTitle,
   handleGetFeedId,
@@ -33,8 +37,12 @@ function MyPagePlan({
         className="bg-white w-full my-4 pl-4 h-12 rounded-xl"
       />
       <AddPlanForm
-        handleFocusFeedNumber={handleFocusFeedNumber}
+        feedDetailNum={feedDetailNum}
         feedInfo={feedInfo}
+        handleChangePlace={handleChangePlace}
+        handleChangeComment={handleChangeComment}
+        handleFocusFeedNumber={handleFocusFeedNumber}
+        handleFocusFeedDetailNumber={handleFocusFeedDetailNumber}
         handleAddFeedDetailLoc={handleAddFeedDetailLoc}
       />
       <div

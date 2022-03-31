@@ -32,6 +32,7 @@ function MyPage() {
   const [userNameChange, setUserNameChange] = useState(userInfo.username);
   const [feedTitle, setFeedTitle] = useState('');
   const [feedNum, setFeedNum] = useState();
+  const [feedDetailNum, setFeedDetailNum] = useState();
   const [feedInfo, setFeedInfo] = useState([
     {
       title: '1일차',
@@ -64,16 +65,35 @@ function MyPage() {
     setFeedTitle(e.target.value);
   }, [feedTitle]);
 
+  const handleChangePlace = useCallback((e) => {
+    const newFeedInfo = feedInfo;
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
+      placeName: e.target.value,
+    };
+    setFeedInfo(newFeedInfo);
+  }, [feedNum, feedDetailNum, feedInfo]);
+
+  const handleChangeComment = useCallback((e) => {
+    const newFeedInfo = feedInfo;
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
+      locationMemo: e.target.value,
+    };
+    setFeedInfo(newFeedInfo);
+  }, [feedNum, feedDetailNum, feedInfo]);
+
   const handleAddFeedDetailLoc = useCallback(({ index }) => () => {
     const newFeedInfo = feedInfo;
-    newFeedInfo[index].feedDetailLoc = newFeedInfo[index].feedDetailLoc.concat([{
-      feedDetailLocId: 111,
-      latitude: 123123,
-      longitude: 0,
-      locationMemo: '',
-      placeName: '',
-      feedDetailLocImg: [{ imgUrl: '', imgId: '' }],
-    }]);
+    newFeedInfo[index].feedDetailLoc = [...newFeedInfo[index].feedDetailLoc,
+      {
+        feedDetailLocId: 111,
+        latitude: 123123,
+        longitude: 0,
+        locationMemo: '',
+        placeName: '',
+        feedDetailLocImg: [{ imgUrl: '', imgId: '' }],
+      }];
     setFeedInfo(newFeedInfo);
   }, [feedInfo]);
 
@@ -103,9 +123,13 @@ function MyPage() {
     setFeedInfo(feedDetailTitleTemp);
   }, [feedInfo]);
 
-  const handleFocusFeedNumber = ({ key }) => () => {
+  const handleFocusFeedDetailNumber = useCallback(({ key }) => () => {
+    setFeedDetailNum(key);
+  }, [feedDetailNum]);
+
+  const handleFocusFeedNumber = useCallback(({ key }) => () => {
     setFeedNum(key);
-  };
+  }, [feedNum]);
 
   return (
     <LayoutWrapper>
@@ -142,8 +166,12 @@ function MyPage() {
             <MyPagePlan
               myFeedId={myFeedId}
               feedInfo={feedInfo}
+              feedDetailNum={feedDetailNum}
               handleGetFeedId={handleGetFeedId}
               handleFocusFeedNumber={handleFocusFeedNumber}
+              handleFocusFeedDetailNumber={handleFocusFeedDetailNumber}
+              handleChangePlace={handleChangePlace}
+              handleChangeComment={handleChangeComment}
               handleChangeTitle={handleChangeTitle}
               handleAddFeedDetail={handleAddFeedDetail}
               handleAddFeedDetailLoc={handleAddFeedDetailLoc}

@@ -1,30 +1,21 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-key */
-import {
-  memo, useState, useRef,
-} from 'react';
+import { memo } from 'react';
 import FeedDetailList from './FeedDetailList';
 
 function AddPlanForm({
   feedInfo,
-  handleAddFeedDetailLoc,
   handleFocusFeedNumber,
+  handleAddFeedDetailLoc,
+  handleFocusFeedDetailNumber,
+  handleChangePlace,
+  handleChangeComment,
 }) {
-  const testRef = useRef();
-  const [divNumber, setDivNumber] = useState();
-  const [text, setText] = useState([]);
-
-  const onChange = (e) => {
-    setText(text[divNumber] = {
-      place: e.target.value,
-      image: '',
-      comment: '',
-    });
-  };
-
   return feedInfo.map(({ feedDetailLoc, title }, index) => (
     <div
-      ref={testRef}
+      role="button"
+      tabIndex={0}
+      onClick={handleFocusFeedNumber({ key: index })}
       className="bg-white h-full p-5 pb-5 my-4 rounded-xl"
     >
       <div className="border-b pb-3 mb-5">
@@ -32,9 +23,9 @@ function AddPlanForm({
       </div>
       {feedDetailLoc.map((item, num) => (
         <FeedDetailList
-          onChange={onChange}
-          onClick={handleFocusFeedNumber}
-          key={item}
+          onChangePlace={handleChangePlace}
+          onChangeComment={handleChangeComment}
+          onClick={handleFocusFeedDetailNumber}
           index={num}
         />
       ))}

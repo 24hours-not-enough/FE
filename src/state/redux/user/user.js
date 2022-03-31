@@ -1,8 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { setTokenToSession } from '../../../shared/utils';
+import {
+  changeUserName, kakaoLogin, googleLogin,
+} from './userThunk';
 import { user } from '../../data/mock';
-import { changeUserName } from './userThunk';
 
-const initialState = user;
+// const TRUE = 'true';
+// const FALSE = 'false';
+
+const initialState = {
+  userInfo: user,
+  notification: null,
+  bookmark: null,
+};
 
 export const userSlice = createSlice({
   name: 'user',
