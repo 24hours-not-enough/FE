@@ -3,7 +3,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const addFeedDetail = createAsyncThunk(
   'feed/addFeedDetail',
-  async () => {
-    console.log('aaa');
+  async ({ feedInfo, feedTitle }) => {
+    console.log(feedInfo, feedTitle);
+    return { feedInfo, feedTitle };
   },
 );

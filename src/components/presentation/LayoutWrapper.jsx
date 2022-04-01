@@ -18,7 +18,7 @@ function LayoutWrapper({ children, overflow }) {
 
   if (!pc) {
     return (
-      <div className={`bg-main-background w-screen h-screen ${overflowType}`}>
+      <div className={`bg-main-background w-screen h-full ${overflowType}`}>
         {children}
       </div>
     );
