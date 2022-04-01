@@ -15,7 +15,6 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
   const {
     placeId, locationName, latitude, longitude, feedPerLocations,
   } = feedTabData[0];
-  console.log(feedTabData);
 
   const tabStyle = isSpread ? 'h-[calc(100vh_-_10px)] overflow-y-auto scrollbar-hide' : 'max-h-[calc(50vh)]';
 
@@ -55,7 +54,7 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
     <section className={`absolute transition-all duration-300 ease-out bottom-0 left-0 z-10 bg-white w-screen rounded-t-[30px] ${tabStyle}`}>
       <h5 className="text-[18px] font-[600] leading-[22px] px-[30px] pt-[30px]">{locationName}</h5>
       <span className="text-[12px] text-gray-400 leading-[14px] px-[30px]">{address}</span>
-      <div className="mt-[26px] flex flex-wrap px-[4px]">
+      <div className="mt-[26px] flex flex-wrap px-[4px] min-h-[290px]">
         {feedPerLocations.map((feed) => (
           <img
             key={feed.feedId}
@@ -66,15 +65,28 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
           />
         ))}
       </div>
-      <div className="absolute top-[26px] right-[24px]">
-        <button type="button" onClick={putPlaceToBookmark}>북마크</button>
+      <div className="absolute top-[26px] right-[24px] flex items-center">
+        <button
+          type="button"
+          className="w-[40px] h-[40px] bg-main-background rounded-full"
+          onClick={putPlaceToBookmark}
+        >
+          <img
+            src="/images/bookmarkIcon.png"
+            alt="bookmark"
+            className="w-[18px] h-[18px] mx-auto"
+          />
+        </button>
         <button
           type="button"
           onClick={() => openTriplanTab(placeId)}
-          className="ml-[22px]"
+          className="ml-[22px] w-[40px] h-[40px]"
         >
-          메뉴탭
-
+          <img
+            src="/images/menuIcon_black.png"
+            alt="menu"
+            className="inline-block h-[18px] m-auto"
+          />
         </button>
       </div>
       <button
@@ -82,7 +94,7 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
         onClick={toggleIsSpread}
         className="absolute top-[8px] left-1/2 -translate-x-1/2"
       >
-        spread
+        <img src="/images/spreadIcon.png" alt="spread button" />
       </button>
     </section>
   );
