@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  addDaysAxios,
   deletePlanAxios, deletePlanPermanentlyAxios, getPlans, restorePlanAxios, updatePlanDetailAxios,
 } from './planThunk';
 
@@ -42,6 +43,19 @@ const planSlice = createSlice({
       })
       .addCase(updatePlanDetailAxios.fulfilled, (state, { payload }) => {
         const { planId, planDetailData } = payload;
+      })
+      .addCase(addDaysAxios.fulfilled, (state, { payload }) => {
+        if (payload.result === true) {
+          const { planId, calendarId } = payload;
+          state.plan = state.plan.map((onePlan) => {
+            if (onePlan.planId === planId) {
+              const added = { calendarId, days: `${onePlan.calendars.length + 1}일차`, calendarDetails: [] };
+              console.log({ ...onePlan, calendars: [...onePlan.calendars, added] });
+              return { ...onePlan, calendars: [...onePlan.calendars, added] };
+            }
+            return onePlan;
+          });
+        }
       });
   },
 });

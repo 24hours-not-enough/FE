@@ -9,9 +9,11 @@ import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import _place from '../state/redux/place/placeSelector';
 import { getPlace } from '../state/redux/place/placeThunk';
+import { _userInfo } from '../state/redux/user/userSelector';
 
 function Main() {
   const place = useSelector(_place);
+  const userInfo = useSelector(_userInfo);
   const mapRef = useRef();
   const searchRef = useRef();
   const searchFormRef = useRef();
@@ -126,7 +128,6 @@ function Main() {
   const handleShowInMap = ({
     x, y, locationName, placeId,
   }) => {
-    console.log(x, y);
     setCoordinates({ latitude: Number(y), longitude: Number(x) });
     setOnSearch(false);
 
@@ -156,10 +157,14 @@ function Main() {
   };
 
   // 내 트리플랜에 담기 탭 open
-  const openTriplanTab = (pId) => {
+  const openTriplanTab = (feedData) => {
+    if (!userInfo) {
+      alert('로그인 후 이용해주세요');
+      return;
+    }
     setIsFeedTab(false);
     setIsTriplanTab(true);
-    setSelectedPlace(pId); // placeId
+    setSelectedPlace(feedData);
   };
 
   return (
@@ -209,13 +214,14 @@ function Main() {
       />
       {isFeedTab && (
       <MainFeedTab
+        userInfo={userInfo}
         feedTabData={feedTabData}
         openTriplanTab={openTriplanTab}
       />
       )}
       {isTriplanTab && (
       <MainTriplanTab
-        selectedPlaceId={selectedPlace}
+        selectedPlace={selectedPlace}
         setIsTriplanTab={setIsTriplanTab}
       />
       )}

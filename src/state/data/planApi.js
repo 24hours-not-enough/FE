@@ -70,7 +70,9 @@ class PlanApi {
     return this.axios({
       method: 'post',
       url: `/api/plan/${planId}/days`,
-    });
+    })
+      .then((res) => ({ result: true, planId, calendarId: res.data.calendarId }))
+      .catch(() => ({ result: false }));
   }
 
   // 일정 상세등록, 수정
@@ -144,6 +146,22 @@ class PlanApi {
       method: 'post',
       url: `api/member/plan/${planId}/active`,
     });
+  }
+
+  // 내 트리플랜에 담기
+  async placeToTriplan({ planId, calendarId, placeData }) {
+    return this.axios({
+      method: 'post',
+      url: `api/plan/${planId}/${calendarId}`,
+      data: placeData,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+      });
   }
 }
 

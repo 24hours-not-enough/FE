@@ -88,7 +88,7 @@ function PlanDetail() {
       if (calendar.calendarId === calendarId) {
         const updatedCalendarDetails = [...calendar.calendarDetails, {
           ...updated,
-          sort: calendar.calendarDetails.length + 1,
+          sort: calendar.calendarDetails.length,
         }];
         return { ...calendar, calendarDetails: updatedCalendarDetails };
       }

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { _bookmark } from '../../state/redux/user/userSelector';
 
-function MainFeedTab({ feedTabData, openTriplanTab }) {
+function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
   const bookmark = useSelector(_bookmark);
 
   const [address, setAddress] = useState(null);
@@ -39,6 +39,10 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
   };
 
   const putPlaceToBookmark = () => {
+    if (!userInfo) {
+      alert('로그인 후 이용해주세요');
+      return;
+    }
     if (bookmark.filter((oneBookmark) => oneBookmark.placeId === placeId).length >= 1) {
       console.log('이미 북마크 된 장소입니다.');
       return;
@@ -79,7 +83,7 @@ function MainFeedTab({ feedTabData, openTriplanTab }) {
         </button>
         <button
           type="button"
-          onClick={() => openTriplanTab(placeId)}
+          onClick={() => openTriplanTab(feedTabData)}
           className="ml-[22px] w-[40px] h-[40px]"
         >
           <img

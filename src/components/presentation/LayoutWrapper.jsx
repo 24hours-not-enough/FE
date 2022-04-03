@@ -2,23 +2,12 @@ import { memo } from 'react';
 
 import useLayout from '../../shared/useLayout';
 
-function LayoutWrapper({ children, overflow }) {
+function LayoutWrapper({ children }) {
   const { pc } = useLayout();
-
-  const overflowType = () => {
-    switch (overflow) {
-      case 'auto':
-        return 'overflow-auto scrollbar-hide';
-      case 'hide':
-        return 'overflow-hidden';
-      default:
-        return 'overflow-auto scrollbar-hide';
-    }
-  };
 
   if (!pc) {
     return (
-      <div className={`bg-main-background w-screen h-screen ${overflowType}`}>
+      <div className="bg-main-background w-screen h-screen">
         {children}
       </div>
     );
