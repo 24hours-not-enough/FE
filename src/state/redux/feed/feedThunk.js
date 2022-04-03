@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { imgApi } from '../../data/axios';
 
 export const addFeedDetail = createAsyncThunk(
   'feed/addFeedDetail',
@@ -8,3 +9,7 @@ export const addFeedDetail = createAsyncThunk(
     return { feedInfo, feedTitle };
   },
 );
+
+export function getImagesUrl({ images }) {
+  return imgApi.post('/api/feed/image', images);
+}

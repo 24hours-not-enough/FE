@@ -1,14 +1,15 @@
 /* eslint-disable prefer-const */
 /* eslint-disable array-callback-return */
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   useNavigate, useLocation, Route, Routes,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 import { setFeedId } from '../state/redux/feed/feed';
 import { changeUserName } from '../state/redux/user/userThunk';
-import { addFeedDetail } from '../state/redux/feed/feedThunk';
+import { addFeedDetail, getImagesUrl } from '../state/redux/feed/feedThunk';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
 import { headerTitle } from '../shared/utils';
@@ -16,10 +17,10 @@ import { headerTitle } from '../shared/utils';
 import MyPagePlan from '../components/presentation/MyPagePlan';
 import MyPageMain from '../components/presentation/MyPageMain';
 import MyPageProfile from '../components/presentation/MyPageProfile';
+import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
 
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
-import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
 
 function MyPage() {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ function MyPage() {
           longitude: 0,
           locationMemo: '',
           placeName: '',
-          feedDetailLocImg: [{ imgUrl: '', imgId: '12312' }],
+          feedDetailLocImg: [],
         },
       ],
     },
@@ -90,6 +91,17 @@ function MyPage() {
     newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
       ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
       locationMemo: e.target.value,
+    };
+    setFeedInfo(newFeedInfo);
+  }, [feedNum, feedDetailNum, feedInfo]);
+
+  const handleChangeImageFile = useCallback((e) => {
+    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
+    let images = getImagesUrl({ images: e.target.files });
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
+      feedDetailLocImg:
+      [...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedDetailLocImg, images],
     };
     setFeedInfo(newFeedInfo);
   }, [feedNum, feedDetailNum, feedInfo]);
@@ -187,6 +199,7 @@ function MyPage() {
               handleChangeFeedTitle={handleChangeFeedTitle}
               handleChangePlace={handleChangePlace}
               handleChangeComment={handleChangeComment}
+              handleChangeImageFile={handleChangeImageFile}
               handleChangeTitle={handleChangeTitle}
               handleAddFeedDetail={handleAddFeedDetail}
               handleAddFeedDetailLoc={handleAddFeedDetailLoc}

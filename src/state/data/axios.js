@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { getTokenFromSession } from '../../shared/utils';
 
+export const imgApi = axios.create({
+  baseURL: 'http://13.124.67.66',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_IP,
   // baseURL: 'http://localhost:3000',

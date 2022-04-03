@@ -1,7 +1,12 @@
 import { memo } from 'react';
 
 function FeedDetailList({
-  index, onChangePlace, onChangeComment, onClick,
+  index,
+  feedDetailLocImg,
+  onChangePlace,
+  onChangeComment,
+  onClick,
+  handleChangeImageFile,
 }) {
   return (
     <div
@@ -26,8 +31,10 @@ function FeedDetailList({
           className="text-main"
         />
         <div className="absolute top-8 flex">
-          <img alt="이미지" className="bg-main-background w-20 h-20 mr-2 rounded-xl" />
-          <div className="bg-main-background w-20 h-20 rounded-xl">사진추가 버튼</div>
+          {feedDetailLocImg.map((item) => (
+            <img key={item} src={item} alt="이미지" className="w-20 h-20 mr-2 rounded-xl" />
+          ))}
+          <input type="file" id="file" onChange={handleChangeImageFile} multiple="multiple" className="bg-main-background w-20 h-20 rounded-xl" />
         </div>
         <input
           onChange={onChangeComment}

@@ -12,6 +12,7 @@ function MyPagePlan({
   handleChangeFeedTitle,
   handleChangePlace,
   handleChangeComment,
+  handleChangeImageFile,
   handleAddFeedDetail,
   handleChangeTitle,
   handleGetFeedId,
@@ -47,9 +48,11 @@ function MyPagePlan({
           <div className="border-b pb-3 mb-5">
             <input onChange={handleChangeFeedTitle} className="text-black" placeholder={title} type="text" />
           </div>
-          {feedDetailLoc.map((item, num) => (
+          {feedDetailLoc.map(({ feedDetailLocImg }, num) => (
             <FeedDetailList
               onChangePlace={handleChangePlace}
+              feedDetailLocImg={feedDetailLocImg}
+              handleChangeImageFile={handleChangeImageFile}
               onChangeComment={handleChangeComment}
               onClick={handleFocusFeedDetailNumber}
               index={num}
