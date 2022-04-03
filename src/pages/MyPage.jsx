@@ -5,7 +5,6 @@ import {
   useNavigate, useLocation, Route, Routes,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 
 import { setFeedId } from '../state/redux/feed/feed';
 import { changeUserName } from '../state/redux/user/userThunk';

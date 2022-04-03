@@ -11,5 +11,7 @@ export const addFeedDetail = createAsyncThunk(
 );
 
 export function getImagesUrl({ images }) {
-  return imgApi.post('/api/feed/image', images);
+  const formData = new FormData();
+  Object.values(images).map((item) => formData.append('file', item));
+  return imgApi.post('/api/feed/image', formData);
 }
