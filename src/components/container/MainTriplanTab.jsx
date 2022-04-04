@@ -1,12 +1,17 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import _plan from '../../state/redux/plan/planSelector';
 import Button from '../elements/button/Button';
 import MainTriplanDateButton from '../elements/MainTriplanDateButton';
+import PlanApi from '../../state/data/planApi';
+import { getPlans } from '../../state/redux/plan/planThunk';
 
-function MainTriplanTab({ selectedPlaceId, setIsTriplanTab }) {
+const planApi = new PlanApi();
+
+function MainTriplanTab({ selectedPlace, setIsTriplanTab }) {
   const plan = useSelector(_plan);
   const [selected, setSelected] = useState(null);
+  const dispatch = useDispatch();
 
   // Button type에 비활성화일 때 상태 추가하기
   const buttonStyle = selected ? 'main' : 'decline';
@@ -21,11 +26,21 @@ function MainTriplanTab({ selectedPlaceId, setIsTriplanTab }) {
   };
 
   // 트리플랜에 장소 담기 - dispatch 작성하기
-  const handlePlaceToTriplan = () => {
+  const handlePlaceToTriplan = async () => {
     if (!selected) {
       return;
     }
-    console.log(`장소id: ${selectedPlaceId}, 트리플랜: ${selected.planId}, ${selected.calendarId}`);
+    await planApi.placeToTriplan({
+      planId: selected.planId,
+      calendarId: selected.calendarId,
+      placeData: {
+        location: selectedPlace[0].locationName,
+        latitude: Number(selectedPlace[0].latitude),
+        longitude: Number(selectedPlace[0].longitude),
+      },
+    });
+
+    dispatch(getPlans());
 
     setIsTriplanTab(false);
     setSelected(null);

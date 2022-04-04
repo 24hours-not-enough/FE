@@ -53,8 +53,17 @@ export const deletePlanPermanentlyAxios = createAsyncThunk(
 
 export const updatePlanDetailAxios = createAsyncThunk(
   'plan/updatePlanDetailAxios',
-  async ({ planId, planDetailData }) => {
+  async ({ planId, planDetailData }, { dispatch }) => {
     await planApi.updatePlanDetail({ planId, planDetailData });
+    dispatch(getPlans());
     return { planId, planDetailData };
+  },
+);
+
+export const addDaysAxios = createAsyncThunk(
+  'plan/addDaysAxios',
+  async (planId) => {
+    const response = await planApi.addDays(planId);
+    return response;
   },
 );

@@ -10,6 +10,7 @@ import MyPage from './pages/MyPage';
 import Plan from './pages/Plan';
 import PlanCreate from './pages/PlanCreate';
 import PlanDetail from './pages/PlanDetail';
+import PlanDetailNew from './pages/PlanDetailNew';
 import Setting from './pages/Setting';
 import { getTokenFromSession } from './shared/utils';
 import { getPlans } from './state/redux/plan/planThunk';
@@ -40,7 +41,7 @@ function App() {
       <Route path="/plan/create" element={<PlanCreate />} />
       <Route path="/plan/update/:planId" element={<PlanCreate />} />
       <Route path="/plan/edit" element={<Plan />} />
-      <Route path="/plan/detail/:planId" element={<PlanDetail />} />
+      <Route path="/plan/detail/:planId" element={<PlanDetailNew />} />
       <Route path="/mypage/settings" element={<Setting />} />
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />

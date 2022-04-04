@@ -28,11 +28,11 @@ function Plan() {
   const isTokenInSession = getTokenFromSession('accessToken');
 
   useEffect(() => {
-    if (!isTokenInSession) {
-      alert('로그인 후 이용해주세요');
-      navigate('/');
-      return;
-    }
+    // if (!isTokenInSession) {
+    //   alert('로그인 후 이용해주세요');
+    //   navigate('/');
+    //   return;
+    // }
     dispatch(getPlans());
   }, []);
 
@@ -41,7 +41,7 @@ function Plan() {
     const present = [];
     const past = [];
     const deleted = [];
-    plan.forEach((onePlan) => {
+    plan && plan.forEach((onePlan) => {
       if (!onePlan.delTc) {
         deleted.push(onePlan);
       } else if (onePlan.travelEnd < now) {
@@ -91,6 +91,8 @@ function Plan() {
   const goToPlanDetailPage = (planInfo) => {
     !isEditPage && navigate(`/plan/detail/${planInfo.planId}`, { state: planInfo });
   };
+
+  console.log(plan);
 
   return (
     <LayoutWrapper>
