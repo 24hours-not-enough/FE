@@ -61,7 +61,7 @@ function LoginProfileForm() {
     e.preventDefault();
 
     const nickname = nicknameRef.current.value;
-    const profileImage = fileRef.current.files.length > 0 ? fileRef.current.files[0] : '/images/profile_default.jpg';
+    const profileImage = fileRef.current.files[0];
 
     if (!duplicationChecked) {
       setNicknameDescription({ color: 'red', value: '닉네임 중복 체크를 완료해주세요' });
@@ -72,8 +72,7 @@ function LoginProfileForm() {
     userFormData.append('file', profileImage);
     userFormData.append('username', nickname);
 
-    console.log(profileImage);
-    // dispatch(loginUserInfo({ tokens: location.state, userInfo: userFormData, navigate }));
+    dispatch(loginUserInfo({ tokens: location.state, userInfo: userFormData, navigate }));
   };
 
   const nicknameDescriptionColor = nicknameDescription.color === 'blue'

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getTokenFromSession } from '../../shared/utils';
+import { getTokenFromSession, setTokenToSession } from '../../shared/utils';
 
 export const imgApi = axios.create({
   baseURL: process.env.REACT_APP_SERVER_IP,
@@ -46,10 +46,27 @@ instance.interceptors.response.use(
     console.log(response);
     return response.data;
   },
-  (error) =>
-    Promise.reject(error),
-  // token 만료시간일 경우
-  // 그 외 에러 코드에 맞는 가공
+  (err) => {
+    console.log(err);
+    console.log(err.response);
+    // 토큰 만료됐을 경우 access token 재발급
+    if (err.response.status === 401) {
+      axios({
+        method: 'post',
+        url: `${process.env.REACT_APP_SERVER_IP}/api/token`,
+        data: {
+          accessToken: getTokenFromSession('accessToken'),
+          refreshToken: getTokenFromSession('refreshToken'),
+        },
+      })
+        .then((res) => {
+          setTokenToSession('accessToken', res.data.accessToken);
+          setTokenToSession('refreshToken', res.data.refreshToken);
+        });
+      return axios.create().request(err.response.config);
+    }
+    return Promise.reject(err);
+  },
 );
 
 export default instance;

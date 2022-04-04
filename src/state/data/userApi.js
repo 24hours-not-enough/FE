@@ -1,10 +1,13 @@
+import axios from 'axios';
 import instance from './axios';
 
 class UserApi {
   constructor() {
     this.axios = instance;
+    this.realAxios = axios;
     this.SUCCESS = 'success';
     this.FAIL = 'fail';
+    this.base = process.env.REACT_APP_SERVER_IP;
     // this.TRUE = 'true';
     // this.FALSE = 'false';
   }
@@ -85,11 +88,9 @@ class UserApi {
 
   // 첫 로그인 시 프로필 이미지, 닉네임 등록
   async loginUserInfo({ tokens, userInfo, navigate }) {
-    return this.axios({
-      // method: 'get',
+    return this.realAxios({
       method: 'post',
-      url: '/api/login/userinfo',
-      // url: '/api/login/userinfo.json',
+      url: `${this.base}/api/login/userinfo`,
       headers: {
         authorization: tokens.access_token,
         refreshToken: tokens.refresh_token,
@@ -97,6 +98,7 @@ class UserApi {
       },
       data: userInfo,
     })
+      .then((res) => res.data)
       .then((res) => {
         console.log(res);
         if (res.result === this.SUCCESS) {
