@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import instance, { imgApi } from '../../data/axios';
+import instance from '../../data/axios';
 
 export const addFeedDetail = createAsyncThunk(
   'feed/addFeedDetail',
@@ -13,15 +13,8 @@ export const addFeedDetail = createAsyncThunk(
       travelEnd,
       feedDetail: feedInfo,
     };
-    console.log(postData);
-    // const { data } = await instance.post('/api/feed', postData);
-    // console.log(data);
-    return { feedInfo, feedTitle };
+    const { data } = await instance.post('/api/feed', postData);
+    console.log(data); // id값
+    return { postData };
   },
 );
-
-export function getImagesUrl({ images }) {
-  const formData = new FormData();
-  Object.values(images).map((item) => formData.append('file', item));
-  return imgApi.post('/api/feed/image', formData);
-}

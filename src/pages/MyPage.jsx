@@ -1,6 +1,8 @@
 /* eslint-disable prefer-const */
 /* eslint-disable array-callback-return */
-import { useCallback, useState, useRef } from 'react';
+import {
+  useCallback, useState, useRef, useEffect,
+} from 'react';
 import {
   useNavigate, useLocation, Route, Routes,
 } from 'react-router-dom';
@@ -9,7 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import iconSet from '../shared/imageUrl';
 import { setFeedId } from '../state/redux/feed/feed';
 import { changeUserName } from '../state/redux/user/userThunk';
-import { addFeedDetail, getImagesUrl } from '../state/redux/feed/feedThunk';
+import { addFeedDetail } from '../state/redux/feed/feedThunk';
+import { imgApi } from '../state/data/axios';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
 import { headerTitle } from '../shared/utils';
@@ -36,8 +39,9 @@ function MyPage() {
 
   const [userNameChange, setUserNameChange] = useState(userInfo.username);
   const [feedTitle, setFeedTitle] = useState('');
-  const [feedNum, setFeedNum] = useState();
-  const [feedDetailNum, setFeedDetailNum] = useState();
+  const [feedNum, setFeedNum] = useState(0);
+  const [feedDetailNum, setFeedDetailNum] = useState(0);
+  const [feedImages, setFeedImages] = useState([]);
   const [feedInfo, setFeedInfo] = useState([
     {
       day: '1일차',
@@ -91,22 +95,19 @@ function MyPage() {
 
   const handleChangeComment = useCallback((e) => {
     const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
-    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedLocation = {
-      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedLocation,
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
       memo: e.target.value,
     };
     setFeedInfo(newFeedInfo);
   }, [feedNum, feedDetailNum, feedInfo]);
 
   const handleChangeImageFile = useCallback((e) => {
-    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
-    let images = getImagesUrl({ images: e.target.files });
-    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedLocation = {
-      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedLocation,
-      feedDetailLocImg:
-      [...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedLocation.feedDetailLocImg, images],
-    };
-    setFeedInfo(newFeedInfo);
+    const formData = new FormData();
+    Object.values(e.target.files).map((item) => formData.append('imgFiles', item));
+    imgApi.post('/api/feed/image', formData).then((res) => {
+      setFeedImages(Object.values(res.data.data));
+    });
   }, [feedNum, feedDetailNum, feedInfo]);
 
   const handleAddFeedDetailLoc = useCallback(({ index }) => () => {
@@ -128,11 +129,12 @@ function MyPage() {
       day: '',
       feedDetailLoc: [
         {
+          memo: '',
           feedLocation: {
             latitude: 0,
             longitude: 0,
-            memo: '',
             placeAdress: '',
+            name: '11',
           },
           feedDetailLocImg: [],
         },
@@ -169,6 +171,17 @@ function MyPage() {
       travelEnd,
     }));
   }, [dispatch, feedInfo, feedTitle, startDateRef, endDateRef]);
+
+  useEffect(() => {
+    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
+      feedDetailLocImg:
+      [...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedDetailLocImg, ...feedImages],
+    };
+    setFeedInfo(newFeedInfo);
+  }, [feedImages]);
+
   return (
     <LayoutWrapper>
       <Navbar

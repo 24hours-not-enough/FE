@@ -41,28 +41,41 @@ instance.interceptors.request.use(
   },
 );
 
+const refresh = async () => {
+  const data = await axios({
+    method: 'post',
+    url: `${process.env.REACT_APP_SERVER_IP}/api/token`,
+    data: {
+      accessToken: getTokenFromSession('accessToken'),
+      refreshToken: getTokenFromSession('refreshToken'),
+    },
+  });
+  console.log('test', data);
+
+  return data;
+};
+
 instance.interceptors.response.use(
   (response) => {
     console.log(response);
     return response.data;
   },
   (err) => {
-    console.log(err);
-    console.log(err.response);
     // 토큰 만료됐을 경우 access token 재발급
     if (err.response.status === 401) {
-      axios({
-        method: 'post',
-        url: `${process.env.REACT_APP_SERVER_IP}/api/token`,
-        data: {
-          accessToken: getTokenFromSession('accessToken'),
-          refreshToken: getTokenFromSession('refreshToken'),
-        },
-      })
-        .then((res) => {
-          setTokenToSession('accessToken', res.data.accessToken);
-          setTokenToSession('refreshToken', res.data.refreshToken);
-        });
+      refresh();
+      // axios({
+      //   method: 'post',
+      //   url: `${process.env.REACT_APP_SERVER_IP}/api/token`,
+      //   data: {
+      //     accessToken: getTokenFromSession('accessToken'),
+      //     refreshToken: getTokenFromSession('refreshToken'),
+      //   },
+      // })
+      //   .then((res) => {
+      //     setTokenToSession('accessToken', res.data.accessToken);
+      //     setTokenToSession('refreshToken', res.data.refreshToken);
+      //   });
       return axios.create().request(err.response.config);
     }
     return Promise.reject(err);
