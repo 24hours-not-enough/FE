@@ -9,9 +9,6 @@ import { _userInfo } from '../../state/redux/user/userSelector';
 function MobileMenuTab({
   closeTab, isTab, handleRouter,
 }) {
-  const userInfo = useSelector(_userInfo);
-  const loginStyle = userInfo ? 'bg-no-repeat bg-center bg-contain' : 'bg-gray-400';
-
   if (isTab) {
     return (
       <div className="md:hidden flex absolute w-full h-full top-0 left-0 right-0 bottom-0">
@@ -26,21 +23,16 @@ function MobileMenuTab({
           </section>
           <section className="w-full grid place-content-center h-56">
             <div
-              className={`w-20 h-20 rounded-full ${loginStyle}`}
-              style={userInfo && { backgroundImage: `url(${userInfo.userProfileImage})` }}
+              className="w-20 h-20 rounded-full bg-gray-400"
             />
-            {userInfo
-              ? (<div className="text-center">{userInfo.userName}</div>)
-              : (
-                <div
-                  className="text-center"
-                  role="button"
-                  tabIndex={0}
-                  onClick={handleRouter('/login')}
-                >
-                  로그인
-                </div>
-              )}
+            <div
+              className="text-center"
+              role="button"
+              tabIndex={0}
+              onClick={handleRouter('/login')}
+            >
+              로그인
+            </div>
 
           </section>
           <section className="flex flex-col h-64 pt-4 border-y">
