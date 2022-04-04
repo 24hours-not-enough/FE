@@ -2,10 +2,13 @@
 import { memo } from 'react';
 
 import FeedDetailList from './FeedDetailList';
+import Calendar from '../elements/calendar/Calendar';
 
 function MyPagePlan({
   myFeed,
   feedInfo,
+  startDateRef,
+  endDateRef,
   handleAddFeedDetailLoc,
   handleFocusFeedDetailNumber,
   handleFocusFeedNumber,
@@ -31,14 +34,17 @@ function MyPagePlan({
             </li>
           ))}
         </ul>
-        <div>Date Picker</div>
+        <Calendar
+          travelStartRef={startDateRef}
+          travelEndRef={endDateRef}
+        />
       </div>
       <input
         onChange={handleChangeTitle}
-        placeholder={feedInfo.title}
+        placeholder={feedInfo.day ? feedInfo.day : '제목을 입력하세요'}
         className="bg-white w-full my-4 pl-4 h-12 rounded-xl"
       />
-      {feedInfo.map(({ feedDetailLoc, title }, index) => (
+      {feedInfo.map(({ feedDetailLoc, day }, index) => (
         <div
           role="button"
           tabIndex={0}
@@ -46,7 +52,7 @@ function MyPagePlan({
           className="bg-white h-full p-5 pb-5 my-4 rounded-xl"
         >
           <div className="border-b pb-3 mb-5">
-            <input onChange={handleChangeFeedTitle} className="text-black" placeholder={title} type="text" />
+            <input onChange={handleChangeFeedTitle} className="text-black" placeholder={day} type="text" />
           </div>
           {feedDetailLoc.map(({ feedDetailLocImg }, num) => (
             <FeedDetailList

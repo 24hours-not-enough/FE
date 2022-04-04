@@ -17,6 +17,11 @@ const iconSet = {
     backIcon: '/images/backIcon.png',
     exitIcon: '/images/exitIcon.png',
   },
+  myPage: {
+    heartIcon: '/images/heartIcon.png',
+    rectangleIcon: '/images/rectangleIcon.png',
+    settingIcon: '/images/settingIcon.png',
+  },
 };
 
 export default iconSet;
