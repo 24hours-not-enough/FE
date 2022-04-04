@@ -1,5 +1,6 @@
+/* eslint-disable prefer-const */
 /* eslint-disable array-callback-return */
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   useNavigate, useLocation, Route, Routes,
 } from 'react-router-dom';
@@ -7,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setFeedId } from '../state/redux/feed/feed';
 import { changeUserName } from '../state/redux/user/userThunk';
+import { addFeedDetail, getImagesUrl } from '../state/redux/feed/feedThunk';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
 import { headerTitle } from '../shared/utils';
@@ -14,10 +16,10 @@ import { headerTitle } from '../shared/utils';
 import MyPagePlan from '../components/presentation/MyPagePlan';
 import MyPageMain from '../components/presentation/MyPageMain';
 import MyPageProfile from '../components/presentation/MyPageProfile';
+import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
 
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
-import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
 
 function MyPage() {
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ function MyPage() {
   const [userNameChange, setUserNameChange] = useState(userInfo.username);
   const [feedTitle, setFeedTitle] = useState('');
   const [feedNum, setFeedNum] = useState();
+  const [feedDetailNum, setFeedDetailNum] = useState();
   const [feedInfo, setFeedInfo] = useState([
     {
       title: '1일차',
@@ -42,7 +45,7 @@ function MyPage() {
           longitude: 0,
           locationMemo: '',
           placeName: '',
-          feedDetailLocImg: [{ imgUrl: '', imgId: '12312' }],
+          feedDetailLocImg: [],
         },
       ],
     },
@@ -64,22 +67,60 @@ function MyPage() {
     setFeedTitle(e.target.value);
   }, [feedTitle]);
 
+  const handleChangeFeedTitle = useCallback((e) => {
+    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
+    newFeedInfo[feedNum] = {
+      ...newFeedInfo[feedNum],
+      title: e.target.value,
+    };
+    setFeedInfo(newFeedInfo);
+  }, [feedNum, feedDetailNum, feedInfo]);
+
+  const handleChangePlace = useCallback((e) => {
+    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
+      placeName: e.target.value,
+    };
+    setFeedInfo(newFeedInfo);
+  }, [feedNum, feedDetailNum, feedInfo]);
+
+  const handleChangeComment = useCallback((e) => {
+    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
+      locationMemo: e.target.value,
+    };
+    setFeedInfo(newFeedInfo);
+  }, [feedNum, feedDetailNum, feedInfo]);
+
+  const handleChangeImageFile = useCallback((e) => {
+    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
+    let images = getImagesUrl({ images: e.target.files });
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
+      feedDetailLocImg:
+      [...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedDetailLocImg, images],
+    };
+    setFeedInfo(newFeedInfo);
+  }, [feedNum, feedDetailNum, feedInfo]);
+
   const handleAddFeedDetailLoc = useCallback(({ index }) => () => {
-    const newFeedInfo = feedInfo;
-    newFeedInfo[index].feedDetailLoc = newFeedInfo[index].feedDetailLoc.concat([{
-      feedDetailLocId: 111,
-      latitude: 123123,
+    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
+    newFeedInfo[index].feedDetailLoc.push({
+      feedDetailLocId: 0,
+      latitude: 0,
       longitude: 0,
       locationMemo: '',
       placeName: '',
       feedDetailLocImg: [{ imgUrl: '', imgId: '' }],
-    }]);
+    });
     setFeedInfo(newFeedInfo);
   }, [feedInfo]);
 
   const handleAddFeedDetail = useCallback(() => {
     setFeedInfo([...feedInfo, {
-      title: 'aa',
+      title: '',
       feedDetailLoc: [
         {
           feedDetailLocId: 1,
@@ -87,7 +128,7 @@ function MyPage() {
           longitude: 0,
           locationMemo: '',
           placeName: '',
-          feedDetailLocImg: [{ imgUrl: '', imgId: '12312' }],
+          feedDetailLocImg: [{ imgUrl: '', imgId: '' }],
         },
       ],
     }]);
@@ -103,9 +144,17 @@ function MyPage() {
     setFeedInfo(feedDetailTitleTemp);
   }, [feedInfo]);
 
-  const handleFocusFeedNumber = ({ key }) => () => {
+  const handleFocusFeedDetailNumber = useCallback(({ key }) => () => {
+    setFeedDetailNum(key);
+  }, [feedDetailNum]);
+
+  const handleFocusFeedNumber = useCallback(({ key }) => () => {
     setFeedNum(key);
-  };
+  }, [feedNum]);
+
+  const handleStoreFeed = useCallback(() => {
+    dispatch(addFeedDetail({ feedInfo, feedTitle }));
+  }, [dispatch, feedInfo, feedTitle]);
 
   return (
     <LayoutWrapper>
@@ -113,7 +162,7 @@ function MyPage() {
         title={headerTitle(location.pathname).title}
         back={headerTitle(location.pathname).back}
       >
-        <button onClick={() => {}} type="button">완료</button>
+        <button onClick={handleStoreFeed} type="button">완료</button>
       </Navbar>
       <Routes>
         <Route
@@ -142,8 +191,14 @@ function MyPage() {
             <MyPagePlan
               myFeedId={myFeedId}
               feedInfo={feedInfo}
+              feedDetailNum={feedDetailNum}
               handleGetFeedId={handleGetFeedId}
               handleFocusFeedNumber={handleFocusFeedNumber}
+              handleFocusFeedDetailNumber={handleFocusFeedDetailNumber}
+              handleChangeFeedTitle={handleChangeFeedTitle}
+              handleChangePlace={handleChangePlace}
+              handleChangeComment={handleChangeComment}
+              handleChangeImageFile={handleChangeImageFile}
               handleChangeTitle={handleChangeTitle}
               handleAddFeedDetail={handleAddFeedDetail}
               handleAddFeedDetailLoc={handleAddFeedDetailLoc}

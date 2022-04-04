@@ -1,12 +1,18 @@
+/* eslint-disable react/jsx-key */
 import { memo } from 'react';
 
-import AddPlanForm from './AddPlanForm';
+import FeedDetailList from './FeedDetailList';
 
 function MyPagePlan({
   myFeed,
   feedInfo,
   handleAddFeedDetailLoc,
+  handleFocusFeedDetailNumber,
   handleFocusFeedNumber,
+  handleChangeFeedTitle,
+  handleChangePlace,
+  handleChangeComment,
+  handleChangeImageFile,
   handleAddFeedDetail,
   handleChangeTitle,
   handleGetFeedId,
@@ -29,14 +35,34 @@ function MyPagePlan({
       </div>
       <input
         onChange={handleChangeTitle}
-        placeholder="제목을 입력하세요"
+        placeholder={feedInfo.title}
         className="bg-white w-full my-4 pl-4 h-12 rounded-xl"
       />
-      <AddPlanForm
-        handleFocusFeedNumber={handleFocusFeedNumber}
-        feedInfo={feedInfo}
-        handleAddFeedDetailLoc={handleAddFeedDetailLoc}
-      />
+      {feedInfo.map(({ feedDetailLoc, title }, index) => (
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={handleFocusFeedNumber({ key: index })}
+          className="bg-white h-full p-5 pb-5 my-4 rounded-xl"
+        >
+          <div className="border-b pb-3 mb-5">
+            <input onChange={handleChangeFeedTitle} className="text-black" placeholder={title} type="text" />
+          </div>
+          {feedDetailLoc.map(({ feedDetailLocImg }, num) => (
+            <FeedDetailList
+              onChangePlace={handleChangePlace}
+              feedDetailLocImg={feedDetailLocImg}
+              handleChangeImageFile={handleChangeImageFile}
+              onChangeComment={handleChangeComment}
+              onClick={handleFocusFeedDetailNumber}
+              index={num}
+            />
+          ))}
+          <button onClick={handleAddFeedDetailLoc({ index })} type="button" className="relative -top-3 left-5 text-main">
+            장소 추가하기
+          </button>
+        </div>
+      ))}
       <div
         role="button"
         onClick={handleAddFeedDetail}

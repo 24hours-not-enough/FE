@@ -1,6 +1,25 @@
 import axios from 'axios';
 import { getTokenFromSession } from '../../shared/utils';
 
+export const imgApi = axios.create({
+  baseURL: process.env.REACT_APP_SERVER_IP,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
+
+imgApi.interceptors.request.use(
+  (config) => {
+    const accessToken = getTokenFromSession('accessToken');
+    const refreshToken = getTokenFromSession('refreshToken');
+    if (accessToken && refreshToken) {
+      config.headers.common.authorization = accessToken;
+      config.headers.common.refreshToken = refreshToken;
+    }
+    return config;
+  },
+);
+
 const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_IP,
   // baseURL: 'http://localhost:3000',
