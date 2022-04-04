@@ -50,20 +50,22 @@ instance.interceptors.response.use(
     console.log(err);
     console.log(err.response);
     // 토큰 만료됐을 경우 access token 재발급
-    if (err.status === 401) {
+    if (err.response.status === 401) {
       axios({
-        method: 'get',
+        method: 'post',
         url: `${process.env.REACT_APP_SERVER_IP}/api/token`,
         data: {
           accessToken: getTokenFromSession('accessToken'),
-          refreshToken: getTokenFromSession('refreshToekn'),
+          refreshToken: getTokenFromSession('refreshToken'),
         },
       })
         .then((res) => {
           setTokenToSession('accessToken', res.data.accessToken);
           setTokenToSession('refreshToken', res.data.refreshToken);
         });
+      return axios.create().request(err.response.config);
     }
+    return Promise.reject(err);
   },
 );
 

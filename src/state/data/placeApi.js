@@ -5,24 +5,24 @@ class PlaceApi {
   constructor() {
     this.axios = instance;
     this.this = axios;
+    this.base = process.env.REACT_APP_SERVER_IP;
   }
 
   // 메인페이지 get
   async getPlaceAxios({
     x1, x2, y1, y2,
   }) {
-    return this.axios({
+    return this.this({
       method: 'post',
-      url: '/api/map',
+      url: `${this.base}/api/map`,
       data: {
         leftX: x1,
         rightX: x2,
         bottomY: y1,
         topY: y2,
       },
-      // method: 'get',
-      // url: '/api/map.json',
     })
+      .then((res) => res.data)
       .then((res) => {
         console.log(res);
         return res.allLocationsDtoList;

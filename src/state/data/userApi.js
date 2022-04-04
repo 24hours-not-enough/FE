@@ -89,8 +89,8 @@ class UserApi {
   // 첫 로그인 시 프로필 이미지, 닉네임 등록
   async loginUserInfo({ tokens, userInfo, navigate }) {
     return this.realAxios({
-      method: 'put',
-      url: `${this.base}/api/mypage`,
+      method: 'post',
+      url: `${this.base}/api/login/userinfo`,
       headers: {
         authorization: tokens.access_token,
         refreshToken: tokens.refresh_token,
@@ -98,6 +98,7 @@ class UserApi {
       },
       data: userInfo,
     })
+      .then((res) => res.data)
       .then((res) => {
         console.log(res);
         if (res.result === this.SUCCESS) {
