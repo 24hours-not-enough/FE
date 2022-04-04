@@ -46,12 +46,12 @@ instance.interceptors.response.use(
     console.log(response);
     return response.data;
   },
-  (err) => {
+  async (err) => {
     console.log(err);
     console.log(err.response);
     // 토큰 만료됐을 경우 access token 재발급
     if (err.response.status === 401) {
-      axios({
+      await axios({
         method: 'post',
         url: `${process.env.REACT_APP_SERVER_IP}/api/token`,
         data: {

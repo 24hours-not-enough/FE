@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import _plan from '../state/redux/plan/planSelector';
-import { addDaysAxios, updatePlanDetailAxios } from '../state/redux/plan/planThunk';
+import { addDaysAxios, getPlans, updatePlanDetailAxios } from '../state/redux/plan/planThunk';
 
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import Navbar from '../components/container/Navbar';
@@ -39,6 +39,12 @@ function PlanDetailNew() {
   const planId = Number(param.planId);
 
   useEffect(() => {
+    if (plan.length === 0) {
+      dispatch(getPlans());
+    }
+  }, []);
+
+  useEffect(() => {
     const planDetailInfo = plan.filter((onePlan) => onePlan.planId === planId)[0];
     setPlanDetails(planDetailInfo);
   }, [plan]);
@@ -58,7 +64,7 @@ function PlanDetailNew() {
   // 계획 편집 상태 toggle
   const toggleEditState = () => {
     if (viewState === EDIT) {
-      dispatch(updatePlanDetailAxios({ planId, planDetailData: planDetails }));
+      dispatch(updatePlanDetailAxios({ planId, planDetailData: planDetails.calendars }));
       setViewState(PLAN);
     } else {
       setViewState(EDIT);
@@ -171,11 +177,13 @@ function PlanDetailNew() {
             setTabState={setTabState}
           />
           )}
+
           {onSearchMap
           && (
           <PlanDetailSearch
             tabState={tabState}
             setTabState={setTabState}
+            setOnSearchMap={setOnSearchMap}
           />
           )}
         </LayoutWrapper>

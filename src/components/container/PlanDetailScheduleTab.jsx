@@ -16,20 +16,35 @@ function PlanDetailScheduleTab({
 
   // 일정 추가하기 완료
   const handleUpdateClick = () => {
+    let calendarDetailsData;
     const memo = memoRef.current.value;
 
-    if (memo === '') {
+    if (memo === '' && !tabState.added) {
       return;
     }
 
-    const calendarDetailsData = {
-      calendarDetailsId: new Date().getTime().toString(),
-      locationName: null,
-      locationMemo: memo,
-      latitude: null,
-      longitude: null,
-      sort: calendar.calendarDetails.length,
-    };
+    if (tabState.added) {
+      const { locationName, latitude, longitude } = tabState.added;
+      calendarDetailsData = {
+        calendarDetailsId: new Date().getTime().toString(),
+        location: locationName,
+        // locationName,
+        locationMemo: memo,
+        latitude,
+        longitude,
+        sort: calendar.calendarDetails.length,
+      };
+    } else {
+      calendarDetailsData = {
+        calendarDetailsId: new Date().getTime().toString(),
+        location: null,
+        // locationName: null,
+        locationMemo: memo,
+        latitude: null,
+        longitude: null,
+        sort: calendar.calendarDetails.length,
+      };
+    }
 
     const updatedCalendarData = {
       ...calendar,
@@ -48,7 +63,7 @@ function PlanDetailScheduleTab({
       <div className="flex flex-col items-start">
         <div className=" flex mb-[30px]">
           <span className="mr-[12px]">
-            {mode === ADD ? '장소 추가하기' : 'tabState.calendarDetails.locationName'}
+            {(mode === ADD && tabState.added) ? tabState.added.locationName : '장소 추가하기'}
           </span>
           <button type="button" onClick={searchPlace}>
             <img src="/images/chooseIcon.png" alt="select place" />

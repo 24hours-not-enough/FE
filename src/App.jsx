@@ -13,12 +13,14 @@ import PlanDetail from './pages/PlanDetail';
 import PlanDetailNew from './pages/PlanDetailNew';
 import Setting from './pages/Setting';
 import { getTokenFromSession } from './shared/utils';
+import _plan from './state/redux/plan/planSelector';
 import { getPlans } from './state/redux/plan/planThunk';
 import { _userInfo } from './state/redux/user/userSelector';
 import { getUser } from './state/redux/user/userThunk';
 
 function App() {
   const userInfo = useSelector(_userInfo);
+  const plan = useSelector(_plan);
   const isTokenInSession = getTokenFromSession('accessToken');
 
   const dispatch = useDispatch();
