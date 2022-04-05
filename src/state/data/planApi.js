@@ -3,6 +3,7 @@ import instance from './axios';
 class PlanApi {
   constructor() {
     this.axios = instance;
+    this.SUCCESS = 'success';
   }
 
   // 내 플랜 전부 불러오기
@@ -147,6 +148,23 @@ class PlanApi {
     })
       .then((res) => {
         console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+      });
+  }
+
+  // 초대 url로 들어왔을 때
+  async linkByInviteURL({ roomId, navigate }) {
+    return this.axios({
+      method: 'post',
+      url: `api/member/plan/room/${roomId}`,
+    })
+      .then((res) => {
+        if (res.result === this.SUCCESS) {
+          navigate('/plan', { replace: true });
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import SockJS from 'sockjs-client';
-import StompJs from '@stomp/stompjs';
+// import SockJS from 'sockjs-client';
+// import StompJs from '@stomp/stompjs';
 import { _userInfo } from '../../state/redux/user/userSelector';
 
 function Chat({ planId }) {

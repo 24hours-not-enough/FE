@@ -47,7 +47,7 @@ function App() {
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />
-      <Route path="api/member/plan/room/:roomId" element={<InviteHandler />} />
+      <Route path="/plan/invitation/:roomId" element={<InviteHandler />} />
     </Routes>
   );
 }
