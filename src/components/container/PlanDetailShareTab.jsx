@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { useEffect } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import BottomTab from '../elements/bottomTab';
 
 function PlanDetailShareTab({
@@ -8,6 +9,7 @@ function PlanDetailShareTab({
 }) {
   console.log(tabState);
   const { creator, roomId, title } = tabState.plan;
+
   useEffect(() => {
     if (window.Kakao) {
       const kakao = window.Kakao;
@@ -39,9 +41,27 @@ function PlanDetailShareTab({
     });
   };
 
+  const showMessage = () => {
+    alert('링크가 복사되었습니다');
+  };
+
   return (
     <BottomTab closeTab={() => setTabState(null)}>
-      <button type="button" onClick={shareKakao}>카카오톡 공유하기</button>
+      <h3 className="text-center mb-[48px] text-[20px] font-[800]">공유하기</h3>
+      <div className="flex justify-center gap-x-[24px]">
+        <button type="button" className="w-[48px] h-[48px] rounded-full" onClick={shareKakao}>카카오톡</button>
+        <CopyToClipboard
+          text={`http://localhost:3000/plan/invitation/${roomId}`}
+          onCopy={showMessage}
+        >
+          <button
+            type="button"
+            className="w-[48px] h-[48px] text-white bg-main font-[800] text-[18px] rounded-full"
+          >
+            URL
+          </button>
+        </CopyToClipboard>
+      </div>
     </BottomTab>
   );
 }
