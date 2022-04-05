@@ -28,11 +28,11 @@ function Plan() {
   const isTokenInSession = getTokenFromSession('accessToken');
 
   useEffect(() => {
-    // if (!isTokenInSession) {
-    //   alert('로그인 후 이용해주세요');
-    //   navigate('/');
-    //   return;
-    // }
+    if (!isTokenInSession) {
+      alert('로그인 후 이용해주세요');
+      navigate('/');
+      return;
+    }
     dispatch(getPlans());
   }, []);
 

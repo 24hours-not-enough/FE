@@ -31,7 +31,7 @@ function PlanDetailNew() {
   const param = useParams();
   const dispatch = useDispatch();
 
-  const [viewState, setViewState] = useState(MAP);
+  const [viewState, setViewState] = useState(PLAN);
   const [planDetails, setPlanDetails] = useState(null);
   const [tabState, setTabState] = useState(null);
   const [onSearchMap, setOnSearchMap] = useState(false);
@@ -101,7 +101,7 @@ function PlanDetailNew() {
       <div className="overflow-auto scrollbar-hide">
         <LayoutWrapper>
           <Navbar title={planDetails.title}>
-            <button type="button" onClick={() => setTabState({ state: MENU })}>
+            <button type="button" onClick={() => setTabState({ state: MENU, calendar: planDetails })}>
               <img src="/images/menuIcon_black.png" alt="menu" className="w-[24px] h-[24px]" />
             </button>
           </Navbar>
@@ -174,6 +174,7 @@ function PlanDetailNew() {
           {(tabState && tabState.state === MENU)
           && (
           <PlanDetailMenuTab2
+            tabState={tabState}
             setTabState={setTabState}
           />
           )}
