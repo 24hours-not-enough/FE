@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 import axios from 'axios';
 import { getTokenFromSession, setTokenToSession } from '../../shared/utils';
 
@@ -41,42 +42,41 @@ instance.interceptors.request.use(
   },
 );
 
-const refresh = async () => {
-  const data = await axios({
-    method: 'post',
-    url: `${process.env.REACT_APP_SERVER_IP}/api/token`,
-    data: {
-      accessToken: getTokenFromSession('accessToken'),
-      refreshToken: getTokenFromSession('refreshToken'),
-    },
+const refresh = () => axios({
+  method: 'post',
+  url: `${process.env.REACT_APP_SERVER_IP}/api/token`,
+  data: {
+    accessToken: getTokenFromSession('accessToken'),
+    refreshToken: getTokenFromSession('refreshToken'),
+  },
+}).then((res) => {
+  console.log(res);
+  setTokenToSession('accessToken', res.data.accessToken);
+  setTokenToSession('refreshToken', res.data.refreshToken);
+})
+  .catch((error) => {
+    console.log(error);
+    console.log(error.response);
   });
-  console.log('test', data);
-
-  return data;
-};
 
 instance.interceptors.response.use(
   (response) => {
     console.log(response);
     return response.data;
   },
-  (err) => {
+  async (err) => {
     // 토큰 만료됐을 경우 access token 재발급
     if (err.response.status === 401) {
-      refresh();
-      // axios({
-      //   method: 'post',
-      //   url: `${process.env.REACT_APP_SERVER_IP}/api/token`,
-      //   data: {
-      //     accessToken: getTokenFromSession('accessToken'),
-      //     refreshToken: getTokenFromSession('refreshToken'),
-      //   },
-      // })
-      //   .then((res) => {
-      //     setTokenToSession('accessToken', res.data.accessToken);
-      //     setTokenToSession('refreshToken', res.data.refreshToken);
-      //   });
-      return axios.create().request(err.response.config);
+      console.log(err);
+      console.log(err.response);
+      await refresh();
+      return axios.create().request({
+        ...err.response.config,
+        headers: {
+          authorization: getTokenFromSession('accessToken'),
+          refreshToken: getTokenFromSession('refreshToken'),
+        },
+      });
     }
     return Promise.reject(err);
   },
