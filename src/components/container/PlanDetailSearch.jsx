@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 function PlanDetailSearch({
   tabState,
@@ -10,15 +9,10 @@ function PlanDetailSearch({
   const mapRef = useRef();
   const searchRef = useRef();
   const searchFormRef = useRef();
-  const dispatch = useDispatch();
 
   const [coordinates, setCoordinates] = useState({ latitude: 37.566, longitude: 126.9786 });
   const [searchedList, setSearchedList] = useState([]);
   const [searchedPlace, setSearchedPlace] = useState(null);
-
-  const addSelectedPlaceInfo = () => {
-    console.log(tabState);
-  };
 
   useEffect(() => {
     const mapOptions = {

@@ -31,7 +31,7 @@ function PlanDetailNew() {
   const param = useParams();
   const dispatch = useDispatch();
 
-  const [viewState, setViewState] = useState(PLAN);
+  const [viewState, setViewState] = useState(MAP);
   const [planDetails, setPlanDetails] = useState(null);
   const [tabState, setTabState] = useState(null);
   const [onSearchMap, setOnSearchMap] = useState(false);
