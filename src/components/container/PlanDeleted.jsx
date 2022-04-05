@@ -33,7 +33,7 @@ function PlanDeleted({ deletedPlan, restorePlan, deletePlanPermanently }) {
               </button>
               <button
                 type="button"
-                onClick={() => restorePlan(plan.planId)}
+                onClick={() => restorePlan({ planId: plan.planId })}
                 className="text-main"
               >
                 복구

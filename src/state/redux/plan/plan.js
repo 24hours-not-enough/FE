@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   addDaysAxios,
-  deletePlanAxios,
   deletePlanPermanentlyAxios,
-  getPlans, restorePlanAxios,
+  getPlans,
   togglePlanDeleteState,
   updatePlanDetailAxios,
 } from './planThunk';
@@ -32,22 +31,6 @@ const planSlice = createSlice({
             if (onePlan.delTc === true) {
               return { ...onePlan, delTc: false };
             }
-            return { ...onePlan, delTc: true };
-          }
-          return onePlan;
-        });
-      })
-      .addCase(deletePlanAxios.fulfilled, (state, { payload }) => {
-        state.plan = state.plan.map((onePlan) => {
-          if (onePlan.planId === payload) {
-            return { ...onePlan, delTc: false };
-          }
-          return onePlan;
-        });
-      })
-      .addCase(restorePlanAxios.fulfilled, (state, { payload }) => {
-        state.plan = state.plan.map((onePlan) => {
-          if (onePlan.planId === payload) {
             return { ...onePlan, delTc: true };
           }
           return onePlan;
