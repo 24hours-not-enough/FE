@@ -1,4 +1,4 @@
-export default function MyLikeFeeds({ myLikes, handleRouter }) {
+export default function MyLikeFeeds({ myLikes }) {
   return (
     <div className="grid grid-cols-2 px-5 pt-5">
       {myLikes.map(({ feeds, city }) => (

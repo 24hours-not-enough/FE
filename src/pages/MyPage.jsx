@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setFeedId } from '../state/redux/feed/feed';
 import { addFeedDetail } from '../state/redux/feed/feedThunk';
 import instance, { imgApi } from '../state/data/axios';
-import UserApi from '../state/data/userApi';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
 
@@ -40,7 +39,6 @@ function MyPage() {
   const myLikes = useSelector(_myLikes);
   const myFeed = useSelector(_myFeed);
   const myFeedId = useSelector(_myFeedId);
-  const userApi = new UserApi();
 
   const [checkDuplication, setCheckDuplication] = useState({ checked: null, color: 'red', value: '' });
   const [userNameChange, setUserNameChange] = useState(userInfo.username);
@@ -84,7 +82,7 @@ function MyPage() {
     };
   }, [profileImgRef, profileImgPreview]);
 
-  const handleSubmitProfile = useCallback((e) => {
+  const handleSubmitProfile = useCallback(() => {
     const userFormData = new FormData();
     userFormData.append('file', profileImgRef.current.files[0]);
     userFormData.append('username', userNameChange);

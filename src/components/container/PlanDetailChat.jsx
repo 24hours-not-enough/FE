@@ -46,13 +46,15 @@ function PlanDetailChat({ planDetails }) {
     };
   }, [planId]);
 
+  console.log(userId, isConnectStomp, chat);
+
   return (
     <div className="overflow-hidden">
       <article className="">
         <section className="w-screen overflow-y-auto scrollbar-hide">
-          {
+          {/* {
             chat.map((msg) => <div>채팅</div>)
-          }
+          } */}
         </section>
         <section className="absolute bottom-0">
           <form ref={formRef} className="flex">

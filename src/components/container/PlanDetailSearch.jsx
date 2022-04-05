@@ -24,6 +24,7 @@ function PlanDetailSearch({
 
     if (searchedPlace) {
       const markerPosition = new kakao.maps.LatLng(searchedPlace.latitude, searchedPlace.longitude);
+      // eslint-disable-next-line no-unused-vars
       const marker = new kakao.maps.Marker({ map, position: markerPosition, clickable: true });
     }
   }, [coordinates]);
@@ -57,7 +58,7 @@ function PlanDetailSearch({
 
   // 장소 선택
   const handleShowInMap = ({
-    x, y, locationName, placeId,
+    x, y, locationName,
   }) => {
     setSearchedList([]);
     setCoordinates({ latitude: y, longitude: x });

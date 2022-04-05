@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import UserApi from '../../data/userApi';
-import instance, { imgApi } from '../../data/axios';
+import { imgApi } from '../../data/axios';
 import { getPlans } from '../plan/planThunk';
 
 const userApi = new UserApi();

@@ -68,26 +68,26 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
 
 export default MyPageMain;
 
-function FeedImage({ feedImages }) {
-  const handleShowImages = () =>
-    feedImages.map(({ imgId, imgUrl }, index) => (index > 8 ? null : (
-      <img
-        key={imgId}
-        src={imgUrl}
-        className="inline-block m-1 w-20 h-20 bg-slate-400 rounded-lg"
-        alt="여행사진"
-      />
-    )));
-  if (feedImages.length < 8) {
-    return feedImages.map(({ imgUrl, imgId }) => (
-      <img
-        key={imgId}
-        src={imgUrl}
-        className="inline-block m-1 w-20 h-20 bg-slate-400 rounded-lg"
-        alt="여행사진"
-      />
-    ));
-  }
+// function FeedImage({ feedImages }) {
+//   const handleShowImages = () =>
+//     feedImages.map(({ imgId, imgUrl }, index) => (index > 8 ? null : (
+//       <img
+//         key={imgId}
+//         src={imgUrl}
+//         className="inline-block m-1 w-20 h-20 bg-slate-400 rounded-lg"
+//         alt="여행사진"
+//       />
+//     )));
+//   if (feedImages.length < 8) {
+//     return feedImages.map(({ imgUrl, imgId }) => (
+//       <img
+//         key={imgId}
+//         src={imgUrl}
+//         className="inline-block m-1 w-20 h-20 bg-slate-400 rounded-lg"
+//         alt="여행사진"
+//       />
+//     ));
+//   }
 
-  return handleShowImages();
-}
+//   return handleShowImages();
+// }

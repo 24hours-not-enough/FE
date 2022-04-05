@@ -5,7 +5,7 @@ function PlanPresent({
   plan, openEditMenu, isEditPage, deletePlan, goToPlanDetailPage,
 }) {
   const {
-    planId, title, travelDestination, travelStart, travelEnd, members, roodId,
+    planId, title, travelDestination, travelStart, travelEnd, members,
   } = plan;
 
   const handleOpenEditMenu = (e) => {
