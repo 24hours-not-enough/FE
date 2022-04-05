@@ -47,7 +47,8 @@ function PlanDetailNew() {
   }, []);
 
   useEffect(() => {
-    const planDetailInfo = plan.filter((onePlan) => onePlan.planId === planId)[0];
+    const planDetailInfo = plan.length > 0
+    && plan.filter((onePlan) => onePlan.planId === planId)[0];
     setPlanDetails(planDetailInfo);
   }, [plan]);
 

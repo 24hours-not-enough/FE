@@ -7,27 +7,32 @@ function PlanDetailShareTab({
   setTabState,
 }) {
   console.log(tabState);
+  const { creator, roomId, title } = tabState.plan;
   useEffect(() => {
-    Kakao.init(process.env.REACT_APP_KAKAO_CLIENT_ID);
+    if (window.Kakao) {
+      const kakao = window.Kakao;
+      if (!kakao.isInitialized()) {
+        Kakao.init(process.env.REACT_APP_KAKAO_JS_KEY);
+      }
+    }
   }, []);
 
   const shareKakao = () => {
     Kakao.Link.sendDefault({
       objectType: 'feed',
       content: {
-        title: 'triplan',
-        description: '내용!',
-        imageUrl: '/images/mock/1.jpg',
+        title: 'TRIPLAN',
+        description: `${creator.userName}님이 ${title}로 초대하셨습니다`,
+        imageUrl: '/images/triplan_thumbnail.png',
         link: {
-          mobileWebUrl: '모바일 url!',
-          androidExecParams: 'test',
+          mobileWebUrl: `http://localhost:3000/plan/invitation/${roomId}`,
         },
       },
       buttons: [
         {
-          title: '웹으로 이동',
+          title: '초대 수락',
           link: {
-            mobileWebUrl: '공유할 url!',
+            mobileWebUrl: `http://localhost:3000/plan/invitation/${roomId}`,
           },
         },
       ],
@@ -35,7 +40,7 @@ function PlanDetailShareTab({
   };
 
   return (
-    <BottomTab>
+    <BottomTab closeTab={() => setTabState(null)}>
       <button type="button" onClick={shareKakao}>카카오톡 공유하기</button>
     </BottomTab>
   );
