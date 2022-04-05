@@ -39,6 +39,12 @@ const headerTitle = (pathname) => {
       back: true,
     };
   }
+  if (pathname === '/mypage/settings') {
+    props = {
+      title: '설정',
+      back: true,
+    };
+  }
   return props;
 };
 

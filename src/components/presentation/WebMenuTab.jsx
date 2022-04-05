@@ -2,7 +2,7 @@ import iconSet from '../../shared/imageUrl';
 
 export default function WebMenuTab({ handleRouter }) {
   return (
-    <div className="absolute flex flex-col w-72 h-full bg-gray-400 rounded-r-2xl">
+    <div className="absolute flex flex-col w-72 h-screen bg-gray-400 rounded-r-2xl z-50">
       <div className="mt-14 mx-auto text-white">
         <div className="w-28 h-28 bg-white rounded-full" />
         <h1 className="text-center text-2xl text-bold">Name</h1>

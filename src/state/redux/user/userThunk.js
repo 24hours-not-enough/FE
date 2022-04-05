@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import UserApi from '../../data/userApi';
+import instance, { imgApi } from '../../data/axios';
 import { getPlans } from '../plan/planThunk';
 
 const userApi = new UserApi();
@@ -63,5 +64,15 @@ export const withdrawal = createAsyncThunk(
     dispatch(logout());
     await userApi.withdrawalAxios();
     navigate('/', { replace: true });
+  },
+);
+
+export const changeUserProfile = createAsyncThunk(
+  'user/changeProfile',
+  async ({ userInfo }) => {
+    console.log(userInfo);
+    const response = await imgApi.post('/api/mypage', userInfo);
+    console.log(response);
+    return null;
   },
 );

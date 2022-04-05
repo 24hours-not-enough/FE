@@ -8,14 +8,15 @@ import {
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import iconSet from '../shared/imageUrl';
 import { setFeedId } from '../state/redux/feed/feed';
-import { changeUserName } from '../state/redux/user/userThunk';
 import { addFeedDetail } from '../state/redux/feed/feedThunk';
-import { imgApi } from '../state/data/axios';
+import instance, { imgApi } from '../state/data/axios';
+import UserApi from '../state/data/userApi';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
-import { headerTitle } from '../shared/utils';
+
+import iconSet from '../shared/imageUrl';
+import { headerTitle, checkNickname } from '../shared/utils';
 
 import MyPagePlan from '../components/presentation/MyPagePlan';
 import MyPageMain from '../components/presentation/MyPageMain';
@@ -24,11 +25,14 @@ import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
 
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
+import MyPageSettings from '../components/presentation/MyPageSettings';
+import { changeUserProfile } from '../state/redux/user/userThunk';
 
 function MyPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const profileImgRef = useRef();
   const startDateRef = useRef();
   const endDateRef = useRef();
 
@@ -36,8 +40,11 @@ function MyPage() {
   const myLikes = useSelector(_myLikes);
   const myFeed = useSelector(_myFeed);
   const myFeedId = useSelector(_myFeedId);
+  const userApi = new UserApi();
 
+  const [checkDuplication, setCheckDuplication] = useState({ checked: null, color: 'red', value: '' });
   const [userNameChange, setUserNameChange] = useState(userInfo.username);
+  const [profileImgPreview, setProfileImgPreview] = useState(null);
   const [feedTitle, setFeedTitle] = useState('');
   const [feedNum, setFeedNum] = useState(0);
   const [feedDetailNum, setFeedDetailNum] = useState(0);
@@ -68,8 +75,35 @@ function MyPage() {
     setUserNameChange(e.target.value);
   }, [userNameChange]);
 
-  const handleChangeUserName = useCallback(() => {
-    dispatch(changeUserName({ userNameChange }));
+  const handleProfileImgUpload = useCallback(() => {
+    const fileReader = new FileReader();
+    const file = profileImgRef.current.files[0];
+    fileReader.readAsDataURL(file);
+    fileReader.onloadend = () => {
+      setProfileImgPreview(fileReader.result);
+    };
+  }, [profileImgRef, profileImgPreview]);
+
+  const handleSubmitProfile = useCallback((e) => {
+    const userFormData = new FormData();
+    userFormData.append('file', profileImgRef.current.files[0]);
+    userFormData.append('username', userNameChange);
+
+    dispatch(changeUserProfile({ userInfo: userFormData }));
+  }, [userNameChange, profileImgRef]);
+
+  const handleCheckDuplication = useCallback(() => {
+    if (userNameChange === '' || !checkNickname(userNameChange)) {
+      setCheckDuplication({ checked: null, color: 'red', value: '숫자, 영어, 한글을 조합하여 2-8글자로 입력해주세요!' });
+      return null;
+    }
+    instance.post('/api/username', { userName: userNameChange })
+      .then(() => {
+        setCheckDuplication({ checked: true, color: 'blue', value: '사용 가능한 닉네임입니다.' });
+      }).catch((err) => {
+        console.log('test', err);
+        setCheckDuplication({ checked: false, color: 'red', value: '다른 사용자가 이미 사용중입니다.' });
+      });
   }, [userNameChange]);
 
   const handleChangeTitle = useCallback((e) => {
@@ -192,7 +226,7 @@ function MyPage() {
         {location.pathname === '/mypage/plan'
           ? (<button onClick={handleStoreFeed} type="button">완료</button>)
           : (
-            <button className="pt-1" type="button" onClick={() => {}}>
+            <button className="pt-1" type="button" onClick={handleRouter('/mypage/settings')}>
               <img className="w-6 h-5" src={iconSet.myPage.settingIcon} alt="setting" />
             </button>
           )}
@@ -212,9 +246,14 @@ function MyPage() {
           path="/profile"
           element={(
             <MyPageProfile
-              onChange={onChangeUserName}
-              onClick={handleChangeUserName}
+              checkDuplication={checkDuplication}
+              profileImgPreview={profileImgPreview}
               userInfo={userInfo}
+              profileImgRef={profileImgRef}
+              onChange={onChangeUserName}
+              handleCheckDuplication={handleCheckDuplication}
+              handleProfileImgUpload={handleProfileImgUpload}
+              handleSubmitProfile={handleSubmitProfile}
             />
           )}
         />
@@ -248,7 +287,13 @@ function MyPage() {
               handleRouter={handleRouter}
               myLikes={myLikes}
             />
-)}
+          )}
+        />
+        <Route
+          path="/settings"
+          element={(
+            <MyPageSettings />
+          )}
         />
       </Routes>
     </LayoutWrapper>

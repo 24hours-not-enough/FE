@@ -40,14 +40,8 @@ function LoginProfileForm() {
     const userInfo = { userName: nickname };
     userApi.checkDuplication({ tokens: location.state, userInfo })
       .then((res) => {
-        console.log(res);
-        if (res.result === 'success') {
-          setNicknameDescription({ color: 'blue', value: '사용 가능한 닉네임입니다.' });
-          setDuplicationChecked(true);
-        } else if (res.result === 'fail') {
-          setNicknameDescription({ color: 'red', value: '다른 사용자가 이미 사용중입니다.' });
-          setDuplicationChecked(false);
-        }
+        setNicknameDescription({ color: 'blue', value: '사용 가능한 닉네임입니다.' });
+        setDuplicationChecked(true);
       })
       .catch((err) => {
         console.log(err);

@@ -14,8 +14,6 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
           <img alt="유저이미지" src={userProfileImage} className="w-16 h-16 rounded-full bg-main" />
           <h1 className="text-xl ml-4">
             {userName}
-            {' '}
-            aaaaa
           </h1>
         </div>
         <div className="flex justify-center items-center mr-5">

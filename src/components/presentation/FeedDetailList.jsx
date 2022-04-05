@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import styles from './feedDetail.module.css';
 
 function FeedDetailList({
   index,
@@ -30,11 +31,17 @@ function FeedDetailList({
           placeholder="장소 추가하기"
           className="text-main"
         />
-        <div className="absolute top-8 flex">
+        <div className={`${styles.inputfile} absolute top-8 flex`}>
           {feedDetailLocImg.map((item) => (
             <img key={item} src={item} alt="이미지" className="w-20 h-20 mr-2 rounded-xl" />
           ))}
-          <input type="file" id="file" onChange={handleChangeImageFile} multiple="multiple" className="bg-main-background w-20 h-20 rounded-xl" />
+          <label
+            htmlFor="file"
+            className="grid place-items-center bg-main-background w-20 h-20 rounded-xl text-2xl text-main"
+          >
+            +
+          </label>
+          <input type="file" id="file" onChange={handleChangeImageFile} multiple="multiple" />
         </div>
         <input
           onChange={onChangeComment}

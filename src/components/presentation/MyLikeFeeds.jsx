@@ -4,21 +4,15 @@ export default function MyLikeFeeds({ myLikes, handleRouter }) {
       {myLikes.map(({ feeds, city }) => (
         <div key={city}>
           <div
-            className="bg-white w-44 h-44 mx-auto"
+            className="bg-white w-[168px] h-[168px] mx-auto p-[6px]"
           >
             {feeds.map(({ images }) => images.map((item) => (
-              <div key={item} className="inline-block bg-black w-20 h-20 mx-1" />
+              <img key={item} alt="좋아요한 이미지" src={item} className="inline-block bg-main w-[76px] h-[76px] mx-[1px] my-[1px] rounded-md" />
             )))}
           </div>
-          모든게시물
+          {city}
         </div>
       )) }
-      <div>
-        <div
-          className="bg-white w-44 h-44 mx-auto"
-        />
-        제주도
-      </div>
     </div>
   );
 }

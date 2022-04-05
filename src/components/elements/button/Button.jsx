@@ -36,6 +36,7 @@ function Button({
       ${buttonType()}
       `
       }
+      disabled={type === 'none'}
       style={propsStyle}
       type="button"
       onClick={onClick}
