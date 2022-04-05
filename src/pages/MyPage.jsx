@@ -52,6 +52,7 @@ function MyPage() {
             latitude: 0,
             longitude: 0,
             placeAdress: '',
+            name: '11',
           },
           feedDetailLocImg: [],
         },
