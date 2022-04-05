@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import { debounce } from 'lodash';
 import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
@@ -14,9 +15,11 @@ import { _userInfo } from '../state/redux/user/userSelector';
 function Main() {
   const place = useSelector(_place);
   const userInfo = useSelector(_userInfo);
+
   const mapRef = useRef();
   const searchRef = useRef();
   const searchFormRef = useRef();
+
   const [isFeedTab, setIsFeedTab] = useState(false);
   const [isTriplanTab, setIsTriplanTab] = useState(false);
   const [feedTabData, setFeedTabData] = useState(null);
@@ -24,9 +27,29 @@ function Main() {
   const [coordinates, setCoordinates] = useState({ latitude: 37.566, longitude: 126.9786 });
   const [onSearch, setOnSearch] = useState(false);
   const [searchedList, setSearchedList] = useState([]);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
   const dispatch = useDispatch();
+
   let bounds;
   let map;
+
+  const handleResize = debounce(() => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  }, 300);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const showMap = useCallback((mapX, mapY) => {
     const mapOptions = {
@@ -70,7 +93,7 @@ function Main() {
   // 지도, 지도 위 마커 표시
   useEffect(() => {
     showMap(coordinates.latitude, coordinates.longitude);
-  }, [coordinates]);
+  }, [windowSize, coordinates]);
 
   useEffect(() => {
     place.forEach((onePlace) => {
