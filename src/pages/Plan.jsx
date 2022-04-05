@@ -41,7 +41,7 @@ function Plan() {
     const present = [];
     const past = [];
     const deleted = [];
-    plan && plan.forEach((onePlan) => {
+    plan.length > 0 && plan.forEach((onePlan) => {
       if (!onePlan.delTc) {
         deleted.push(onePlan);
       } else if (onePlan.travelEnd < now) {

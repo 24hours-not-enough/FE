@@ -59,3 +59,11 @@ export const addDaysAxios = createAsyncThunk(
     return response;
   },
 );
+
+export const linkByInviteURL = createAsyncThunk(
+  'plan/linkByInviteURL',
+  async ({ roomId, navigate }, { dispatch }) => {
+    await planApi.linkByInviteURL({ roomId, navigate });
+    dispatch(getPlans);
+  },
+);
