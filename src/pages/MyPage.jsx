@@ -1,14 +1,18 @@
 /* eslint-disable prefer-const */
 /* eslint-disable array-callback-return */
-import { useCallback, useState } from 'react';
+import {
+  useCallback, useState, useRef, useEffect,
+} from 'react';
 import {
   useNavigate, useLocation, Route, Routes,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import iconSet from '../shared/imageUrl';
 import { setFeedId } from '../state/redux/feed/feed';
 import { changeUserName } from '../state/redux/user/userThunk';
-import { addFeedDetail, getImagesUrl } from '../state/redux/feed/feedThunk';
+import { addFeedDetail } from '../state/redux/feed/feedThunk';
+import { imgApi } from '../state/data/axios';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
 import { headerTitle } from '../shared/utils';
@@ -25,6 +29,8 @@ function MyPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const startDateRef = useRef();
+  const endDateRef = useRef();
 
   const userInfo = useSelector(_userInfo);
   const myLikes = useSelector(_myLikes);
@@ -33,18 +39,20 @@ function MyPage() {
 
   const [userNameChange, setUserNameChange] = useState(userInfo.username);
   const [feedTitle, setFeedTitle] = useState('');
-  const [feedNum, setFeedNum] = useState();
-  const [feedDetailNum, setFeedDetailNum] = useState();
+  const [feedNum, setFeedNum] = useState(0);
+  const [feedDetailNum, setFeedDetailNum] = useState(0);
+  const [feedImages, setFeedImages] = useState([]);
   const [feedInfo, setFeedInfo] = useState([
     {
-      title: '1일차',
+      day: '1일차',
       feedDetailLoc: [
         {
-          feedDetailLocId: 1,
-          latitude: 0,
-          longitude: 0,
-          locationMemo: '',
-          placeName: '',
+          memo: '',
+          feedLocation: {
+            latitude: 0,
+            longitude: 0,
+            placeAdress: '',
+          },
           feedDetailLocImg: [],
         },
       ],
@@ -71,16 +79,16 @@ function MyPage() {
     const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
     newFeedInfo[feedNum] = {
       ...newFeedInfo[feedNum],
-      title: e.target.value,
+      day: e.target.value,
     };
     setFeedInfo(newFeedInfo);
   }, [feedNum, feedDetailNum, feedInfo]);
 
   const handleChangePlace = useCallback((e) => {
     const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
-    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
-      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
-      placeName: e.target.value,
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedLocation = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedLocation,
+      placeAdress: e.target.value,
     };
     setFeedInfo(newFeedInfo);
   }, [feedNum, feedDetailNum, feedInfo]);
@@ -89,46 +97,46 @@ function MyPage() {
     const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
     newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
       ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
-      locationMemo: e.target.value,
+      memo: e.target.value,
     };
     setFeedInfo(newFeedInfo);
   }, [feedNum, feedDetailNum, feedInfo]);
 
   const handleChangeImageFile = useCallback((e) => {
-    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
-    let images = getImagesUrl({ images: e.target.files });
-    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
-      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
-      feedDetailLocImg:
-      [...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedDetailLocImg, images],
-    };
-    setFeedInfo(newFeedInfo);
+    const formData = new FormData();
+    Object.values(e.target.files).map((item) => formData.append('imgFiles', item));
+    imgApi.post('/api/feed/image', formData).then((res) => {
+      setFeedImages(Object.values(res.data.data));
+    });
   }, [feedNum, feedDetailNum, feedInfo]);
 
   const handleAddFeedDetailLoc = useCallback(({ index }) => () => {
     const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
     newFeedInfo[index].feedDetailLoc.push({
-      feedDetailLocId: 0,
-      latitude: 0,
-      longitude: 0,
-      locationMemo: '',
-      placeName: '',
-      feedDetailLocImg: [{ imgUrl: '', imgId: '' }],
+      feedLocation: {
+        latitude: 0,
+        longitude: 0,
+        memo: '',
+        placeAdress: '',
+      },
+      feedDetailLocImg: [],
     });
     setFeedInfo(newFeedInfo);
   }, [feedInfo]);
 
   const handleAddFeedDetail = useCallback(() => {
     setFeedInfo([...feedInfo, {
-      title: '',
+      day: '',
       feedDetailLoc: [
         {
-          feedDetailLocId: 1,
-          latitude: 0,
-          longitude: 0,
-          locationMemo: '',
-          placeName: '',
-          feedDetailLocImg: [{ imgUrl: '', imgId: '' }],
+          memo: '',
+          feedLocation: {
+            latitude: 0,
+            longitude: 0,
+            placeAdress: '',
+            name: '11',
+          },
+          feedDetailLocImg: [],
         },
       ],
     }]);
@@ -153,8 +161,26 @@ function MyPage() {
   }, [feedNum]);
 
   const handleStoreFeed = useCallback(() => {
-    dispatch(addFeedDetail({ feedInfo, feedTitle }));
-  }, [dispatch, feedInfo, feedTitle]);
+    const travelStart = new Date(startDateRef.current.state.preSelection).toISOString();
+    const travelEnd = new Date(endDateRef.current.state.preSelection).toISOString();
+
+    dispatch(addFeedDetail({
+      feedInfo,
+      feedTitle,
+      travelStart,
+      travelEnd,
+    }));
+  }, [dispatch, feedInfo, feedTitle, startDateRef, endDateRef]);
+
+  useEffect(() => {
+    const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
+    newFeedInfo[feedNum].feedDetailLoc[feedDetailNum] = {
+      ...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum],
+      feedDetailLocImg:
+      [...newFeedInfo[feedNum].feedDetailLoc[feedDetailNum].feedDetailLocImg, ...feedImages],
+    };
+    setFeedInfo(newFeedInfo);
+  }, [feedImages]);
 
   return (
     <LayoutWrapper>
@@ -162,7 +188,13 @@ function MyPage() {
         title={headerTitle(location.pathname).title}
         back={headerTitle(location.pathname).back}
       >
-        <button onClick={handleStoreFeed} type="button">완료</button>
+        {location.pathname === '/mypage/plan'
+          ? (<button onClick={handleStoreFeed} type="button">완료</button>)
+          : (
+            <button className="pt-1" type="button" onClick={() => {}}>
+              <img className="w-6 h-5" src={iconSet.myPage.settingIcon} alt="setting" />
+            </button>
+          )}
       </Navbar>
       <Routes>
         <Route
@@ -191,6 +223,8 @@ function MyPage() {
             <MyPagePlan
               myFeedId={myFeedId}
               feedInfo={feedInfo}
+              startDateRef={startDateRef}
+              endDateRef={endDateRef}
               feedDetailNum={feedDetailNum}
               handleGetFeedId={handleGetFeedId}
               handleFocusFeedNumber={handleFocusFeedNumber}
@@ -208,7 +242,12 @@ function MyPage() {
         />
         <Route
           path="/mylike-feeds"
-          element={<MyLikeFeeds myLikes={myLikes} />}
+          element={(
+            <MyLikeFeeds
+              handleRouter={handleRouter}
+              myLikes={myLikes}
+            />
+)}
         />
       </Routes>
     </LayoutWrapper>
