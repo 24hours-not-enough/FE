@@ -15,6 +15,7 @@ import PlanDetailChat from '../components/container/PlanDetailChat';
 import PlanDetailScheduleTab from '../components/container/PlanDetailScheduleTab';
 import PlanDetailMenuTab2 from '../components/container/PlanDetailMenuTab2';
 import PlanDetailSearch from '../components/container/PlanDetailSearch';
+import PlanDetailShareTab from '../components/container/PlanDetailShareTab';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
@@ -22,6 +23,7 @@ const MAP = 'map';
 const EDIT = 'edit';
 const MENU = 'menu';
 const SCHEDULE = 'schedule';
+const SHARE = 'share';
 
 const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
 const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
@@ -174,6 +176,13 @@ function PlanDetailNew() {
           {(tabState && tabState.state === MENU)
           && (
           <PlanDetailMenuTab2
+            tabState={tabState}
+            setTabState={setTabState}
+          />
+          )}
+          {(tabState && tabState.state === SHARE)
+          && (
+          <PlanDetailShareTab
             tabState={tabState}
             setTabState={setTabState}
           />

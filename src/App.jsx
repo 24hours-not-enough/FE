@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
+import InviteHandler from './components/container/InviteHandler';
 import LoginHandler from './components/container/LoginHandler';
 import Feed from './pages/Feed';
 import Login from './pages/Login';
@@ -48,6 +49,7 @@ function App() {
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />
+      <Route path="api/member/plan/room/:roomId" element={<InviteHandler />} />
     </Routes>
   );
 }
