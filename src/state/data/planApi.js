@@ -93,26 +93,16 @@ class PlanApi {
     });
   }
 
-  // 트리플랜 삭제
-  async deletePlan({ planId, navigate, isInDetail }) {
+  // 트리플랜 삭제, 복원
+  async togglePlanDeleteState({ planId, navigate, isInDetail }) {
     return this.axios({
       method: 'put',
-      url: `/api/plan/${planId}`,
-      data: { delFl: false },
+      url: `/api/plan/${planId}/storage`,
     })
       .then((res) => {
         console.log(res);
         isInDetail && navigate('/plan', { replace: true });
       });
-  }
-
-  // 트리플랜 복원
-  async restorePlan(planId) {
-    return this.axios({
-      method: 'put',
-      url: `/api/plan/${planId}`,
-      data: { delFl: true },
-    });
   }
 
   // 트리플랜 영구삭제

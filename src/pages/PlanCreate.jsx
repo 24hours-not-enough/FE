@@ -7,7 +7,6 @@ import Button from '../components/elements/button/Button';
 import Calendar from '../components/elements/calendar/Calendar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import PlanApi from '../state/data/planApi';
-import _plan from '../state/redux/plan/planSelector';
 import { createPlan, updatePlan } from '../state/redux/plan/planThunk';
 import { _userInfo } from '../state/redux/user/userSelector';
 
@@ -63,7 +62,7 @@ function PlanCreate() {
             return;
           }
           setSearchedUser({
-            userProfileImage: res.data.userProfileImage,
+            userProfileImage: res.data.userProfileImg,
             userName: res.data.userName,
             userId: res.data.userId,
           });
@@ -83,7 +82,7 @@ function PlanCreate() {
     const travelDestination = travelDestinationRef.current.value;
     const travelStart = travelStartRef.current.props.selected;
     const travelEnd = travelEndRef.current.props.selected;
-    const memberList = selectedUser;
+    const memberList = selectedUser.map((user) => ({ nickName: user.userName }));
 
     if (title === '' || travelDestination === '' || travelStart === '' || travelEnd === '') {
       alert('입력해주세요');
@@ -98,7 +97,6 @@ function PlanCreate() {
       memberList,
     };
 
-    console.log(updatedPlan);
     isUpdatePage
       ? dispatch(updatePlan({ planId: param.planId, updatedPlan, navigate }))
       : dispatch(createPlan({ updatedPlan, navigate }));
@@ -128,6 +126,8 @@ function PlanCreate() {
       userInfo.userId !== user.userId);
     setSelectedUser(updated);
   };
+
+  console.log(selectedUser);
 
   return (
     <LayoutWrapper>

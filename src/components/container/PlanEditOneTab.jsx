@@ -9,6 +9,11 @@ function PlanEditOneTab({ selectedPlan, setIsEditMenu, deletePlan }) {
     navigate(`/plan/update/${planId}`, { state: plan });
   };
 
+  const handleDelete = () => {
+    deletePlan({ planId });
+    setIsEditMenu(false);
+  };
+
   return (
     <div>
       <div className="absolute w-screen h-screen top-0 left-0 opacity-70 bg-[#E5E5E5] z-10" />
@@ -25,7 +30,7 @@ function PlanEditOneTab({ selectedPlan, setIsEditMenu, deletePlan }) {
           <button
             className="text-[16px] leading-[19px] text-red-400"
             type="button"
-            onClick={() => deletePlan({ planId })}
+            onClick={handleDelete}
           >
             삭제하기
           </button>
