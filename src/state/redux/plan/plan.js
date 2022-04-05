@@ -4,7 +4,7 @@ import {
   deletePlanPermanentlyAxios,
   getPlans,
   togglePlanDeleteState,
-  updatePlanDetailAxios,
+  // updatePlanDetailAxios,
 } from './planThunk';
 
 const initialState = {
@@ -39,9 +39,9 @@ const planSlice = createSlice({
       .addCase(deletePlanPermanentlyAxios.fulfilled, (state, { payload }) => {
         state.plan = state.plan.filter((onePlan) => onePlan.planId !== payload);
       })
-      .addCase(updatePlanDetailAxios.fulfilled, (state, { payload }) => {
-        const { planId, planDetailData } = payload;
-      })
+      // .addCase(updatePlanDetailAxios.fulfilled, (state, { payload }) => {
+      //   const { planId, planDetailData } = payload;
+      // })
       .addCase(addDaysAxios.fulfilled, (state, { payload }) => {
         if (payload.result === true) {
           const { planId, calendarId } = payload;

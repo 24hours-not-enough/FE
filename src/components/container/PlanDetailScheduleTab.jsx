@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import BottomTab from '../elements/bottomTab';
 
 const ADD = 'add';
-const UPDATE = 'update';
+// const UPDATE = 'update';
 
 function PlanDetailScheduleTab({
   handleUpdateSchedule,

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getPlace, addFeedComment } from './placeThunk';
+import { getPlace } from './placeThunk';
 
 const initialState = {
   place: [],
@@ -13,10 +13,9 @@ const placeSlice = createSlice({
     builder
       .addCase(getPlace.fulfilled, (state, { payload }) => {
         state.place = payload.response;
-      })
-      .addCase(addFeedComment.fulfilled, (state, { payload }) => {
-
       });
+    // .addCase(addFeedComment.fulfilled, (state, { payload }) => {
+    // });
   },
 });
 

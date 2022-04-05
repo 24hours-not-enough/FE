@@ -4,7 +4,7 @@ const PLAN = 'plan';
 const EDIT = 'edit';
 const SCHEDULE = 'schedule';
 const ADD = 'add';
-const UPDATE = 'update';
+// const UPDATE = 'update';
 
 function PlanDetailPlan({
   viewState,
@@ -34,7 +34,7 @@ function PlanDetailPlan({
               <section className="flex flex-col items-start gap-y-[28px] mb-[16px]">
                 {calendarDetails.map((calendarDetail) => {
                   const {
-                    calendarDetailsId, latitude, longitude, locationMemo, locationName, sort,
+                    calendarDetailsId, locationMemo, locationName, sort,
                   } = calendarDetail;
                   return (
                     <div key={calendarDetailsId}>

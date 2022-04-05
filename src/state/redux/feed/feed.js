@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { feed } from '../../data/mock';
-import { addFeedDetail } from './feedThunk';
 
 const initialState = {
   data: feed,
