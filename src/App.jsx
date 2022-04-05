@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
+import InviteHandler from './components/container/InviteHandler';
 import LoginHandler from './components/container/LoginHandler';
 import Feed from './pages/Feed';
 import Login from './pages/Login';
@@ -13,12 +14,14 @@ import PlanDetail from './pages/PlanDetail';
 import PlanDetailNew from './pages/PlanDetailNew';
 import Setting from './pages/Setting';
 import { getTokenFromSession } from './shared/utils';
+import _plan from './state/redux/plan/planSelector';
 import { getPlans } from './state/redux/plan/planThunk';
 import { _userInfo } from './state/redux/user/userSelector';
 import { getUser } from './state/redux/user/userThunk';
 
 function App() {
   const userInfo = useSelector(_userInfo);
+  const plan = useSelector(_plan);
   const isTokenInSession = getTokenFromSession('accessToken');
 
   const dispatch = useDispatch();
@@ -46,6 +49,7 @@ function App() {
 
       <Route path="/api/kakaologin" element={<LoginHandler />} />
       <Route path="/api/googlelogin" element={<LoginHandler />} />
+      <Route path="api/member/plan/room/:roomId" element={<InviteHandler />} />
     </Routes>
   );
 }

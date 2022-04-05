@@ -27,18 +27,10 @@ export const updatePlan = createAsyncThunk(
   },
 );
 
-export const deletePlanAxios = createAsyncThunk(
-  'plan/deletePlan',
+export const togglePlanDeleteState = createAsyncThunk(
+  'plan/togglePlanDeleteState',
   async ({ planId, navigate, isInDetail }) => {
-    await planApi.deletePlan({ planId, navigate, isInDetail });
-    return planId;
-  },
-);
-
-export const restorePlanAxios = createAsyncThunk(
-  'plan/restorePlanAxios',
-  async (planId) => {
-    await planApi.restorePlan(planId);
+    await planApi.togglePlanDeleteState({ planId, navigate, isInDetail });
     return planId;
   },
 );

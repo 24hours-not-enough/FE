@@ -1,12 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deletePlanAxios } from '../../state/redux/plan/planThunk';
 import { _userInfo } from '../../state/redux/user/userSelector';
 
 function PlanDetailMenuTab({ setOnMenuTab, plan }) {
   const userInfo = useSelector(_userInfo);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   console.log(userInfo);
   console.log(plan.creator.userId);
@@ -18,7 +16,7 @@ function PlanDetailMenuTab({ setOnMenuTab, plan }) {
 
   // modal 창 띄우는 걸로 수정해야 함
   const deletePlan = () => {
-    dispatch(deletePlanAxios({ planId: plan.planId, navigate, isInDetail: true }));
+    // dispatch(deletePlanAxios({ planId: plan.planId, navigate, isInDetail: true }));
   };
 
   return (

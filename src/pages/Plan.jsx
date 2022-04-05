@@ -11,7 +11,7 @@ import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import { getTokenFromSession } from '../shared/utils';
 import _plan from '../state/redux/plan/planSelector';
 import {
-  deletePlanAxios, deletePlanPermanentlyAxios, getPlans, restorePlanAxios,
+  deletePlanPermanentlyAxios, getPlans, togglePlanDeleteState,
 } from '../state/redux/plan/planThunk';
 
 function Plan() {
@@ -28,11 +28,11 @@ function Plan() {
   const isTokenInSession = getTokenFromSession('accessToken');
 
   useEffect(() => {
-    // if (!isTokenInSession) {
-    //   alert('로그인 후 이용해주세요');
-    //   navigate('/');
-    //   return;
-    // }
+    if (!isTokenInSession) {
+      alert('로그인 후 이용해주세요');
+      navigate('/');
+      return;
+    }
     dispatch(getPlans());
   }, []);
 
@@ -66,13 +66,10 @@ function Plan() {
     setIsEditMenu(true);
   };
 
-  const deletePlan = (planId) => {
-    dispatch(deletePlanAxios(planId));
-    setIsEditMenu(false);
+  const togglePlanDelete = (planId) => {
+    dispatch(togglePlanDeleteState(planId));
   };
-  const restorePlan = (planId) => {
-    dispatch(restorePlanAxios(planId));
-  };
+
   const deletePlanPermanently = (planId) => {
     dispatch(deletePlanPermanentlyAxios(planId));
   };
@@ -110,7 +107,7 @@ function Plan() {
               plan={onePlan}
               openEditMenu={openEditMenu}
               isEditPage={isEditPage}
-              deletePlan={deletePlan}
+              deletePlan={togglePlanDelete}
               goToPlanDetailPage={goToPlanDetailPage}
             />
           ))}
@@ -127,7 +124,7 @@ function Plan() {
       {isEditPage && (
       <PlanDeleted
         deletedPlan={deletedList}
-        restorePlan={restorePlan}
+        restorePlan={togglePlanDelete}
         deletePlanPermanently={deletePlanPermanently}
       />
       )}
@@ -141,7 +138,7 @@ function Plan() {
               plan={onePlan}
               openEditMenu={openEditMenu}
               isEditPage={isEditPage}
-              deletePlan={deletePlan}
+              deletePlan={togglePlanDelete}
               goToPlanDetailPage={goToPlanDetailPage}
             />
           ))}
@@ -153,7 +150,7 @@ function Plan() {
       <PlanEditOneTab
         selectedPlan={selectedPlan}
         setIsEditMenu={setIsEditMenu}
-        deletePlan={deletePlan}
+        deletePlan={togglePlanDelete}
       />
       )}
     </LayoutWrapper>
