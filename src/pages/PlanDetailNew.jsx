@@ -162,7 +162,7 @@ function PlanDetailNew() {
               calendars={planDetails.calendars}
             />
             )}
-            {viewState === CHAT && <PlanDetailChat />}
+            {viewState === CHAT && <PlanDetailChat planDetails={planDetails} />}
           </section>
 
           {(tabState && tabState.state === SCHEDULE)
