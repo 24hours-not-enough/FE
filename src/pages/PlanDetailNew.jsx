@@ -23,7 +23,9 @@ const MAP = 'map';
 const EDIT = 'edit';
 const MENU = 'menu';
 const SCHEDULE = 'schedule';
+const UPDATE = 'update';
 const SHARE = 'share';
+const ADD = 'add';
 
 const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
 const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
@@ -86,14 +88,52 @@ function PlanDetailNew() {
 
   // 일정 추가하기
   const handleUpdateSchedule = (data) => {
-    const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
-      if (calendar.calendarId === data.calendarId) {
-        return { ...data };
-      }
-      return calendar;
-    });
-    setPlanDetails({ ...planDetails, calendars: updatedPlanDetailsCalendars });
-    setTabState(null);
+    if (data.mode === ADD) {
+      const { updated } = data;
+      const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
+        if (calendar.calendarId === updated.calendarId) {
+          return { ...updated };
+        }
+        return calendar;
+      });
+      setPlanDetails({ ...planDetails, calendars: updatedPlanDetailsCalendars });
+      setTabState(null);
+    } else if (data.mode === UPDATE) {
+      const { calendarId, updated } = data;
+
+      const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
+        if (calendar.calendarId === calendarId) {
+          const updatedCalendar = calendar.calendarDetails.map((calendarDetail) => {
+            if (calendarDetail.calendarDetailsId === updated.calendarDetailsId) {
+              console.log(calendarDetail);
+              const {
+                calendarDetailsId,
+                locationName, locationMemo, latitude, longitude, sort,
+              } = updated;
+              console.log({
+                calendarDetailsId, locationName, locationMemo, latitude, longitude, sort,
+              });
+              return {
+                calendarDetailsId, locationName, locationMemo, latitude, longitude, sort,
+              };
+            } return calendarDetail;
+          });
+          return { ...calendar, calendarDetails: updatedCalendar };
+        } return calendar;
+      });
+
+      console.log('updated: ', updatedPlanDetailsCalendars);
+      setPlanDetails({ ...planDetails, calendars: updatedPlanDetailsCalendars });
+      setTabState(null);
+    }
+  };
+
+  // 일정 수정하기
+  const editCalendarDetail = ({ calendarId, calendarDetail }) => {
+    if (viewState === PLAN) {
+      return;
+    }
+    setTabState({ state: SCHEDULE, mode: UPDATE, calendar: { ...calendarDetail, calendarId } });
   };
 
   if (planDetails) {
@@ -138,7 +178,7 @@ function PlanDetailNew() {
             </button>
           </div>
 
-          <section className="bg-main-background w-full h-full rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
+          <section className="bg-main-background w-full h-[calc(100vh_-_245px)] rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
             {(viewState === PLAN || viewState === EDIT) && (
             <PlanDetailPlan
               viewState={viewState}
@@ -150,6 +190,7 @@ function PlanDetailNew() {
               calendars={planDetails.calendars}
               handleAddCalendar={handleAddCalendar}
               handleUpdateSchedule={handleUpdateSchedule}
+              editCalendarDetail={editCalendarDetail}
             />
             )}
             {viewState === MAP && (
@@ -162,7 +203,7 @@ function PlanDetailNew() {
             {viewState === CHAT && <PlanDetailChat planDetails={planDetails} />}
           </section>
 
-          {(tabState && tabState.state === SCHEDULE)
+          {(tabState && (tabState.state === SCHEDULE))
             && (
             <PlanDetailScheduleTab
               handleUpdateSchedule={handleUpdateSchedule}

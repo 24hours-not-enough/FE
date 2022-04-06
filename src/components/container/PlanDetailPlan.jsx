@@ -4,7 +4,7 @@ const PLAN = 'plan';
 const EDIT = 'edit';
 const SCHEDULE = 'schedule';
 const ADD = 'add';
-// const UPDATE = 'update';
+const UPDATE = 'update';
 
 function PlanDetailPlan({
   viewState,
@@ -13,6 +13,7 @@ function PlanDetailPlan({
   toggleTabState,
   calendars,
   handleAddCalendar,
+  editCalendarDetail,
 }) {
   return (
     <>
@@ -44,7 +45,7 @@ function PlanDetailPlan({
                         <div className="bg-black text-white rounded-full w-[22px] h-[22px] text-center text-[13px] leading-[20px] text-[600] mr-[22px]">
                           {sort + 1}
                         </div>
-                        <div className="flex flex-col gap-y-[6px]">
+                        <div className="flex flex-col gap-y-[6px] w-[80vw] h-[40px]" onClick={() => editCalendarDetail({ calendarId, calendarDetail })}>
                           <span className="text-[14px] leading-[17px]">{locationName}</span>
                           <span className="text-[12px] leading-[14px] text-[#A0A0A0]">{locationMemo}</span>
                         </div>

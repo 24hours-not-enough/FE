@@ -68,7 +68,7 @@ function PlanDetailSearch({
   // 마커 클릭 시 장소 등록
   const handleClick = (e) => {
     if (e.target.nodeName === 'AREA') {
-      if (tabState.mode === 'add') {
+      if (tabState.mode === 'add' || tabState.mode === 'update') {
         const newCalendarDetail = {
           locationName: searchedPlace.locationName,
           latitude: Number(searchedPlace.latitude),
