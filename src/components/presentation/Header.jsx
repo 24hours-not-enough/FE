@@ -1,19 +1,19 @@
 import { memo } from 'react';
 
 import iconSet from '../../shared/imageUrl';
-import useLayout from '../../shared/useLayout';
-import WebMenuTab from './WebMenuTab';
+// import useLayout from '../../shared/useLayout';
+// import WebMenuTab from './WebMenuTab';
 
 function Header({
   openTab,
   children,
   back,
   exit,
-  handleRouter,
+  // handleRouter,
   goBack,
   title,
 }) {
-  const { pc } = useLayout();
+  // const { pc } = useLayout();
 
   const headerLeft = () => {
     if (back === true) {
@@ -45,25 +45,25 @@ function Header({
     );
   };
 
-  if (!pc) {
-    return (
-      <nav className="sticky h-14 z-10 bg-white">
-        {headerLeft()}
-        <h1
-          className="absolute left-1/2 top-4 trans font-bold"
-          style={{ transform: 'translateX(-50%)' }}
-        >
-          {title}
-        </h1>
-        <div className="absolute right-0 top-4 pr-4">
-          {children}
-        </div>
-      </nav>
-    );
-  }
+  // if (!pc) {
   return (
-    <WebMenuTab handleRouter={handleRouter} />
+    <nav className="sticky top-0 left-0 h-14 z-10 bg-white">
+      {headerLeft()}
+      <h1
+        className="absolute left-1/2 top-4 trans font-bold"
+        style={{ transform: 'translateX(-50%)' }}
+      >
+        {title}
+      </h1>
+      <div className="absolute right-0 top-4 pr-4">
+        {children}
+      </div>
+    </nav>
   );
+  // }
+  // return (
+  //   <WebMenuTab handleRouter={handleRouter} />
+  // );
 }
 
 export default memo(Header);

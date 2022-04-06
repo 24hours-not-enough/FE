@@ -86,7 +86,6 @@ function PlanDetailNew() {
 
   // 일정 추가하기
   const handleUpdateSchedule = (data) => {
-    console.log(data);
     const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
       if (calendar.calendarId === data.calendarId) {
         return { ...data };
@@ -96,8 +95,6 @@ function PlanDetailNew() {
     setPlanDetails({ ...planDetails, calendars: updatedPlanDetailsCalendars });
     setTabState(null);
   };
-
-  console.log(planDetails);
 
   if (planDetails) {
     return (
@@ -141,7 +138,7 @@ function PlanDetailNew() {
             </button>
           </div>
 
-          <section className="bg-main-background w-screen rounded-t-[20px] px-[20px] pt-[20px] -translate-y-[20px]">
+          <section className="bg-main-background w-full h-full rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
             {(viewState === PLAN || viewState === EDIT) && (
             <PlanDetailPlan
               viewState={viewState}

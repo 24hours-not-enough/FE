@@ -28,7 +28,7 @@ function PlanDetailScheduleTab({
       calendarDetailsData = {
         calendarDetailsId: new Date().getTime().toString(),
         location: locationName,
-        // locationName,
+        locationName,
         locationMemo: memo,
         latitude,
         longitude,
@@ -38,7 +38,7 @@ function PlanDetailScheduleTab({
       calendarDetailsData = {
         calendarDetailsId: new Date().getTime().toString(),
         location: null,
-        // locationName: null,
+        locationName: null,
         locationMemo: memo,
         latitude: null,
         longitude: null,

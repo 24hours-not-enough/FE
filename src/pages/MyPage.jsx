@@ -84,7 +84,7 @@ function MyPage() {
 
   const handleSubmitProfile = useCallback(() => {
     const userFormData = new FormData();
-    userFormData.append('file', profileImgRef.current.files[0]);
+    userFormData.append('imgFiles', profileImgRef.current.files[0]);
     userFormData.append('username', userNameChange);
 
     dispatch(changeUserProfile({ userInfo: userFormData }));

@@ -74,7 +74,6 @@ function PlanDetailSearch({
           latitude: Number(searchedPlace.latitude),
           longitude: Number(searchedPlace.longitude),
         };
-        console.log(newCalendarDetail);
         setTabState({ ...tabState, added: newCalendarDetail });
         setOnSearchMap(false);
       }
@@ -82,7 +81,7 @@ function PlanDetailSearch({
   };
 
   return (
-    <section className="absolute top-[55px] left-0 bg-white h-4/5 w-screen overflow-hidden flex justify-center">
+    <section className="absolute top-[20px] left-0 bg-white h-[90vh] w-full flex justify-center">
       <div className="absolute top-[55px] left-0 bg-white h-4/5 w-4/5 overflow-hidden z-50 rounded-[20px] p-[10px]">
         <form
           ref={searchFormRef}
@@ -121,7 +120,7 @@ function PlanDetailSearch({
           </li>
         ))}
         </ul>
-        <div ref={mapRef} className="absolute w-screen h-full z-10" onClick={handleClick} />
+        <div ref={mapRef} className="absolute w-full h-full z-10" onClick={handleClick} />
       </div>
     </section>
 

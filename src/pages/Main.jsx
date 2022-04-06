@@ -191,7 +191,7 @@ function Main() {
   };
 
   return (
-    <LayoutWrapper overflow="hide">
+    <LayoutWrapper>
       <div className="sticky z-10 bg-white">
         <Navbar title="로고" />
         <form

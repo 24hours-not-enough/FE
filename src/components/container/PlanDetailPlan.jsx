@@ -25,7 +25,7 @@ function PlanDetailPlan({
         </button>
       </div>
 
-      <section className="flex flex-col gap-y-[16px]">
+      <section className="flex flex-col gap-y-[16px] pb-[20px]">
         {calendars.map((calendar) => {
           const { calendarId, days, calendarDetails } = calendar;
           return (
