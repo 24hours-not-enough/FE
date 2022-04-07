@@ -32,8 +32,8 @@ function FeedDetailList({
           className="text-main"
         />
         <div className={`${styles.inputfile} absolute top-8 flex`}>
-          {feedDetailLocImg.map((item) => (
-            <img key={item} src={item} alt="이미지" className="w-20 h-20 mr-2 rounded-xl" />
+          {feedDetailLocImg.map(({ imgUrl, fileName }) => (
+            <img key={fileName} src={imgUrl} alt="이미지" className="w-20 h-20 mr-2 rounded-xl" />
           ))}
           <label
             htmlFor="file"

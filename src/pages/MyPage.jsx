@@ -9,7 +9,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setFeedId } from '../state/redux/feed/feed';
-import { addFeedDetail } from '../state/redux/feed/feedThunk';
+import { addFeedDetail, getFeedDetail } from '../state/redux/feed/feedThunk';
 import instance, { imgApi } from '../state/data/axios';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
@@ -99,7 +99,6 @@ function MyPage() {
       .then(() => {
         setCheckDuplication({ checked: true, color: 'blue', value: '사용 가능한 닉네임입니다.' });
       }).catch((err) => {
-        console.log('test', err);
         setCheckDuplication({ checked: false, color: 'red', value: '다른 사용자가 이미 사용중입니다.' });
       });
   }, [userNameChange]);
@@ -139,7 +138,8 @@ function MyPage() {
     const formData = new FormData();
     Object.values(e.target.files).map((item) => formData.append('imgFiles', item));
     imgApi.post('/api/feed/image', formData).then((res) => {
-      setFeedImages(Object.values(res.data.data));
+      console.log(Object.keys(res.data), Object.values(res.data));
+      setFeedImages([{ fileName: Object.keys(res.data)[0], imgUrl: Object.values(res.data)[0] }]);
     });
   }, [feedNum, feedDetailNum, feedInfo]);
 
@@ -203,6 +203,7 @@ function MyPage() {
       travelStart,
       travelEnd,
     }));
+    handleRouter('/mypage');
   }, [dispatch, feedInfo, feedTitle, startDateRef, endDateRef]);
 
   useEffect(() => {
@@ -214,6 +215,10 @@ function MyPage() {
     };
     setFeedInfo(newFeedInfo);
   }, [feedImages]);
+
+  useEffect(() => {
+    dispatch(getFeedDetail());
+  }, [dispatch]);
 
   return (
     <LayoutWrapper>

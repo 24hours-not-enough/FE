@@ -1,7 +1,9 @@
+import { memo } from 'react';
 import iconSet from '../../shared/imageUrl';
 
 function MyPageMain({ handleRouter, userInfo, myFeed }) {
   const { userName, userProfileImage } = userInfo;
+  if (!myFeed) return null;
   return (
     <>
       <div className="flex flex-row justify-between mt-6">
@@ -48,13 +50,13 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
         +
       </div>
       {myFeed.map(({
-        day, travelStart, travelEnd, feedId,
+        title, travelStart, travelEnd, feedId,
       }) => (
         <div key={feedId} className="flex flex-col justify-center my-5 mx-3 bg-white rounded-lg">
           <div className="w-88 mx-auto">
             <div className="flex justify-between my-2">
-              <span>{day}</span>
-              <span>{`${travelStart} ~ ${travelEnd}`}</span>
+              <span>{title}</span>
+              <span>{`${travelStart.split('T')[0]} ~ ${travelEnd.split('T')[0]}`}</span>
             </div>
             <div className="my-3">
               {/* <FeedImage /> */}
@@ -66,28 +68,4 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
   );
 }
 
-export default MyPageMain;
-
-// function FeedImage({ feedImages }) {
-//   const handleShowImages = () =>
-//     feedImages.map(({ imgId, imgUrl }, index) => (index > 8 ? null : (
-//       <img
-//         key={imgId}
-//         src={imgUrl}
-//         className="inline-block m-1 w-20 h-20 bg-slate-400 rounded-lg"
-//         alt="여행사진"
-//       />
-//     )));
-//   if (feedImages.length < 8) {
-//     return feedImages.map(({ imgUrl, imgId }) => (
-//       <img
-//         key={imgId}
-//         src={imgUrl}
-//         className="inline-block m-1 w-20 h-20 bg-slate-400 rounded-lg"
-//         alt="여행사진"
-//       />
-//     ));
-//   }
-
-//   return handleShowImages();
-// }
+export default memo(MyPageMain);

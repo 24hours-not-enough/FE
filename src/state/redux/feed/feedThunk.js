@@ -14,7 +14,14 @@ export const addFeedDetail = createAsyncThunk(
       feedDetail: feedInfo,
     };
     const { data } = await instance.post('/api/feed', postData);
-    console.log(data); // id값
     return { postData };
+  },
+);
+
+export const getFeedDetail = createAsyncThunk(
+  'feed/getFeedDetail',
+  async () => {
+    const response = await instance.get('/api/feed');
+    return response;
   },
 );

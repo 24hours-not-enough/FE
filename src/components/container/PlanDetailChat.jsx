@@ -87,7 +87,7 @@ function PlanDetailChat({ planDetails }) {
 
   return (
     <article>
-      <section ref={chatSectionRef} className="overflow-y-auto scrollbar-hide flex flex-col">
+      <section ref={chatSectionRef} className="overflow-y-auto h-[600px] scrollbar-hide flex flex-col">
         {
             chat.map((msg, idx) => {
               const { message, user_id } = msg;

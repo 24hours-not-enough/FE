@@ -62,8 +62,7 @@ function MobileMenuTab({
                     <span>내 여행 계획</span>
                   </li>
                   <li
-                    // onClick={handleRouter('/mypage')}
-                    onClick={() => { alert('서비스 준비 중입니다'); }}
+                    onClick={handleRouter('/mypage')}
                     className="flex my-4"
                   >
                     <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.myPageIcon} />
