@@ -47,7 +47,7 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
         tabIndex={0}
         onClick={handleRouter('/mypage/plan')}
       >
-        +
+        <img src="/images/pulsIcon.png" alt="피드 추가하기" className="w-[14px] h-[14px]" />
       </div>
       {myFeed.map(({
         title, travelStart, travelEnd, feedId,

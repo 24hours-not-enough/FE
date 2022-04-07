@@ -67,3 +67,16 @@ export const linkByInviteURL = createAsyncThunk(
     dispatch(getPlans);
   },
 );
+
+export const gotOutFromPlanAxios = createAsyncThunk(
+  'plan/gotOutFromPlanAxios',
+  async ({ planId, navigate, isInDetail }, { dispatch }) => {
+    const response = await planApi.goOutFromPlanAxios({ planId, navigate, isInDetail });
+    if (response.result === 'success') {
+      dispatch(getPlans);
+    } else {
+      alert('다시 시도해주세요');
+    }
+    return response;
+  },
+);

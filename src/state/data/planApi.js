@@ -118,11 +118,14 @@ class PlanApi {
   }
 
   // 여행계획 나가기
-  async goOutFromPlanAxios(planId) {
+  async goOutFromPlanAxios({ planId, navigate, isInDetail }) {
     return this.axios({
       method: 'delete',
       url: `/api/plan/${planId}/member`,
-    });
+    })
+      .then(() => {
+        isInDetail && navigate('/plan', { replace: true });
+      });
   }
 
   // 알림 초대 수락하기

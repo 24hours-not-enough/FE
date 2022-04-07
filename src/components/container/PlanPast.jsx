@@ -11,6 +11,7 @@ function PlanPast({
 
   const handleOpenEditMenu = (e) => {
     e.stopPropagation();
+    if (isEditPage) return;
     openEditMenu({ plan, planId, title });
   };
 
@@ -22,7 +23,6 @@ function PlanPast({
       <h5 className="text-[14px] leading-[17px] font-[700]">{title}</h5>
       <span className="absolute left-[18px] bottom-[14px] text-[12px] leading-[14px] font-[600] text-[#E8E8E8]">
         {`${travelDestination}, ${moment(travelStart).format('MMM YY')} - ${moment(travelEnd).format('MMM YY')}`}
-
       </span>
       {(isEditPage && (userInfo.userId === creator.userId))
         ? (

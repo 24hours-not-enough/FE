@@ -98,7 +98,7 @@ function MyPage() {
     instance.post('/api/username', { userName: userNameChange })
       .then(() => {
         setCheckDuplication({ checked: true, color: 'blue', value: '사용 가능한 닉네임입니다.' });
-      }).catch((err) => {
+      }).catch(() => {
         setCheckDuplication({ checked: false, color: 'red', value: '다른 사용자가 이미 사용중입니다.' });
       });
   }, [userNameChange]);

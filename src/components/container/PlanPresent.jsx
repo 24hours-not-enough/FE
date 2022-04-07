@@ -10,6 +10,7 @@ function PlanPresent({
 
   const handleOpenEditMenu = (e) => {
     e.stopPropagation();
+    if (isEditPage) return;
     openEditMenu({ plan, planId, title });
   };
 
