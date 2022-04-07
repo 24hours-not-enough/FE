@@ -55,7 +55,7 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
   };
 
   return (
-    <section className={`absolute transition-all duration-300 ease-out bottom-0 left-0 z-10 bg-white w-screen rounded-t-[30px] ${tabStyle}`}>
+    <section className={`absolute transition-all duration-300 ease-out bottom-0 left-0 z-10 bg-white w-full rounded-t-[30px] ${tabStyle}`}>
       <h5 className="text-[18px] font-[600] leading-[22px] px-[30px] pt-[30px]">{locationName}</h5>
       <span className="text-[12px] text-gray-400 leading-[14px] px-[30px]">{address}</span>
       <div className="mt-[26px] flex flex-wrap px-[4px] min-h-[290px]">

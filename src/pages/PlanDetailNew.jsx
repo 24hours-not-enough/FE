@@ -168,7 +168,7 @@ function PlanDetailNew() {
     return (
       <div className="overflow-auto scrollbar-hide">
         <LayoutWrapper>
-          <Navbar title={planDetails.title}>
+          <Navbar title={planDetails.title} back>
             <button type="button" onClick={() => setTabState({ state: MENU, calendar: planDetails })}>
               <img src="/images/menuIcon_black.png" alt="menu" className="w-[24px] h-[24px]" />
             </button>
