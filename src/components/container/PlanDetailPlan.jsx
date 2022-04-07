@@ -4,7 +4,7 @@ const PLAN = 'plan';
 const EDIT = 'edit';
 const SCHEDULE = 'schedule';
 const ADD = 'add';
-const UPDATE = 'update';
+// const UPDATE = 'update';
 
 function PlanDetailPlan({
   viewState,

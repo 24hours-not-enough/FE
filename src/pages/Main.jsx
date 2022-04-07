@@ -207,12 +207,12 @@ function Main() {
           />
           <button type="submit">검색</button>
         </form>
-        <ul>
+        <ul className="flex flex-col gap-y-[8px] px-[15px] mt-[30px]">
           {onSearch
         && searchedList.map((searched) => (
           <li
             key={searched.id}
-            className="flex justify-between"
+            className="flex justify-between px-[15px] py-[5px] bg-main-background rounded-[8px]"
           >
             <div onClick={() =>
               handleShowInMap({
@@ -222,10 +222,10 @@ function Main() {
                 placeId: `k${searched.id}`,
               })}
             >
-              <h6 className="text-[1rem]">{searched.place_name}</h6>
+              <h6 className="text-[1rem] font-[600]">{searched.place_name}</h6>
               <span className="text-[0.7rem]">{searched.road_address_name}</span>
             </div>
-            <a href={searched.place_url} className="border-solid border-[1px] border-gray-400 w-fit h-fit">카카오맵에서 보기</a>
+            <a href={searched.place_url} className="bg-kakao px-[8px] py-[3px] rounded-[8px] w-fit h-fit text-[12px] font-[500]">카카오맵에서 보기</a>
           </li>
         ))}
         </ul>

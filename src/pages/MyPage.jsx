@@ -24,7 +24,7 @@ import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
 
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
-import MyPageSettings from '../components/presentation/MyPageSettings';
+// import MyPageSettings from '../components/presentation/MyPageSettings';
 import { changeUserProfile } from '../state/redux/user/userThunk';
 
 function MyPage() {
