@@ -68,13 +68,12 @@ function PlanDetailSearch({
   // 마커 클릭 시 장소 등록
   const handleClick = (e) => {
     if (e.target.nodeName === 'AREA') {
-      if (tabState.mode === 'add') {
+      if (tabState.mode === 'add' || tabState.mode === 'update') {
         const newCalendarDetail = {
           locationName: searchedPlace.locationName,
           latitude: Number(searchedPlace.latitude),
           longitude: Number(searchedPlace.longitude),
         };
-        console.log(newCalendarDetail);
         setTabState({ ...tabState, added: newCalendarDetail });
         setOnSearchMap(false);
       }
@@ -82,7 +81,7 @@ function PlanDetailSearch({
   };
 
   return (
-    <section className="absolute top-[55px] left-0 bg-white h-4/5 w-screen overflow-hidden flex justify-center">
+    <section className="absolute top-[20px] left-0 bg-white h-[90vh] w-full flex justify-center">
       <div className="absolute top-[55px] left-0 bg-white h-4/5 w-4/5 overflow-hidden z-50 rounded-[20px] p-[10px]">
         <form
           ref={searchFormRef}
@@ -104,7 +103,7 @@ function PlanDetailSearch({
         && searchedList.map((searched) => (
           <li
             key={searched.id}
-            className="flex justify-between"
+            className="flex justify-between px-[15px] py-[5px] bg-main-background rounded-[8px]"
           >
             <div onClick={() =>
               handleShowInMap({
@@ -114,14 +113,14 @@ function PlanDetailSearch({
                 placeId: `k${searched.id}`,
               })}
             >
-              <h6 className="text-[1rem]">{searched.place_name}</h6>
+              <h6 className="text-[1rem] font-[600]">{searched.place_name}</h6>
               <span className="text-[0.7rem]">{searched.road_address_name}</span>
             </div>
-            <a href={searched.place_url} className="border-solid border-[1px] border-gray-400 w-fit h-fit">카카오맵에서 보기</a>
+            <a href={searched.place_url} className="bg-kakao px-[8px] py-[3px] rounded-[8px] w-fit h-fit text-[12px] font-[500]">카카오맵에서 보기</a>
           </li>
         ))}
         </ul>
-        <div ref={mapRef} className="absolute w-screen h-full z-10" onClick={handleClick} />
+        <div ref={mapRef} className="absolute w-full h-full z-10" onClick={handleClick} />
       </div>
     </section>
 

@@ -79,7 +79,7 @@ class PlanApi {
   // 일정 상세등록, 수정
   async updatePlanDetail({ planId, planDetailData }) {
     return this.axios({
-      method: 'post',
+      method: 'put',
       url: `/api/plan/${planId}/days/calendar`,
       data: planDetailData,
     });

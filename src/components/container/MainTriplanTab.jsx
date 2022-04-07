@@ -47,11 +47,11 @@ function MainTriplanTab({ selectedPlace, setIsTriplanTab }) {
   };
 
   return (
-    <section className="absolute bottom-0 left-0 z-10 bg-white w-screen rounded-t-[30px] px-[30px] pt-[30px]">
+    <section className="absolute bottom-0 left-0 z-10 bg-white w-full rounded-t-[30px] px-[30px] pt-[30px]">
       <h5 className="text-[18px] font-[600] leading-[22px] mb-[40px]">내 트리플랜에 담기</h5>
       <section className="h-[160px] overflow-auto scrollbar-hide mb-[36px]">
         {plan.map((triplan) => (
-          <section key={triplan.planId}>
+          <section key={triplan.planId} className="mb-[36px]">
             <h6 className="text-[14px] leading-[16.8px] mb-[8px]">{triplan.title}</h6>
             <div className="flex flex-wrap justify-between">
               {triplan.calendars.map((calendar) => (

@@ -61,11 +61,11 @@ function PlanDetailMap2({ toggleMapViewState, calendars }) {
   return (
     <>
       <div className="flex mb-[20px]">
-        <button type="button" onClick={toggleMapViewState} className="w-[40px] h-[40px] bg-[#E7E6FE] rounded-[14px]">
+        <button type="button" onClick={toggleMapViewState} className="w-[40px] h-[40px] bg-[#E7E6FE] rounded-[14px] z-50">
           <img src="/images/mapIcon.png" alt="글" className="w-[18px] h-[18px] mx-auto" />
         </button>
       </div>
-      <div ref={mapRef} className="sticky bottom-0 left-0 w-screen h-[100vw]" />
+      <div ref={mapRef} className="absolute bottom-0 left-0 w-full h-full rounded-t-[20px]" />
     </>
   );
 }

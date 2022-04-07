@@ -1,8 +1,8 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import BottomTab from '../elements/bottomTab';
 
 const ADD = 'add';
-// const UPDATE = 'update';
+const UPDATE = 'update';
 
 function PlanDetailScheduleTab({
   handleUpdateSchedule,
@@ -14,8 +14,16 @@ function PlanDetailScheduleTab({
 
   const { mode, calendar } = tabState;
 
+  console.log(tabState);
+
+  useEffect(() => {
+    if (tabState.mode === UPDATE) {
+      memoRef.current.value = tabState.calendar.locationMemo;
+    }
+  }, []);
+
   // 일정 추가하기 완료
-  const handleUpdateClick = () => {
+  const handleAddClick = () => {
     let calendarDetailsData;
     const memo = memoRef.current.value;
 
@@ -27,8 +35,7 @@ function PlanDetailScheduleTab({
       const { locationName, latitude, longitude } = tabState.added;
       calendarDetailsData = {
         calendarDetailsId: new Date().getTime().toString(),
-        location: locationName,
-        // locationName,
+        locationName,
         locationMemo: memo,
         latitude,
         longitude,
@@ -38,7 +45,7 @@ function PlanDetailScheduleTab({
       calendarDetailsData = {
         calendarDetailsId: new Date().getTime().toString(),
         location: null,
-        // locationName: null,
+        locationName: null,
         locationMemo: memo,
         latitude: null,
         longitude: null,
@@ -51,7 +58,39 @@ function PlanDetailScheduleTab({
       calendarDetails: [...calendar.calendarDetails, calendarDetailsData],
     };
 
-    handleUpdateSchedule(updatedCalendarData);
+    handleUpdateSchedule({ mode: ADD, updated: updatedCalendarData });
+  };
+
+  // 일정 수정하기 완료
+  const handleUpdateClick = () => {
+    let calendarDetailsData;
+    const memo = memoRef.current.value;
+
+    if (memo === '' && (!tabState.added && !calendar.locationName)) {
+      return;
+    }
+
+    if (tabState.added) {
+      const { locationName, latitude, longitude } = tabState.added;
+      calendarDetailsData = {
+        ...calendar,
+        locationName,
+        locationMemo: memo,
+        latitude,
+        longitude,
+      };
+    } else {
+      calendarDetailsData = {
+        ...calendar,
+        locationMemo: memo,
+      };
+    }
+
+    handleUpdateSchedule({
+      mode: UPDATE,
+      calendarId: calendar.calendarId,
+      updated: calendarDetailsData,
+    });
   };
 
   const searchPlace = () => {
@@ -62,9 +101,18 @@ function PlanDetailScheduleTab({
     <BottomTab closeTab={() => setTabState(null)}>
       <div className="flex flex-col items-start">
         <div className=" flex mb-[30px]">
+          {mode === ADD
+          && (
           <span className="mr-[12px]">
             {(mode === ADD && tabState.added) ? tabState.added.locationName : '장소 추가하기'}
           </span>
+          )}
+          {mode === UPDATE
+          && (
+          <span className="mr-[12px]">
+            {(mode === UPDATE && tabState.calendar.locationName) ? tabState.calendar.locationName : '장소 추가하기'}
+          </span>
+          )}
           <button type="button" onClick={searchPlace}>
             <img src="/images/chooseIcon.png" alt="select place" />
           </button>
@@ -79,7 +127,7 @@ function PlanDetailScheduleTab({
       <button
         type="button"
         className="absolute right-[30px] top-[30px]"
-        onClick={handleUpdateClick}
+        onClick={tabState.mode === ADD ? handleAddClick : handleUpdateClick}
       >
         완료
       </button>

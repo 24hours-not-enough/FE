@@ -6,7 +6,6 @@ import iconSet from '../../shared/imageUrl';
 function MobileMenuTab({
   closeTab, isTab, handleRouter, isUser,
 }) {
-  console.log(isUser);
   if (isTab) {
     return (
       <div className="md:hidden flex absolute w-full h-screen top-0 left-0 right-0 bottom-0 z-50">
@@ -52,20 +51,27 @@ function MobileMenuTab({
                 <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.searchIcon} />
                 <span>탐색</span>
               </li>
-              <li
-                onClick={handleRouter('/plan')}
-                className="flex my-4"
-              >
-                <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.planIcon} />
-                <span>내 여행 계획</span>
-              </li>
-              <li
-                onClick={handleRouter('/mypage')}
-                className="flex my-4"
-              >
-                <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.myPageIcon} />
-                <span>마이페이지</span>
-              </li>
+              {
+                isUser && (
+                <>
+                  <li
+                    onClick={handleRouter('/plan')}
+                    className="flex my-4"
+                  >
+                    <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.planIcon} />
+                    <span>내 여행 계획</span>
+                  </li>
+                  <li
+                    // onClick={handleRouter('/mypage')}
+                    onClick={() => { alert('서비스 준비 중입니다'); }}
+                    className="flex my-4"
+                  >
+                    <img className="ml-7 mr-4 w-6 h-6" alt="탐색 아이콘" src={iconSet.navBar.myPageIcon} />
+                    <span>마이페이지</span>
+                  </li>
+                </>
+                )
+              }
             </ul>
           </section>
           <section className="flex flex-col h-64 mt-2">

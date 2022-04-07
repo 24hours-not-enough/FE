@@ -23,7 +23,9 @@ const MAP = 'map';
 const EDIT = 'edit';
 const MENU = 'menu';
 const SCHEDULE = 'schedule';
+const UPDATE = 'update';
 const SHARE = 'share';
+const ADD = 'add';
 
 const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
 const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
@@ -86,24 +88,87 @@ function PlanDetailNew() {
 
   // 일정 추가하기
   const handleUpdateSchedule = (data) => {
-    console.log(data);
-    const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
-      if (calendar.calendarId === data.calendarId) {
-        return { ...data };
-      }
-      return calendar;
-    });
-    setPlanDetails({ ...planDetails, calendars: updatedPlanDetailsCalendars });
-    setTabState(null);
+    if (data.mode === ADD) {
+      const { updated } = data;
+      const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
+        if (calendar.calendarId === updated.calendarId) {
+          return { ...updated };
+        }
+        return calendar;
+      });
+      setPlanDetails({ ...planDetails, calendars: updatedPlanDetailsCalendars });
+      setTabState(null);
+    } else if (data.mode === UPDATE) {
+      const { calendarId, updated } = data;
+
+      const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
+        if (calendar.calendarId === calendarId) {
+          const updatedCalendar = calendar.calendarDetails.map((calendarDetail) => {
+            if (calendarDetail.calendarDetailsId === updated.calendarDetailsId) {
+              console.log(calendarDetail);
+              const {
+                calendarDetailsId,
+                locationName, locationMemo, latitude, longitude, sort,
+              } = updated;
+              console.log({
+                calendarDetailsId, locationName, locationMemo, latitude, longitude, sort,
+              });
+              return {
+                calendarDetailsId, locationName, locationMemo, latitude, longitude, sort,
+              };
+            } return calendarDetail;
+          });
+          return { ...calendar, calendarDetails: updatedCalendar };
+        } return calendar;
+      });
+
+      console.log('updated: ', updatedPlanDetailsCalendars);
+      setPlanDetails({ ...planDetails, calendars: updatedPlanDetailsCalendars });
+      setTabState(null);
+    }
   };
 
-  console.log(planDetails);
+  // 일정 수정하기
+  const editCalendarDetail = ({ calendarId, calendarDetail }) => {
+    if (viewState === PLAN) {
+      return;
+    }
+    setTabState({ state: SCHEDULE, mode: UPDATE, calendar: { ...calendarDetail, calendarId } });
+  };
+
+  // 세부 일정 삭제하기
+  const deleteCalendarDetail = ({ calendarId, calendarDetailsId }) => {
+    const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
+      if (calendar.calendarId === calendarId) {
+        const updatedCalendar = calendar.calendarDetails.filter((calendarDetail) =>
+          calendarDetail.calendarDetailsId !== calendarDetailsId);
+        return { ...calendar, calendarDetails: updatedCalendar };
+      } return calendar;
+    });
+    const resortedPlanDetailsCalendars = updatedPlanDetailsCalendars.map((calendar) => {
+      if (calendar.calendarId === calendarId) {
+        const resortedCalendar = calendar.calendarDetails.map(
+          (calendarDetail, idx) => ({ ...calendarDetail, sort: idx }),
+        );
+        console.log(resortedCalendar);
+        return { ...calendar, calendarDetails: resortedCalendar };
+      } return calendar;
+    });
+    setPlanDetails({ ...planDetails, calendars: resortedPlanDetailsCalendars });
+  };
+
+  // day 삭제하기
+  const deleteCalendarDay = ({ calendarId }) => {
+    const updatedPlanDetail = planDetails.calendars
+      .filter((calendar) => calendar.calendarId !== calendarId);
+    setPlanDetails({ ...planDetails, calendars: updatedPlanDetail });
+  };
 
   if (planDetails) {
     return (
       <div className="overflow-auto scrollbar-hide">
         <LayoutWrapper>
-          <Navbar title={planDetails.title}>
+          <Navbar title={planDetails.title} back>
             <button type="button" onClick={() => setTabState({ state: MENU, calendar: planDetails })}>
               <img src="/images/menuIcon_black.png" alt="menu" className="w-[24px] h-[24px]" />
             </button>
@@ -141,7 +206,7 @@ function PlanDetailNew() {
             </button>
           </div>
 
-          <section className="bg-main-background w-screen rounded-t-[20px] px-[20px] pt-[20px] -translate-y-[20px]">
+          <section className="bg-main-background w-full h-[calc(100vh_-_245px)] rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
             {(viewState === PLAN || viewState === EDIT) && (
             <PlanDetailPlan
               viewState={viewState}
@@ -153,6 +218,9 @@ function PlanDetailNew() {
               calendars={planDetails.calendars}
               handleAddCalendar={handleAddCalendar}
               handleUpdateSchedule={handleUpdateSchedule}
+              editCalendarDetail={editCalendarDetail}
+              deleteCalendarDetail={deleteCalendarDetail}
+              deleteCalendarDay={deleteCalendarDay}
             />
             )}
             {viewState === MAP && (
@@ -165,7 +233,7 @@ function PlanDetailNew() {
             {viewState === CHAT && <PlanDetailChat planDetails={planDetails} />}
           </section>
 
-          {(tabState && tabState.state === SCHEDULE)
+          {(tabState && (tabState.state === SCHEDULE))
             && (
             <PlanDetailScheduleTab
               handleUpdateSchedule={handleUpdateSchedule}

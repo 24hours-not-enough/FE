@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
-import Button from '../components/elements/button/Button';
+// import Button from '../components/elements/button/Button';
 import Calendar from '../components/elements/calendar/Calendar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import PlanApi from '../state/data/planApi';
@@ -106,11 +106,11 @@ function PlanCreate() {
     buttonRef.current.click();
   };
 
-  // 초대 링크 복사 버튼 클릭
-  const inviteByLink = () => {
-    console.log('링크가 복사되었어요');
-    console.log(param.planId);
-  };
+  // // 초대 링크 복사 버튼 클릭
+  // const inviteByLink = () => {
+  //   console.log('링크가 복사되었어요');
+  //   console.log(param.planId);
+  // };
 
   // 찾은 유저 초대목록에 추가하기
   const handleChooseUser = (userInfo) => {
@@ -126,8 +126,6 @@ function PlanCreate() {
       userInfo.userId !== user.userId);
     setSelectedUser(updated);
   };
-
-  console.log(selectedUser);
 
   return (
     <LayoutWrapper>
@@ -225,7 +223,8 @@ function PlanCreate() {
           ))}
         </section>
         <button ref={buttonRef} type="submit" className="hidden">동작을위한버튼</button>
-        {isUpdatePage && <Button onClick={inviteByLink} propsClassName="w-full mt-[42px]">링크로 초대하기</Button>}
+        {/* {isUpdatePage
+          && <Button onClick={inviteByLink} propsClassName="w-full mt-[42px]">링크로 초대하기</Button>} */}
       </form>
     </LayoutWrapper>
   );

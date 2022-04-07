@@ -82,4 +82,27 @@ instance.interceptors.response.use(
   },
 );
 
+imgApi.interceptors.response.use(
+  (response) => {
+    console.log(response);
+    return response.data;
+  },
+  async (err) => {
+    // 토큰 만료됐을 경우 access token 재발급
+    if (err.response.status === 401) {
+      console.log(err);
+      console.log(err.response);
+      await refresh();
+      return axios.create().request({
+        ...err.response.config,
+        headers: {
+          authorization: getTokenFromSession('accessToken'),
+          refreshToken: getTokenFromSession('refreshToken'),
+        },
+      });
+    }
+    return Promise.reject(err);
+  },
+);
+
 export default instance;

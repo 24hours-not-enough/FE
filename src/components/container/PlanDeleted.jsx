@@ -14,9 +14,11 @@ function PlanDeleted({ deletedPlan, restorePlan, deletePlanPermanently }) {
         <button
           type="button"
           onClick={toggleDeletedList}
-          className="text-main"
+          className="text-main p-[3px]"
         >
-          열기
+          {isOpen
+            ? <img src="/images/dropdownIcon.png" alt="삭제된 계획 닫기" className="w-[12px] h-[6px] rotate-180" />
+            : <img src="/images/dropdownIcon.png" alt="삭제된 계획 열기" className="w-[12px] h-[6px]" />}
         </button>
       </div>
       <div className="flex flex-col gap-y-[30px] text-[14px] leading-[17px] font-[600]">

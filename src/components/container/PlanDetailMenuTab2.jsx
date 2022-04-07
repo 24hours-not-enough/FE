@@ -37,10 +37,10 @@ function PlanDetailMenuTab2({
     <>
       <BottomTab closeTab={() => setTabState(null)}>
         <div
-          className="absolute w-screen h-screen top-0 left-0 opacity-70 bg-[#E5E5E5] z-10"
+          className="absolute w-full h-screen top-0 left-0 opacity-70 bg-[#E5E5E5] z-10"
         />
         <section className="
-        absolute bottom-0 left-0 z-20 bg-white w-screen rounded-t-[30px]
+        absolute bottom-0 left-0 z-20 bg-white w-full rounded-t-[30px]
         px-[30px] pt-[50px] pb-[70px] flex flex-col items-start gap-y-[53px]"
         >
           {isCreator

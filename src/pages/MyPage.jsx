@@ -24,7 +24,7 @@ import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
 
 import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
-import MyPageSettings from '../components/presentation/MyPageSettings';
+// import MyPageSettings from '../components/presentation/MyPageSettings';
 import { changeUserProfile } from '../state/redux/user/userThunk';
 
 function MyPage() {
@@ -84,7 +84,7 @@ function MyPage() {
 
   const handleSubmitProfile = useCallback(() => {
     const userFormData = new FormData();
-    userFormData.append('file', profileImgRef.current.files[0]);
+    userFormData.append('imgFiles', profileImgRef.current.files[0]);
     userFormData.append('username', userNameChange);
 
     dispatch(changeUserProfile({ userInfo: userFormData }));
@@ -287,12 +287,12 @@ function MyPage() {
             />
           )}
         />
-        <Route
+        {/* <Route
           path="/settings"
           element={(
             <MyPageSettings />
           )}
-        />
+        /> */}
       </Routes>
     </LayoutWrapper>
   );

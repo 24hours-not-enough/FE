@@ -71,7 +71,7 @@ export const changeUserProfile = createAsyncThunk(
   'user/changeProfile',
   async ({ userInfo }) => {
     console.log(userInfo);
-    const response = await imgApi.post('/api/mypage', userInfo);
+    const response = await imgApi.put('/api/mypage', userInfo);
     console.log(response);
     return null;
   },
