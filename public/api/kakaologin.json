@@ -1,0 +1,14 @@
+{
+	"result": "success",
+	"msg": "카카오 로그인 성공",
+	"isFirst": "true",
+	"tokens": {
+		"access_token": "access_token",
+		"refresh_token": "refresh_token"
+	},
+	"userInfo": {
+		"userId": 1,
+		"userName": "sunny",
+		"userProfileImage": "/images/profile_default.jpg"
+	}
+}

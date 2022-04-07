@@ -1,68 +1,59 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import UserApi from '../../data/userApi';
-
-const userApi = new UserApi();
+import { createSlice } from '@reduxjs/toolkit';
+import { removeToken, setTokenToSession } from '../../../shared/utils';
+import {
+  changeUserName, kakaoLogin, googleLogin, loginUserInfo, getUser, logout,
+} from './userThunk';
 
 const initialState = {
-  userInfo: {
-    profileImg: '',
-    username: '',
-  },
+  userInfo: null,
+  notification: null,
+  bookmark: null,
 };
-
-export const kakaoLogin = createAsyncThunk('user/kakaoSignIn', async ({ code, navigate }) => {
-  const isLogin = await userApi.kakaoLogin({ code, navigate });
-  return isLogin;
-});
-
-export const googleLogin = createAsyncThunk('user/kakaoSignIn', async ({ code, navigate }) => {
-  const isLogin = await userApi.googleLogin({ code, navigate });
-  return isLogin;
-});
-
-export const pushUserInfo = createAsyncThunk('user/pushUserInfo', async ({ email, userInfo }) => {
-  await userApi.pushUserInfo({ email, userInfo });
-});
-
-export const checkDuplication = createAsyncThunk('user/checkDuplication', async (userInfo) => {
-  await userApi.checkDuplication(userInfo);
-});
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
-  extraReducers: {
-    [kakaoLogin.pending]: (state, action) => {
-      // state = state;
-    },
-    [kakaoLogin.fulfilled]: (state, action) => {
-      // state = state;
-    },
-    [kakaoLogin.rejected]: (state, action) => {
-      // state = state;
-    },
-    [googleLogin.pending]: (state, action) => {
-      // state = state;
-    },
-    [googleLogin.fulfilled]: (state, action) => {
-      // state = state;
-    },
-    [googleLogin.rejected]: (state, action) => {
-      // state = state;
-    },
-    [pushUserInfo.pending]: (state, action) => {
-      // state = state;
-    },
-    [pushUserInfo.fulfilled]: (state, action) => {
-      // state = state;
-    },
-    [pushUserInfo.rejected]: (state, action) => {
-      // state = state;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(kakaoLogin.fulfilled, (state, { payload }) => {
+        const { response } = payload;
+        if (response && response.first === false) {
+          setTokenToSession('accessToken', response.tokens.access_token);
+          setTokenToSession('refreshToken', response.tokens.refresh_token);
+          state.userInfo = response.userInfo;
+        }
+      })
+      .addCase(googleLogin.fulfilled, (state, { payload }) => {
+        const { response } = payload;
+        if (response && response.first === false) {
+          setTokenToSession('accessToken', response.tokens.access_token);
+          setTokenToSession('refreshToken', response.tokens.refresh_token);
+          state.userInfo = response.userInfo;
+        }
+      })
+      .addCase(changeUserName.fulfilled, (state, { payload }) => {
+        state.userInfo.userName = payload;
+      })
+      .addCase(loginUserInfo.fulfilled, (state, { payload }) => {
+        const { response } = payload;
+        if (response) {
+          setTokenToSession('accessToken', response.tokens.access_token);
+          setTokenToSession('refreshToken', response.tokens.refresh_token);
+          state.userInfo = response.userInfo;
+        }
+      })
+      .addCase(getUser.fulfilled, (state, { payload }) => {
+        state.userInfo = payload.userInfo;
+        state.bookmark = payload.bookmark;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        removeToken();
+        state.userInfo = null;
+        state.notification = null;
+        state.bookmark = null;
+      });
   },
 });
-
-// export const {} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,18 +1,56 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import KakaoHandler from './pages/kakaoHandler/KakaoHandler';
-import GetUserInfo from './pages/login/GetUserInfo/GetUserInfo';
-import Login from './pages/login/Login/Login';
-import Main from './pages/main/Main';
+import InviteHandler from './components/container/InviteHandler';
+import LoginHandler from './components/container/LoginHandler';
+import MyPageSettings from './components/presentation/MyPageSettings';
+import Feed from './pages/Feed';
+import Login from './pages/Login';
+import LoginProfile from './pages/LoginProfile';
+import Main from './pages/Main';
+import MobileView from './pages/MobileView';
+import MyPage from './pages/MyPage';
+import Plan from './pages/Plan';
+import PlanCreate from './pages/PlanCreate';
+import PlanDetailNew from './pages/PlanDetailNew';
+import { getTokenFromSession } from './shared/utils';
+import { getPlans } from './state/redux/plan/planThunk';
+import { _userInfo } from './state/redux/user/userSelector';
+import { getUser } from './state/redux/user/userThunk';
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/login/profile" element={<GetUserInfo />} />
+  const userInfo = useSelector(_userInfo);
+  const isTokenInSession = getTokenFromSession('accessToken');
 
-      <Route path="/api/kakaologin" element={<KakaoHandler />} />
-    </Routes>
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isTokenInSession && !userInfo) {
+      dispatch(getUser());
+      dispatch(getPlans());
+    }
+  }, [isTokenInSession, userInfo]);
+
+  return (
+    <MobileView>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/login/profile" element={<LoginProfile />} />
+        <Route path="/mypage/*" element={<MyPage />} />
+        <Route path="/mypage/settings" element={<MyPageSettings />} />
+        <Route path="/feed/:placeId/:feedId" element={<Feed />} />
+        <Route path="/plan" element={<Plan />} />
+        <Route path="/plan/create" element={<PlanCreate />} />
+        <Route path="/plan/update/:planId" element={<PlanCreate />} />
+        <Route path="/plan/edit" element={<Plan />} />
+        <Route path="/plan/detail/:planId" element={<PlanDetailNew />} />
+
+        <Route path="/api/kakaologin" element={<LoginHandler />} />
+        <Route path="/api/googlelogin" element={<LoginHandler />} />
+        <Route path="/plan/invitation/:roomId" element={<InviteHandler />} />
+      </Routes>
+    </MobileView>
   );
 }
 
