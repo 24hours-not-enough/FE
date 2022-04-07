@@ -2,10 +2,10 @@
 import moment from 'moment';
 
 function PlanPresent({
-  plan, openEditMenu, isEditPage, deletePlan, goToPlanDetailPage,
+  plan, openEditMenu, isEditPage, deletePlan, goToPlanDetailPage, userInfo,
 }) {
   const {
-    planId, title, travelDestination, travelStart, travelEnd, members,
+    planId, title, travelDestination, travelStart, travelEnd, members, creator,
   } = plan;
 
   const handleOpenEditMenu = (e) => {
@@ -32,14 +32,14 @@ function PlanPresent({
           />
         ))}
       </div>
-      {isEditPage
+      {(isEditPage && (userInfo.userId === creator.userId))
         ? (
           <button
             onClick={() => deletePlan({ planId })}
             type="button"
             className="absolute top-[18px] right-[18px]"
           >
-            <img src="/images/planDeleteIcon.png" alt="delete" className="inline-block w-[18px] h-[18px]" />
+            <img src="/images/planDeleteIcon.png" alt="삭제" className="inline-block w-[18px] h-[18px]" />
           </button>
         )
         : (

@@ -13,9 +13,11 @@ import _plan from '../state/redux/plan/planSelector';
 import {
   deletePlanPermanentlyAxios, getPlans, togglePlanDeleteState,
 } from '../state/redux/plan/planThunk';
+import { _userInfo } from '../state/redux/user/userSelector';
 
 function Plan() {
   const plan = useSelector(_plan);
+  const userInfo = useSelector(_userInfo);
   const [presentList, setPresentList] = useState([]);
   const [pastList, setPastList] = useState([]);
   const [deletedList, setDeletedList] = useState([]);
@@ -102,6 +104,7 @@ function Plan() {
           {presentList.map((onePlan) => (
             <PlanPresent
               key={onePlan.planId}
+              userInfo={userInfo}
               plan={onePlan}
               openEditMenu={openEditMenu}
               isEditPage={isEditPage}
@@ -133,6 +136,7 @@ function Plan() {
           {pastList.map((onePlan) => (
             <PlanPast
               key={onePlan.planId}
+              userInfo={userInfo}
               plan={onePlan}
               openEditMenu={openEditMenu}
               isEditPage={isEditPage}

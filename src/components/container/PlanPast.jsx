@@ -3,10 +3,10 @@
 import moment from 'moment';
 
 function PlanPast({
-  plan, openEditMenu, isEditPage, deletePlan, goToPlanDetailPage,
+  plan, openEditMenu, isEditPage, deletePlan, goToPlanDetailPage, userInfo,
 }) {
   const {
-    planId, title, travelDestination, travelStart, travelEnd,
+    planId, title, travelDestination, travelStart, travelEnd, creator,
   } = plan;
 
   const handleOpenEditMenu = (e) => {
@@ -24,7 +24,7 @@ function PlanPast({
         {`${travelDestination}, ${moment(travelStart).format('MMM YY')} - ${moment(travelEnd).format('MMM YY')}`}
 
       </span>
-      {isEditPage
+      {(isEditPage && (userInfo.userId === creator.userId))
         ? (
           <button
             onClick={() => deletePlan({ planId })}
