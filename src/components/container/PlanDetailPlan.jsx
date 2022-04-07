@@ -14,6 +14,8 @@ function PlanDetailPlan({
   calendars,
   handleAddCalendar,
   editCalendarDetail,
+  deleteCalendarDetail,
+  deleteCalendarDay,
 }) {
   return (
     <>
@@ -31,7 +33,19 @@ function PlanDetailPlan({
           const { calendarId, days, calendarDetails } = calendar;
           return (
             <article key={calendarId} className="bg-white rounded-[16px] p-[16px]">
-              <h6 className="text-[15px] leading-[18px] font-[700] mb-[42px]">{days}</h6>
+              <h6 className="text-[15px] leading-[18px] font-[700] mb-[42px] flex items-center">
+                <span>{days}</span>
+                {viewState === EDIT
+              && (
+              <button
+                type="button"
+                className="mr-[22px] text-[8px] p-[3px] ml-[5px] bg-main text-white rounded-full"
+                onClick={() => deleteCalendarDay({ calendarId })}
+              >
+                삭제
+              </button>
+              )}
+              </h6>
               <section className="flex flex-col items-start gap-y-[28px] mb-[16px]">
                 {calendarDetails.map((calendarDetail) => {
                   const {
@@ -39,12 +53,18 @@ function PlanDetailPlan({
                   } = calendarDetail;
                   return (
                     <div key={calendarDetailsId}>
-                      <div
-                        className="flex h-[40px] w-full"
-                      >
-                        <div className="bg-black text-white rounded-full w-[22px] h-[22px] text-center text-[13px] leading-[20px] text-[600] mr-[22px]">
-                          {sort + 1}
-                        </div>
+                      <div className="flex h-[40px] min-w-[150px] w-fit">
+                        {viewState === EDIT
+                          ? (
+                            <button type="button" className="w-[22px] h-[22px] mr-[22px]" onClick={() => deleteCalendarDetail({ calendarId, calendarDetailsId })}>
+                              <img src="/images/planDeleteIcon.png" alt="삭제" />
+                            </button>
+                          )
+                          : (
+                            <div className="bg-black text-white rounded-full w-[22px] h-[22px] text-center text-[13px] leading-[20px] text-[600] mr-[22px]">
+                              {sort + 1}
+                            </div>
+                          )}
                         <div className="flex flex-col gap-y-[6px] w-[80vw] h-[40px]" onClick={() => editCalendarDetail({ calendarId, calendarDetail })}>
                           <span className="text-[14px] leading-[17px]">{locationName}</span>
                           <span className="text-[12px] leading-[14px] text-[#A0A0A0]">{locationMemo}</span>

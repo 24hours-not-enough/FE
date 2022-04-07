@@ -136,6 +136,34 @@ function PlanDetailNew() {
     setTabState({ state: SCHEDULE, mode: UPDATE, calendar: { ...calendarDetail, calendarId } });
   };
 
+  // 세부 일정 삭제하기
+  const deleteCalendarDetail = ({ calendarId, calendarDetailsId }) => {
+    const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
+      if (calendar.calendarId === calendarId) {
+        const updatedCalendar = calendar.calendarDetails.filter((calendarDetail) =>
+          calendarDetail.calendarDetailsId !== calendarDetailsId);
+        return { ...calendar, calendarDetails: updatedCalendar };
+      } return calendar;
+    });
+    const resortedPlanDetailsCalendars = updatedPlanDetailsCalendars.map((calendar) => {
+      if (calendar.calendarId === calendarId) {
+        const resortedCalendar = calendar.calendarDetails.map(
+          (calendarDetail, idx) => ({ ...calendarDetail, sort: idx }),
+        );
+        console.log(resortedCalendar);
+        return { ...calendar, calendarDetails: resortedCalendar };
+      } return calendar;
+    });
+    setPlanDetails({ ...planDetails, calendars: resortedPlanDetailsCalendars });
+  };
+
+  // day 삭제하기
+  const deleteCalendarDay = ({ calendarId }) => {
+    const updatedPlanDetail = planDetails.calendars
+      .filter((calendar) => calendar.calendarId !== calendarId);
+    setPlanDetails({ ...planDetails, calendars: updatedPlanDetail });
+  };
+
   if (planDetails) {
     return (
       <div className="overflow-auto scrollbar-hide">
@@ -191,6 +219,8 @@ function PlanDetailNew() {
               handleAddCalendar={handleAddCalendar}
               handleUpdateSchedule={handleUpdateSchedule}
               editCalendarDetail={editCalendarDetail}
+              deleteCalendarDetail={deleteCalendarDetail}
+              deleteCalendarDay={deleteCalendarDay}
             />
             )}
             {viewState === MAP && (
