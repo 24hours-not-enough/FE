@@ -13,6 +13,7 @@ function PlanDetailChat({ planDetails }) {
   const userInfo = useSelector(_userInfo);
   const formRef = useRef();
   const inputRef = useRef();
+  const chatSectionRef = useRef();
 
   const { userId } = userInfo;
   const { planId } = planDetails;
@@ -76,9 +77,17 @@ function PlanDetailChat({ planDetails }) {
     }
   };
 
+  const scrollToBottom = () => {
+    chatSectionRef.current.scrollTop = chatSectionRef.current.scrollHeight;
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chat.length]);
+
   return (
     <article>
-      <section className="overflow-y-auto scrollbar-hide flex flex-col">
+      <section ref={chatSectionRef} className="overflow-y-auto scrollbar-hide flex flex-col">
         {
             chat.map((msg, idx) => {
               const { message, user_id } = msg;
