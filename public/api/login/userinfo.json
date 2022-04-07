@@ -1,9 +1,0 @@
-{
-	"result": "success",
-	"msg": "정식 회원가입 완료되었습니다.",
-	"userInfo": {
-		"userId": 1,
-		"userName": "username",
-		"userProfileImg": ""
-	}
-}

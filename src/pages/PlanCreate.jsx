@@ -216,8 +216,7 @@ function PlanCreate() {
                 onClick={() => cancleInviteUser(user)}
                 className="bg-white text-black rounded-full"
               >
-                취소
-
+                X
               </button>
             </div>
           ))}

@@ -11,7 +11,6 @@ class PlanApi {
     return this.axios({
       method: 'get',
       url: '/api/plan/planDetails',
-      // url: '/api/plan/planDetails.json',
     })
       .then((res) => {
         console.log(res);
@@ -46,12 +45,9 @@ class PlanApi {
 
   // 트리플랜 수정
   async updatePlan({ planId, updatedPlan, navigate }) {
-    console.log(planId);
     return this.axios({
-      // method: 'get',
       method: 'put',
       url: `api/plan/${planId}`,
-      // url: 'api/plan.json',
       data: updatedPlan,
     })
       .then((res) => {
@@ -90,7 +86,6 @@ class PlanApi {
     return this.axios({
       method: 'get',
       url: `api/user/${userName}`,
-      // url: 'api/user/nickname.json',
     });
   }
 
@@ -100,8 +95,7 @@ class PlanApi {
       method: 'put',
       url: `/api/plan/${planId}/storage`,
     })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         isInDetail && navigate('/plan', { replace: true });
       });
   }

@@ -7,34 +7,34 @@ function PlanDetailShareTab({
   tabState,
   setTabState,
 }) {
-  console.log(tabState);
   const { creator, roomId, title } = tabState.plan;
+  let kakao;
 
   useEffect(() => {
     if (window.Kakao) {
-      const kakao = window.Kakao;
+      kakao = window.Kakao;
       if (!kakao.isInitialized()) {
-        Kakao.init(process.env.REACT_APP_KAKAO_JS_KEY);
+        kakao.init(process.env.REACT_APP_KAKAO_JS_KEY);
       }
     }
   }, []);
 
   const shareKakao = () => {
-    Kakao.Link.sendDefault({
+    window.Kakao.Link.sendDefault({
       objectType: 'feed',
       content: {
         title: 'TRIPLAN',
         description: `${creator.userName}님이 ${title}로 초대하셨습니다`,
         imageUrl: '/images/triplan_thumbnail.png',
         link: {
-          mobileWebUrl: `http://localhost:3000/plan/invitation/${roomId}`,
+          mobileWebUrl: `https://triplan.co.kr/plan/invitation/${roomId}`,
         },
       },
       buttons: [
         {
           title: '초대 수락',
           link: {
-            mobileWebUrl: `http://localhost:3000/plan/invitation/${roomId}`,
+            mobileWebUrl: `https://triplan.co.kr/plan/invitation/${roomId}`,
           },
         },
       ],
@@ -50,9 +50,11 @@ function PlanDetailShareTab({
     <BottomTab closeTab={() => setTabState(null)}>
       <h3 className="text-center mb-[48px] text-[20px] font-[800]">공유하기</h3>
       <div className="flex justify-center gap-x-[24px]">
-        <button type="button" className="w-[48px] h-[48px] rounded-full" onClick={shareKakao}>카카오톡</button>
+        <button type="button" className="w-[48px] h-[48px] rounded-full bg-kakao" onClick={shareKakao}>
+          <img src="/images/kakaoIcon.png" alt="카카오톡으로 공유하기" className="w-[30px] h-[30px] mx-auto" />
+        </button>
         <CopyToClipboard
-          text={`http://localhost:3000/plan/invitation/${roomId}`}
+          text={`https://triplan.co.kr/plan/invitation/${roomId}`}
           onCopy={showMessage}
         >
           <button

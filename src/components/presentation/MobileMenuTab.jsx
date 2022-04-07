@@ -8,7 +8,7 @@ function MobileMenuTab({
 }) {
   if (isTab) {
     return (
-      <div className="md:hidden flex absolute w-full h-screen top-0 left-0 right-0 bottom-0 z-50">
+      <div className="flex absolute w-full h-screen top-0 left-0 right-0 bottom-0 z-50">
         <div className="absolute top-0 z-50 flex flex-col w-80 h-full bg-main-background shadow-2xl">
           <section
             className="absolute right-6"
