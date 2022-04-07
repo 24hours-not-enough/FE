@@ -287,12 +287,12 @@ function MyPage() {
             />
           )}
         />
-        <Route
+        {/* <Route
           path="/settings"
           element={(
             <MyPageSettings />
           )}
-        />
+        /> */}
       </Routes>
     </LayoutWrapper>
   );
