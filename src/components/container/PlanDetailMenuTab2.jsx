@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { togglePlanDeleteState } from '../../state/redux/plan/planThunk';
+import { gotOutFromPlanAxios, togglePlanDeleteState } from '../../state/redux/plan/planThunk';
 import { _userInfo } from '../../state/redux/user/userSelector';
 
 import BottomTab from '../elements/bottomTab';
-import ModalContainer from '../elements/modalContainer/ModalContainer';
+
+const buttonDefaultClass = 'flex text-[18px] leading-[22px] font-[600]';
+const iconDefaultClass = 'w-[22px] h-[22px] mr-[22px]';
 
 function PlanDetailMenuTab2({
   tabState,
@@ -33,29 +35,48 @@ function PlanDetailMenuTab2({
     setTabState({ state: 'share', plan: { ...tabState.calendar } });
   };
 
+  // 초대된 계획에서 나가기
+  const goOutFromPlan = () => {
+    dispatch(gotOutFromPlanAxios({ planId, navigate, isInDetail: true }));
+    setTabState(null);
+  };
+
   return (
-    <>
-      <BottomTab closeTab={() => setTabState(null)}>
-        <div
-          className="absolute w-full h-screen top-0 left-0 opacity-70 bg-[#E5E5E5] z-10"
-        />
-        <section className="
+    <BottomTab closeTab={() => setTabState(null)}>
+      <div
+        className="absolute w-full h-screen top-0 left-0 opacity-70 bg-[#E5E5E5] z-10"
+      />
+      <section className="
         absolute bottom-0 left-0 z-20 bg-white w-full rounded-t-[30px]
         px-[30px] pt-[50px] pb-[70px] flex flex-col items-start gap-y-[53px]"
-        >
-          {isCreator
-            ? (
-              <>
-                <button type="button" onClick={openInviteModal}>링크로 초대하기</button>
-                <button type="button" onClick={goToPlanEdit}>기본 정보 수정하기</button>
-                <button type="button" onClick={deletePlan}>삭제하기</button>
-              </>
-            )
-            : <button type="button">나가기</button>}
-        </section>
-      </BottomTab>
-      <ModalContainer>모달창</ModalContainer>
-    </>
+      >
+        {isCreator
+          ? (
+            <>
+              <button type="button" onClick={openInviteModal} className={buttonDefaultClass}>
+                <img src="/images/linkInviteIcon.png" alt="링크로 초대" className={iconDefaultClass} />
+                <span>링크로 초대하기</span>
+              </button>
+              <button type="button" onClick={goToPlanEdit} className={buttonDefaultClass}>
+                <img src="/images/edit_pencilIcon.png" alt="계획 수정" className={iconDefaultClass} />
+                <span>기본 정보 수정하기</span>
+
+              </button>
+              <button type="button" onClick={deletePlan} className={`${buttonDefaultClass} text-[#F34A68] `}>
+                <img src="/images/trashIcon_red.png" alt="계획 삭제" className={iconDefaultClass} />
+                <span>삭제하기</span>
+
+              </button>
+            </>
+          )
+          : (
+            <button type="button" onClick={goOutFromPlan} className={`${buttonDefaultClass} text-[#F34A68] `}>
+              <img src="/images/trashIcon_red.png" alt="나가기" className={iconDefaultClass} />
+              <span>나가기</span>
+            </button>
+          )}
+      </section>
+    </BottomTab>
   );
 }
 

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   addDaysAxios,
+  // deleteDaysAxios,
   deletePlanPermanentlyAxios,
   getPlans,
   togglePlanDeleteState,
@@ -55,6 +56,10 @@ const planSlice = createSlice({
           });
         }
       });
+    // .addCase(deleteDaysAxios.fulfilled, (state, { payload }) => {
+    //   const { planDetails } = payload;
+    //   state.plan = { ...planDetails };
+    // });
   },
 });
 

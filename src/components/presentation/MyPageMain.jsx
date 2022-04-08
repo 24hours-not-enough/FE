@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { memo } from 'react';
 import iconSet from '../../shared/imageUrl';
 
@@ -42,28 +43,35 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
       </div>
       <div
         style={{ backgroundColor: '#E7E6FE' }}
-        className="w-10 h-10 ml-5 mt-10 rounded-full text-center text-2xl text-main leading-10"
+        className="w-10 h-10 ml-5 mt-10 rounded-full flex justify-center items-center"
         role="button"
         tabIndex={0}
         onClick={handleRouter('/mypage/plan')}
       >
-        +
+        <img src="/images/plusIcon.png" alt="피드 추가하기" className="w-[14px] h-[14px]" />
       </div>
-      {myFeed.map(({
-        title, travelStart, travelEnd, feedId,
-      }) => (
-        <div key={feedId} className="flex flex-col justify-center my-5 mx-3 bg-white rounded-lg">
-          <div className="w-88 mx-auto">
-            <div className="flex justify-between my-2">
-              <span>{title}</span>
-              <span>{`${travelStart.split('T')[0]} ~ ${travelEnd.split('T')[0]}`}</span>
-            </div>
-            <div className="my-3">
-              {/* <FeedImage /> */}
+      {myFeed.map((feed) => {
+        const {
+          title, travelStart, travelEnd, feedId,
+        } = feed;
+        return (
+          <div key={feedId} className="flex flex-col justify-center my-5 mx-3 bg-white rounded-lg">
+            <div className="w-88 mx-auto">
+              <div className="flex justify-between my-2">
+                <span className="text-[12px] leading-[16px] text-white font-[550] bg-main px-[8px] py-[5px] rounded-[8px]">{title}</span>
+                <span className="flex justify-center items-center text-[12px] leading-[16px] font-[550]">
+                  <img src="/images/calendarIcon.png" alt="icon" className="w-[12px] h-[12px] mr-[7px]" />
+                  {`${travelStart.split('T')[0]} - ${travelEnd.split('T')[0]}`}
+                </span>
+              </div>
+              <div className="my-3 flex flex-wrap justify-start gap-[4px]">
+                {feed.images.map((image, idx) =>
+                  <img key={idx} src={image} alt="피드사진" className="w-[80px] h-[80px] rounded-[10px]" />)}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </>
   );
 }

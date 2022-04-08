@@ -74,7 +74,7 @@ function MyPagePlan({
         tabIndex={0}
         className="grid place-items-center h-12 bg-white rounded-xl"
       >
-        <img className="" alt="+" />
+        <img src="/images/plusIcon.png" alt="+" />
       </div>
     </div>
   );

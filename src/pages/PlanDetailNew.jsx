@@ -5,17 +5,20 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import _plan from '../state/redux/plan/planSelector';
-import { addDaysAxios, getPlans, updatePlanDetailAxios } from '../state/redux/plan/planThunk';
+import {
+  addDaysAxios, deleteDaysAxios, getPlans, updatePlanDetailAxios,
+} from '../state/redux/plan/planThunk';
 
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import Navbar from '../components/container/Navbar';
-import PlanDetailPlan from '../components/container/PlanDetailPlan';
+import PlanDetailPlan from '../components/presentation/PlanDetailPlan';
 import PlanDetailMap2 from '../components/container/PlanDetailMap2';
 import PlanDetailChat from '../components/container/PlanDetailChat';
 import PlanDetailScheduleTab from '../components/container/PlanDetailScheduleTab';
 import PlanDetailMenuTab2 from '../components/container/PlanDetailMenuTab2';
 import PlanDetailSearch from '../components/container/PlanDetailSearch';
 import PlanDetailShareTab from '../components/container/PlanDetailShareTab';
+import PlanApi from '../state/data/planApi';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
@@ -29,6 +32,8 @@ const ADD = 'add';
 
 const toggleOnBtnStyle = 'bg-white rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-[#393FDC] font-[600]';
 const toggleOffBtnStyle = 'rounded-[14px] px-[40px] py-[6px] text-[14px] leading-[17px] text-white font-[600]';
+
+const planApi = new PlanApi();
 
 function PlanDetailNew() {
   const plan = useSelector(_plan);
@@ -67,12 +72,23 @@ function PlanDetailNew() {
   };
 
   // 계획 편집 상태 toggle
-  const toggleEditState = () => {
+  const toggleEditState = async () => {
     if (viewState === EDIT) {
       dispatch(updatePlanDetailAxios({ planId, planDetailData: planDetails.calendars }));
       setViewState(PLAN);
     } else {
-      setViewState(EDIT);
+      await planApi.checkPlanLock({ planId })
+        .then((res) => {
+          console.log(res);
+          if (res.result === 'success') {
+            setViewState(EDIT);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log(err.response);
+          alert('수정 중입니다');
+        });
     }
   };
 
@@ -100,7 +116,6 @@ function PlanDetailNew() {
       setTabState(null);
     } else if (data.mode === UPDATE) {
       const { calendarId, updated } = data;
-
       const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
         if (calendar.calendarId === calendarId) {
           const updatedCalendar = calendar.calendarDetails.map((calendarDetail) => {
@@ -121,8 +136,6 @@ function PlanDetailNew() {
           return { ...calendar, calendarDetails: updatedCalendar };
         } return calendar;
       });
-
-      console.log('updated: ', updatedPlanDetailsCalendars);
       setPlanDetails({ ...planDetails, calendars: updatedPlanDetailsCalendars });
       setTabState(null);
     }
@@ -150,7 +163,6 @@ function PlanDetailNew() {
         const resortedCalendar = calendar.calendarDetails.map(
           (calendarDetail, idx) => ({ ...calendarDetail, sort: idx }),
         );
-        console.log(resortedCalendar);
         return { ...calendar, calendarDetails: resortedCalendar };
       } return calendar;
     });
@@ -162,6 +174,11 @@ function PlanDetailNew() {
     const updatedPlanDetail = planDetails.calendars
       .filter((calendar) => calendar.calendarId !== calendarId);
     setPlanDetails({ ...planDetails, calendars: updatedPlanDetail });
+    dispatch(deleteDaysAxios({
+      planId,
+      calendarId,
+      planDetails: { ...planDetails, calendars: updatedPlanDetail },
+    }));
   };
 
   if (planDetails) {

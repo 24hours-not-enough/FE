@@ -98,7 +98,7 @@ function MyPage() {
     instance.post('/api/username', { userName: userNameChange })
       .then(() => {
         setCheckDuplication({ checked: true, color: 'blue', value: '사용 가능한 닉네임입니다.' });
-      }).catch((err) => {
+      }).catch(() => {
         setCheckDuplication({ checked: false, color: 'red', value: '다른 사용자가 이미 사용중입니다.' });
       });
   }, [userNameChange]);
@@ -193,17 +193,19 @@ function MyPage() {
     setFeedNum(key);
   }, [feedNum]);
 
-  const handleStoreFeed = useCallback(() => {
+  const handleStoreFeed = useCallback(async () => {
     const travelStart = new Date(startDateRef.current.state.preSelection).toISOString();
     const travelEnd = new Date(endDateRef.current.state.preSelection).toISOString();
 
-    dispatch(addFeedDetail({
+    await dispatch(addFeedDetail({
       feedInfo,
       feedTitle,
       travelStart,
       travelEnd,
     }));
-    handleRouter('/mypage');
+    // handleRouter('/mypage');
+    dispatch(getFeedDetail());
+    navigate('/mypage');
   }, [dispatch, feedInfo, feedTitle, startDateRef, endDateRef]);
 
   useEffect(() => {

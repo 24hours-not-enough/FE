@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { feed } from '../../data/mock';
 import { addFeedDetail, getFeedDetail } from './feedThunk';
 
 const initialState = {
-  myFeed: feed.myFeed,
-  myLikes: feed.myLikes,
+  myFeed: [],
+  myLikes: [],
   feedId: null,
 };
 
