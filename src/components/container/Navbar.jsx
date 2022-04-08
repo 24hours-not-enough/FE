@@ -29,7 +29,6 @@ function Navbar({ title, children, back }) {
 
   const toggleTab = useCallback(() => {
     setIsTab((isTab) => !isTab);
-    console.log('클릭 확인');
   }, [setIsTab]);
 
   const goBack = useCallback(() => {

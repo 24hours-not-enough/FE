@@ -23,17 +23,16 @@ function MyPagePlan({
   return (
     <div className="p-5 mx-auto">
       <div className="flex justify-between">
-        <ul>
+        <select>
           {myFeed.map(({ title, feedId }) => (
-            <li
-              role="presentation"
+            <option
               onClick={handleGetFeedId({ feedId })}
               key={feedId}
             >
               {title}
-            </li>
+            </option>
           ))}
-        </ul>
+        </select>
         <Calendar
           travelStartRef={startDateRef}
           travelEndRef={endDateRef}
@@ -75,7 +74,7 @@ function MyPagePlan({
         tabIndex={0}
         className="grid place-items-center h-12 bg-white rounded-xl"
       >
-        <img className="" alt="+" />
+        <img src="/images/plusIcon.png" alt="+" />
       </div>
     </div>
   );

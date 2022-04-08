@@ -12,33 +12,22 @@ class PlanApi {
       method: 'get',
       url: '/api/plan/planDetails',
     })
-      .then((res) => {
-        console.log(res);
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
+      .then((res) => res)
+      .catch((err) => err);
   }
 
   // 새로운 트리플랜 생성
   async createPlan({ updatedPlan, navigate }) {
     return this.axios({
-      // method: 'get',
       method: 'post',
       url: 'api/plan',
-      // url: 'api/plan.json',
       data: updatedPlan,
     })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         alert('새로운 트리플랜을 생성했습니다');
         navigate('/plan', { replace: true });
       })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response);
+      .catch(() => {
         alert('에러가 발생했습니다 다시 시도해보세요');
       });
   }
@@ -50,14 +39,11 @@ class PlanApi {
       url: `api/plan/${planId}`,
       data: updatedPlan,
     })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         alert('트리플랜 업데이트에 성공했습니다');
         navigate('/plan', { replace: true });
       })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response);
+      .catch(() => {
         alert('에러가 발생했습니다 다시 시도해보세요');
       });
   }
@@ -72,12 +58,34 @@ class PlanApi {
       .catch(() => ({ result: false }));
   }
 
+  // days 삭제
+  async deleteDays({ planId, calendarId }) {
+    return this.axios({
+      method: 'delete',
+      url: `/api/plan/${planId}/days/${calendarId}`,
+    })
+      .then((res) => res)
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        return err.response;
+      });
+  }
+
   // 일정 상세등록, 수정
   async updatePlanDetail({ planId, planDetailData }) {
     return this.axios({
       method: 'put',
       url: `/api/plan/${planId}/days/calendar`,
       data: planDetailData,
+    });
+  }
+
+  // 일정 수정 잠금
+  async checkPlanLock({ planId }) {
+    return this.axios({
+      method: 'put',
+      url: `/api/plan/${planId}/days/lock`,
     });
   }
 
@@ -118,11 +126,14 @@ class PlanApi {
   }
 
   // 여행계획 나가기
-  async goOutFromPlanAxios(planId) {
+  async goOutFromPlanAxios({ planId, navigate, isInDetail }) {
     return this.axios({
       method: 'delete',
       url: `/api/plan/${planId}/member`,
-    });
+    })
+      .then(() => {
+        isInDetail && navigate('/plan', { replace: true });
+      });
   }
 
   // 알림 초대 수락하기

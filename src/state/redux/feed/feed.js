@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { feed } from '../../data/mock';
+import { addFeedDetail, getFeedDetail } from './feedThunk';
 
 const initialState = {
-  data: feed,
+  myFeed: [],
+  myLikes: [],
   feedId: null,
 };
 
@@ -15,7 +16,18 @@ const feedSlice = createSlice({
       feedId: payload,
     }),
   },
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(addFeedDetail.fulfilled, (state, { payload }) => ({
+        ...state,
+        myFeed: [...state.myFeed, payload.postData],
+      }))
+      .addCase(getFeedDetail.fulfilled, (state, { payload }) => ({
+        ...state,
+        myFeed: payload.myFeeds,
+        myLikes: state.myLikes,
+      }));
+  },
 });
 
 export const { setFeedId } = feedSlice.actions;

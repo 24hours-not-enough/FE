@@ -52,6 +52,14 @@ export const updatePlanDetailAxios = createAsyncThunk(
   },
 );
 
+// export const checkPlanLockAxios = createAsyncThunk(
+//   'plan/checkPlanLockAxios',
+//   async ({ planId }) => {
+//     const response = await planApi.checkPlanLock({ planId });
+//     return response;
+//   },
+// );
+
 export const addDaysAxios = createAsyncThunk(
   'plan/addDaysAxios',
   async (planId) => {
@@ -60,10 +68,33 @@ export const addDaysAxios = createAsyncThunk(
   },
 );
 
+export const deleteDaysAxios = createAsyncThunk(
+  'plan/deleteDaysAxios',
+  async ({ planId, calendarId, planDetails }) => {
+    const response = await planApi.deleteDays({ planId, calendarId });
+    return {
+      response, planId, calendarId, planDetails,
+    };
+  },
+);
+
 export const linkByInviteURL = createAsyncThunk(
   'plan/linkByInviteURL',
   async ({ roomId, navigate }, { dispatch }) => {
     await planApi.linkByInviteURL({ roomId, navigate });
     dispatch(getPlans);
+  },
+);
+
+export const gotOutFromPlanAxios = createAsyncThunk(
+  'plan/gotOutFromPlanAxios',
+  async ({ planId, navigate, isInDetail }, { dispatch }) => {
+    const response = await planApi.goOutFromPlanAxios({ planId, navigate, isInDetail });
+    if (response.result === 'success') {
+      dispatch(getPlans);
+    } else {
+      alert('다시 시도해주세요');
+    }
+    return response;
   },
 );
