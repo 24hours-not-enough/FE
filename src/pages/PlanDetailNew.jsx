@@ -5,7 +5,9 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import _plan from '../state/redux/plan/planSelector';
-import { addDaysAxios, getPlans, updatePlanDetailAxios } from '../state/redux/plan/planThunk';
+import {
+  addDaysAxios, deleteDaysAxios, getPlans, updatePlanDetailAxios,
+} from '../state/redux/plan/planThunk';
 
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import Navbar from '../components/container/Navbar';
@@ -100,7 +102,6 @@ function PlanDetailNew() {
       setTabState(null);
     } else if (data.mode === UPDATE) {
       const { calendarId, updated } = data;
-
       const updatedPlanDetailsCalendars = planDetails.calendars.map((calendar) => {
         if (calendar.calendarId === calendarId) {
           const updatedCalendar = calendar.calendarDetails.map((calendarDetail) => {
@@ -121,8 +122,6 @@ function PlanDetailNew() {
           return { ...calendar, calendarDetails: updatedCalendar };
         } return calendar;
       });
-
-      console.log('updated: ', updatedPlanDetailsCalendars);
       setPlanDetails({ ...planDetails, calendars: updatedPlanDetailsCalendars });
       setTabState(null);
     }
@@ -150,7 +149,6 @@ function PlanDetailNew() {
         const resortedCalendar = calendar.calendarDetails.map(
           (calendarDetail, idx) => ({ ...calendarDetail, sort: idx }),
         );
-        console.log(resortedCalendar);
         return { ...calendar, calendarDetails: resortedCalendar };
       } return calendar;
     });
@@ -162,6 +160,11 @@ function PlanDetailNew() {
     const updatedPlanDetail = planDetails.calendars
       .filter((calendar) => calendar.calendarId !== calendarId);
     setPlanDetails({ ...planDetails, calendars: updatedPlanDetail });
+    dispatch(deleteDaysAxios({
+      planId,
+      calendarId,
+      planDetails: { ...planDetails, calendars: updatedPlanDetail },
+    }));
   };
 
   if (planDetails) {

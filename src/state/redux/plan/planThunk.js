@@ -60,6 +60,16 @@ export const addDaysAxios = createAsyncThunk(
   },
 );
 
+export const deleteDaysAxios = createAsyncThunk(
+  'plan/deleteDaysAxios',
+  async ({ planId, calendarId, planDetails }) => {
+    const response = await planApi.deleteDays({ planId, calendarId });
+    return {
+      response, planId, calendarId, planDetails,
+    };
+  },
+);
+
 export const linkByInviteURL = createAsyncThunk(
   'plan/linkByInviteURL',
   async ({ roomId, navigate }, { dispatch }) => {
