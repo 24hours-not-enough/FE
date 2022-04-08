@@ -52,6 +52,14 @@ export const updatePlanDetailAxios = createAsyncThunk(
   },
 );
 
+// export const checkPlanLockAxios = createAsyncThunk(
+//   'plan/checkPlanLockAxios',
+//   async ({ planId }) => {
+//     const response = await planApi.checkPlanLock({ planId });
+//     return response;
+//   },
+// );
+
 export const addDaysAxios = createAsyncThunk(
   'plan/addDaysAxios',
   async (planId) => {

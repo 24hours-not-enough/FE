@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { removeToken } from '../../shared/utils';
 import instance from './axios';
 
 class UserApi {
@@ -138,7 +139,8 @@ class UserApi {
     return this.axios({
       method: 'post',
       url: '/api/withdrawal',
-    });
+    })
+      .then(() => removeToken());
   }
 }
 

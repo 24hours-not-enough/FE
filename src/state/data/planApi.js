@@ -81,6 +81,14 @@ class PlanApi {
     });
   }
 
+  // 일정 수정 잠금
+  async checkPlanLock({ planId }) {
+    return this.axios({
+      method: 'put',
+      url: `/api/plan/${planId}/days/lock`,
+    });
+  }
+
   // 초대하기 위한 유저 닉네임 검색
   async searchUser(userName) {
     return this.axios({

@@ -193,17 +193,19 @@ function MyPage() {
     setFeedNum(key);
   }, [feedNum]);
 
-  const handleStoreFeed = useCallback(() => {
+  const handleStoreFeed = useCallback(async () => {
     const travelStart = new Date(startDateRef.current.state.preSelection).toISOString();
     const travelEnd = new Date(endDateRef.current.state.preSelection).toISOString();
 
-    dispatch(addFeedDetail({
+    await dispatch(addFeedDetail({
       feedInfo,
       feedTitle,
       travelStart,
       travelEnd,
     }));
-    handleRouter('/mypage');
+    // handleRouter('/mypage');
+    dispatch(getFeedDetail());
+    navigate('/mypage');
   }, [dispatch, feedInfo, feedTitle, startDateRef, endDateRef]);
 
   useEffect(() => {
