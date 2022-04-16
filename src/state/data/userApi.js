@@ -47,7 +47,6 @@ class UserApi {
     return this.axios({
       method: 'get',
       url: `/api/googlelogin?code=${code}`,
-      // url: '/api/kakaologin.json',
     })
       .then((res) => {
         console.log(res);
@@ -122,7 +121,6 @@ class UserApi {
     return this.axios({
       method: 'get',
       url: '/api/user',
-      // url: '/api/user.json',
     });
   }
 
@@ -141,6 +139,22 @@ class UserApi {
       url: '/api/withdrawal',
     })
       .then(() => removeToken());
+  }
+
+  // 피드 좋아요
+  async likeFeedAxios({ feedDetailLocId }) {
+    return this.axios({
+      method: 'post',
+      url: `/api/feed/${feedDetailLocId}/like`,
+    });
+  }
+
+  // 피드 좋아요 취소
+  async unlikeFeedAxios({ feedDetailLocId }) {
+    return this.axios({
+      method: 'delete',
+      url: `/api/feed/${feedDetailLocId}/unlike`,
+    });
   }
 }
 
