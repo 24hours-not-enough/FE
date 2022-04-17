@@ -18,6 +18,17 @@ function MobileMenuTab({
           >
             <img className="w-3 h-3 mt-6" alt="exit" src={iconSet.header.exitIcon} />
           </section>
+          {isUser
+          && (
+            <section
+              className="absolute right-12"
+              onClick={handleRouter('/mypage/notification')}
+              tabIndex={0}
+              role="button"
+            >
+              <img className="w-[25px] h-[23px] mt-[20px]" alt="exit" src="/images/notiOnIcon.png" />
+            </section>
+          )}
           <section className="w-full grid place-content-center h-56">
             {isUser
               ? (

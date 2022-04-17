@@ -12,7 +12,7 @@ import { setFeedId } from '../state/redux/feed/feed';
 import { addFeedDetail, getFeedDetail } from '../state/redux/feed/feedThunk';
 import instance, { imgApi } from '../state/data/axios';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
-import { _userInfo } from '../state/redux/user/userSelector';
+import { _bookmark, _userInfo } from '../state/redux/user/userSelector';
 
 import iconSet from '../shared/imageUrl';
 import { headerTitle, checkNickname } from '../shared/utils';
@@ -26,6 +26,8 @@ import Navbar from '../components/container/Navbar';
 import LayoutWrapper from '../components/presentation/LayoutWrapper';
 // import MyPageSettings from '../components/presentation/MyPageSettings';
 import { changeUserProfile } from '../state/redux/user/userThunk';
+import MyPageBookmark from '../components/presentation/MyPageBookmark';
+import NotificationPage from '../components/presentation/NotificationPage';
 
 function MyPage() {
   const dispatch = useDispatch();
@@ -36,12 +38,13 @@ function MyPage() {
   const endDateRef = useRef();
 
   const userInfo = useSelector(_userInfo);
+  const bookmark = useSelector(_bookmark);
   const myLikes = useSelector(_myLikes);
   const myFeed = useSelector(_myFeed);
   const myFeedId = useSelector(_myFeedId);
 
   const [checkDuplication, setCheckDuplication] = useState({ checked: null, color: 'red', value: '' });
-  const [userNameChange, setUserNameChange] = useState(userInfo.username);
+  const [userNameChange, setUserNameChange] = useState(userInfo && userInfo.username);
   const [profileImgPreview, setProfileImgPreview] = useState(null);
   const [feedTitle, setFeedTitle] = useState('');
   const [feedNum, setFeedNum] = useState(0);
@@ -204,8 +207,6 @@ function MyPage() {
       travelEnd,
     }));
     // handleRouter('/mypage');
-    dispatch(getFeedDetail());
-    navigate('/mypage');
   }, [dispatch, feedInfo, feedTitle, startDateRef, endDateRef]);
 
   useEffect(() => {
@@ -300,6 +301,12 @@ function MyPage() {
             <MyPageBookmark
               bookmarkInfo={bookmark}
             />
+          )}
+        />
+        <Route
+          path="/notification"
+          element={(
+            <NotificationPage />
           )}
         />
         {/* <Route

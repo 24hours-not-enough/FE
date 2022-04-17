@@ -18,8 +18,8 @@ class PlaceApi {
       data: {
         leftX: x1,
         rightX: x2,
-        bottomY: y1,
-        topY: y2,
+        bottomY: y2,
+        topY: y1,
       },
     })
       .then((res) => res.data)

@@ -16,16 +16,24 @@ export const getUser = createAsyncThunk(
 
 export const kakaoLogin = createAsyncThunk(
   'user/kakaoLogin',
-  async ({ code, navigate }) => {
+  async ({ code, navigate }, { dispatch }) => {
     const response = await userApi.kakaoLogin({ code, navigate });
+    if (response && response.first === false) {
+      dispatch(getUser());
+      dispatch(getPlans());
+    }
     return { response };
   },
 );
 
 export const googleLogin = createAsyncThunk(
   'user/googleLogin',
-  async ({ code, navigate }) => {
+  async ({ code, navigate }, { dispatch }) => {
     const response = await userApi.googleLogin({ code, navigate });
+    if (response && response.first === false) {
+      dispatch(getUser());
+      dispatch(getPlans());
+    }
     return { response };
   },
 );
