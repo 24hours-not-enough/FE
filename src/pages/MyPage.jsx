@@ -294,6 +294,14 @@ function MyPage() {
             />
           )}
         />
+        <Route
+          path="/mybookmarks"
+          element={(
+            <MyPageBookmark
+              bookmarkInfo={bookmark}
+            />
+          )}
+        />
         {/* <Route
           path="/settings"
           element={(

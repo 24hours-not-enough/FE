@@ -1,15 +1,18 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-undef */
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-// import { _bookmark } from '../../state/redux/user/userSelector';
+import { addBookmark, addPlace } from '../../state/redux/place/placeThunk';
+import { _bookmark } from '../../state/redux/user/userSelector';
 
 function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
-  // const bookmark = useSelector(_bookmark);
+  const bookmark = useSelector(_bookmark);
 
   const [address, setAddress] = useState(null);
   const [isSpread, setIsSpread] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     placeId, locationName, latitude, longitude, feedPerLocations,
@@ -38,16 +41,27 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
   };
 
   const putPlaceToBookmark = () => {
-    // if (!userInfo) {
-    //   alert('로그인 후 이용해주세요');
-    //   return;
-    // }
-    // if (bookmark.filter((oneBookmark) => oneBookmark.placeId === placeId).length >= 1) {
-    //   console.log('이미 북마크 된 장소입니다.');
-    //   return;
-    // }
-    // console.log('북마크 하기'); // 북마크 통신하기
-    alert('서비스 준비 중입니다');
+    if (!userInfo) {
+      alert('로그인 후 이용해주세요');
+      return;
+    }
+    if (bookmark.length > 0
+      && bookmark.filter((oneBookmark) => oneBookmark.placeId === placeId).length >= 1) {
+      alert('이미 북마크 된 장소입니다.');
+    }
+
+    if (feedPerLocations.length <= 0) {
+      const placeData = {
+        name: locationName,
+        latitude,
+        longitude,
+        placeAddress: address,
+      };
+
+      dispatch(addPlace({ placeData }));
+    } else {
+      dispatch(addBookmark(placeId));
+    }
   };
 
   const handleOpenTriplanTab = (data) => {

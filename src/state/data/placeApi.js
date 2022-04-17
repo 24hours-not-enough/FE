@@ -108,6 +108,15 @@ class PlaceApi {
       url: `/api/feed/${feedId}/unlike`,
     });
   }
+
+  // 장소등록
+  async addPlaceAxios({ placeData }) {
+    return this.axios({
+      method: 'post',
+      url: '/api/newFeed',
+      data: placeData,
+    });
+  }
 }
 
 export default PlaceApi;

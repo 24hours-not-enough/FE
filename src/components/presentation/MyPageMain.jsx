@@ -23,6 +23,9 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
           <div
             style={{ backgroundColor: '#E7E6FE' }}
             className="grid place-items-center w-10 h-10 rounded-full mr-5"
+            role="button"
+            tabIndex={0}
+            onClick={handleRouter('/mypage/mybookmarks')}
           >
             <img className="w-5 h-5" alt="아이콘1" src={iconSet.myPage.rectangleIcon} />
           </div>

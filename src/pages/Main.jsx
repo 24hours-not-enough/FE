@@ -71,22 +71,35 @@ function Main() {
         placeId, latitude, longitude, locationName, feedPerLocations,
       } = onePlace;
 
-      const imageSrc = feedPerLocations[0].images[0].imgUrl;
-      const imageSize = new window.kakao.maps.Size(64, 69);
-      const imageOption = {
-        alt: `${locationName}_${placeId}`,
-        offset: new window.kakao.maps.Point(27, 69),
-      };
+      if (feedPerLocations.length > 0) {
+        const imageSrc = feedPerLocations[0].images[0].imgUrl;
+        const imageSize = new window.kakao.maps.Size(64, 69);
+        const imageOption = {
+          alt: `${locationName}_${placeId}`,
+          offset: new window.kakao.maps.Point(27, 69),
+        };
 
-      const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-      const marker = new window.kakao.maps.Marker({
-        position: new window.kakao.maps.LatLng(latitude, longitude),
-        title: locationName,
-        image: markerImage,
-        clickable: true,
-      });
+        const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+        const marker = new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(latitude, longitude),
+          title: locationName,
+          image: markerImage,
+          clickable: true,
+        });
 
-      marker.setMap(map);
+        marker.setMap(map);
+      }
+
+      // const content = `<img src=${feedPerLocations[0].images[0].imgUrl}
+      // alt="${locationName}_${placeId}" className="w-[12px] h-[12px] rounded-full" />`;
+      // const position = new kakao.maps.LatLng(latitude, longitude);
+      // const customOverlay = new kakao.maps.CustomOverlay({
+      //   position,
+      //   content,
+      //   clickable: true,
+      // });
+
+      // customOverlay.setMap(map);
     });
   });
 
@@ -101,22 +114,35 @@ function Main() {
         placeId, latitude, longitude, locationName, feedPerLocations,
       } = onePlace;
 
-      const imageSrc = feedPerLocations[0].images[0].imgUrl;
-      const imageSize = new window.kakao.maps.Size(64, 69);
-      const imageOption = {
-        alt: `${locationName}_${placeId}`,
-        offset: new window.kakao.maps.Point(27, 69),
-      };
+      if (feedPerLocations.length > 0) {
+        const imageSrc = feedPerLocations[0].images[0].imgUrl;
+        const imageSize = new window.kakao.maps.Size(64, 69);
+        const imageOption = {
+          alt: `${locationName}_${placeId}`,
+          offset: new window.kakao.maps.Point(27, 69),
+        };
 
-      const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-      const marker = new window.kakao.maps.Marker({
-        position: new window.kakao.maps.LatLng(latitude, longitude),
-        title: locationName,
-        image: markerImage,
-        clickable: true,
-      });
+        const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+        const marker = new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(latitude, longitude),
+          title: locationName,
+          image: markerImage,
+          clickable: true,
+        });
 
-      marker.setMap(map);
+        marker.setMap(map);
+      }
+
+      // const content = `<img src=${feedPerLocations[0].images[0].imgUrl}
+      // alt="${locationName}_${placeId}" className="w-[12px] h-[12px] rounded-full" />`;
+      // const position = new kakao.maps.LatLng(latitude, longitude);
+      // const customOverlay = new kakao.maps.CustomOverlay({
+      //   position,
+      //   content,
+      //   clickable: true,
+      // });
+
+      // customOverlay.setMap(map);
     });
   }, [dispatch, place]);
 
