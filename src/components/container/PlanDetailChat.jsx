@@ -49,9 +49,6 @@ function PlanDetailChat({ planDetails }) {
             setChat((prev) => [...prev, newMessage]);
           }, header);
         },
-        (err) => {
-          console.log(err);
-        },
       );
     })();
 

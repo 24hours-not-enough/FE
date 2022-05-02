@@ -17,7 +17,6 @@ function MainTriplanTab({ selectedPlace, setIsTriplanTab }) {
   const buttonStyle = selected ? 'main' : 'decline';
 
   const handleSelect = (data) => {
-    console.log(data);
     if (selected && selected.planId === data.planId && selected.calendarId === data.planId) {
       setSelected(null);
     } else {

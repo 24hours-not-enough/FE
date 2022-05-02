@@ -3,16 +3,15 @@ import { useSelector } from 'react-redux';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { getTokenFromSession } from '../../shared/utils';
-import { _notification, _userInfo } from '../../state/redux/user/userSelector';
+import { _userInfo } from '../../state/redux/user/userSelector';
 
 const baseURL = process.env.REACT_APP_SERVER_IP;
 
 function NotificationPage() {
   const userInfo = useSelector(_userInfo);
-  const notification = useSelector(_notification);
 
   const [noti, setNoti] = useState([]);
-  const [isConnectStomp, setIsConnectStomp] = useState(false);
+  let isConnectStomp = useRef(false);
   const [header, setHeader] = useState({
     authorization: getTokenFromSession('accessToken'),
     refreshToken: getTokenFromSession('refreshToken'),
@@ -33,7 +32,7 @@ function NotificationPage() {
       await stompClient.current.connect(
         header,
         () => {
-          setIsConnectStomp(true);
+          isConnectStomp = true;
 
           stompClient.current.subscribe(`/queue/${userInfo.userId}`, (data) => {
             const newMessage = JSON.parse(data.body);

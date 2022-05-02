@@ -9,7 +9,6 @@ export const getUser = createAsyncThunk(
   'user/getUser',
   async () => {
     const response = await userApi.getUser();
-    console.log(response);
     return response;
   },
 );
@@ -50,12 +49,11 @@ export const loginUserInfo = createAsyncThunk(
 
 export const changeUserName = createAsyncThunk(
   'user/changeUserName',
-  async ({ userNameChange }) => {
+  async ({ userNameChange }) =>
     // const userName = await ...
     // api 요청하고 success오면 return해서 userName반영
-    console.log(userNameChange);
-    return userNameChange;
-  },
+    userNameChange
+  ,
 );
 
 export const logout = createAsyncThunk(
@@ -78,9 +76,7 @@ export const withdrawal = createAsyncThunk(
 export const changeUserProfile = createAsyncThunk(
   'user/changeProfile',
   async ({ userInfo }) => {
-    console.log(userInfo);
     const response = await imgApi.put('/api/mypage', userInfo);
-    console.log(response);
-    return null;
+    return response;
   },
 );

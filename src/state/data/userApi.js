@@ -9,8 +9,6 @@ class UserApi {
     this.SUCCESS = 'success';
     this.FAIL = 'fail';
     this.base = process.env.REACT_APP_SERVER_IP;
-    // this.TRUE = 'true';
-    // this.FALSE = 'false';
   }
 
   // 카카오 로그인
@@ -18,7 +16,6 @@ class UserApi {
     return this.axios({
       method: 'get',
       url: `/api/kakaologin?code=${code}`,
-      // url: '/api/kakaologin.json',
     })
       .then((res) => {
         if (res.result === this.SUCCESS) {
@@ -34,9 +31,7 @@ class UserApi {
           navigate('/login', { replace: true });
         }
       })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response);
+      .catch(() => {
         alert('오류가 발생했습니다. 로그인을 다시 시도해주세요');
         navigate('/login', { replace: true });
       });
@@ -49,7 +44,6 @@ class UserApi {
       url: `/api/googlelogin?code=${code}`,
     })
       .then((res) => {
-        console.log(res);
         if (res.result === this.SUCCESS) {
           if (res && res.first === true) {
             navigate('/login/profile', { state: res.tokens, replace: true });
@@ -63,9 +57,7 @@ class UserApi {
           navigate('/login', { replace: true });
         }
       })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response);
+      .catch(() => {
         alert('오류가 발생했습니다. 로그인을 다시 시도해주세요');
         navigate('/login', { replace: true });
       });
@@ -74,10 +66,8 @@ class UserApi {
   // 닉네임 중복 체크
   async checkDuplication({ tokens, userInfo }) {
     return this.axios({
-      // method: 'get',
       method: 'post',
       url: '/api/username',
-      // url: '/api/username.json',
       headers: {
         authorization: tokens.access_token,
         refreshToken: tokens.refresh_token,
@@ -100,7 +90,6 @@ class UserApi {
     })
       .then((res) => res.data)
       .then((res) => {
-        console.log(res);
         if (res.result === this.SUCCESS) {
           navigate('/', { replace: true });
           return { ...res, tokens };
@@ -109,11 +98,9 @@ class UserApi {
           alert('오류가 발생했습니다. 로그인을 다시 시도해주세요');
           navigate('/login', { replace: true });
         }
-      }).catch((err) => {
-        console.log(err);
-        console.log(err.response);
+      }).catch(() => {
         alert('오류가 발생했습니다. 로그인을 다시 시도해주세요');
-        // navigate('/login', { replace: true });
+        navigate('/login', { replace: true });
       });
   }
 

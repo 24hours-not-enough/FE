@@ -23,10 +23,7 @@ class PlaceApi {
       },
     })
       .then((res) => res.data)
-      .then((res) => {
-        console.log(res);
-        return res.allLocationsDtoList;
-      });
+      .then((res) => res.allLocationsDtoList);
   }
 
   // 피드 등록

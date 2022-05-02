@@ -155,7 +155,6 @@ function Main() {
 
   const searchCallback = (result, status) => {
     if (status === kakao.maps.services.Status.OK) {
-      console.log(result);
       setOnSearch(true);
       setSearchedList(result);
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {

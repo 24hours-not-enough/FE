@@ -14,8 +14,6 @@ function PlanDetailScheduleTab({
 
   const { mode, calendar } = tabState;
 
-  console.log(tabState);
-
   useEffect(() => {
     if (tabState.mode === UPDATE) {
       memoRef.current.value = tabState.calendar.locationMemo;

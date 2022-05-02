@@ -79,14 +79,11 @@ function PlanDetailNew() {
     } else {
       await planApi.checkPlanLock({ planId })
         .then((res) => {
-          console.log(res);
           if (res.result === 'success') {
             setViewState(EDIT);
           }
         })
-        .catch((err) => {
-          console.log(err);
-          console.log(err.response);
+        .catch(() => {
           alert('수정 중입니다');
         });
     }
@@ -120,14 +117,10 @@ function PlanDetailNew() {
         if (calendar.calendarId === calendarId) {
           const updatedCalendar = calendar.calendarDetails.map((calendarDetail) => {
             if (calendarDetail.calendarDetailsId === updated.calendarDetailsId) {
-              console.log(calendarDetail);
               const {
                 calendarDetailsId,
                 locationName, locationMemo, latitude, longitude, sort,
               } = updated;
-              console.log({
-                calendarDetailsId, locationName, locationMemo, latitude, longitude, sort,
-              });
               return {
                 calendarDetailsId, locationName, locationMemo, latitude, longitude, sort,
               };

@@ -16,8 +16,7 @@ export const addFeedDetail = createAsyncThunk(
       travelEnd,
       feedDetail: feedInfo,
     };
-    console.log(postData);
-    const { data } = await instance.post('/api/feed', postData);
+    await instance.post('/api/feed', postData);
     return { postData };
   },
 );

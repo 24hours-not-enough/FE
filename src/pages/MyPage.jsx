@@ -141,7 +141,6 @@ function MyPage() {
     const formData = new FormData();
     Object.values(e.target.files).map((item) => formData.append('imgFiles', item));
     imgApi.post('/api/feed/image', formData).then((res) => {
-      console.log(Object.keys(res.data), Object.values(res.data));
       setFeedImages([{ fileName: Object.keys(res.data)[0], imgUrl: Object.values(res.data)[0] }]);
     });
   }, [feedNum, feedDetailNum, feedInfo]);

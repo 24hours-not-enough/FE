@@ -38,7 +38,6 @@ function PlanDetailSearch({
 
   const searchCallback = (result, status) => {
     if (status === kakao.maps.services.Status.OK) {
-      console.log(result);
       setSearchedList(result);
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
       alert('검색 결과가 존재하지 않습니다.');
