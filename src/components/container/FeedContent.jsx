@@ -26,7 +26,7 @@ function FeedContent({ feed, userInfo }) {
   };
 
   return (
-    <div className="absolute left-0 bottom-0 w-screen rounded-t-[20px] pt-[20px] px-[20px] h-[calc(100vh_-_56px_-_100vw_+_20px)] bg-white rounded-t-20px">
+    <div className="absolute left-0 bottom-0 w-full rounded-t-[20px] pt-[20px] px-[20px] h-[calc(100vh_-_56px_-_100vw_+_20px)] bg-white rounded-t-20px">
       <section className="flex items-center justify-between mb-[14px]">
         <div className="flex items-center">
           <img
@@ -46,7 +46,7 @@ function FeedContent({ feed, userInfo }) {
         {comments.map((comment) => <FeedComment key={comment.commentId} comment={comment} />)}
       </section>
 
-      <section className="absolute bottom-0 left-0 flex items-center w-screen h-[80px] px-[20px] bg-white">
+      <section className="absolute bottom-0 left-0 flex items-center w-full h-[80px] px-[20px] bg-white">
         {
           userInfo
           && (

@@ -17,7 +17,6 @@ function MainTriplanTab({ selectedPlace, setIsTriplanTab }) {
   const buttonStyle = selected ? 'main' : 'decline';
 
   const handleSelect = (data) => {
-    console.log(data);
     if (selected && selected.planId === data.planId && selected.calendarId === data.planId) {
       setSelected(null);
     } else {
@@ -53,7 +52,7 @@ function MainTriplanTab({ selectedPlace, setIsTriplanTab }) {
         {plan.map((triplan) => (
           <section key={triplan.planId} className="mb-[36px]">
             <h6 className="text-[14px] leading-[16.8px] mb-[8px]">{triplan.title}</h6>
-            <div className="flex flex-wrap justify-between">
+            <div className="flex flex-wrap gap-x-[15px]">
               {triplan.calendars.map((calendar) => (
                 <MainTriplanDateButton
                   key={calendar.calendarId}

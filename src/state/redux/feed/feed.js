@@ -4,7 +4,6 @@ import { addFeedDetail, getFeedDetail } from './feedThunk';
 const initialState = {
   myFeed: [],
   myLikes: [],
-  feedId: null,
 };
 
 const feedSlice = createSlice({
@@ -25,7 +24,7 @@ const feedSlice = createSlice({
       .addCase(getFeedDetail.fulfilled, (state, { payload }) => ({
         ...state,
         myFeed: payload.myFeeds,
-        myLikes: state.myLikes,
+        myLikes: payload.myLikes,
       }));
   },
 });

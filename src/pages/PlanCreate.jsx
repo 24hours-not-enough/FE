@@ -57,7 +57,6 @@ function PlanCreate() {
     if (e.target.value !== '') {
       planApi.searchUser(e.target.value)
         .then((res) => {
-          console.log(res);
           if (res.data.userId === loginUser.userId) {
             return;
           }
@@ -66,10 +65,7 @@ function PlanCreate() {
             userName: res.data.userName,
             userId: res.data.userId,
           });
-        })
-        .catch((err) => console.log(err.response));
-      console.log(e.target.value);
-      console.log(searchedUser);
+        });
     }
   };
   const findByUsername = _.debounce(findedUser, 600);

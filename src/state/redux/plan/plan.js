@@ -22,10 +22,6 @@ const planSlice = createSlice({
         const { response } = payload;
         state.plan = response.data;
       })
-      // .addCase(createPlan.fulfilled, (state, { payload }) => {
-      // })
-      // .addCase(updatePlan.fulfilled, (state, { payload }) => {
-      // })
       .addCase(togglePlanDeleteState.fulfilled, (state, { payload }) => {
         state.plan = state.plan.map((onePlan) => {
           if (onePlan.planId === payload) {
@@ -40,26 +36,18 @@ const planSlice = createSlice({
       .addCase(deletePlanPermanentlyAxios.fulfilled, (state, { payload }) => {
         state.plan = state.plan.filter((onePlan) => onePlan.planId !== payload);
       })
-      // .addCase(updatePlanDetailAxios.fulfilled, (state, { payload }) => {
-      //   const { planId, planDetailData } = payload;
-      // })
       .addCase(addDaysAxios.fulfilled, (state, { payload }) => {
         if (payload.result === true) {
           const { planId, calendarId } = payload;
           state.plan = state.plan.map((onePlan) => {
             if (onePlan.planId === planId) {
               const added = { calendarId, days: `${onePlan.calendars.length + 1}일차`, calendarDetails: [] };
-              console.log({ ...onePlan, calendars: [...onePlan.calendars, added] });
               return { ...onePlan, calendars: [...onePlan.calendars, added] };
             }
             return onePlan;
           });
         }
       });
-    // .addCase(deleteDaysAxios.fulfilled, (state, { payload }) => {
-    //   const { planDetails } = payload;
-    //   state.plan = { ...planDetails };
-    // });
   },
 });
 

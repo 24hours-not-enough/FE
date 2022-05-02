@@ -31,6 +31,14 @@ function App() {
       dispatch(getPlans());
       dispatch(getFeedDetail());
     }
+  }, []);
+
+  useEffect(() => {
+    if (isTokenInSession && !userInfo) {
+      dispatch(getUser());
+      dispatch(getPlans());
+      dispatch(getFeedDetail());
+    }
   }, [isTokenInSession, userInfo]);
 
   return (
