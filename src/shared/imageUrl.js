@@ -1,26 +1,26 @@
 const iconSet = {
   navBar: {
-    searchIcon: '/images/searchIcon.png',
-    planIcon: '/images/planIcon.png',
-    myPageIcon: '/images/myPageIcon.png',
-    settingIcon: '/images/settingIcon.png',
+    searchIcon: '/images/icons/searchIcon.png',
+    planIcon: '/images/icons/planIcon.png',
+    myPageIcon: '/images/icons/myPageIcon.png',
+    settingIcon: '/images/icons/settingIcon.png',
   },
   webNavBar: {
-    mainPageIcon: '/images/webMainPageIcon.png',
-    searchIcon: '/images/webSearchIcon.png',
-    planIcon: '/images/webPlanIcon.png',
-    myPageIcon: '/images/webMyPageIcon.png',
-    settingIcon: '/images/webSettingIcon.png',
-    exitIcon: '/images/webExitIcon.png',
+    mainPageIcon: '/images/icons/webMainPageIcon.png',
+    searchIcon: '/images/icons/webSearchIcon.png',
+    planIcon: '/images/icons/webPlanIcon.png',
+    myPageIcon: '/images/icons/webMyPageIcon.png',
+    settingIcon: '/images/icons/webSettingIcon.png',
+    exitIcon: '/images/icons/webExitIcon.png',
   },
   header: {
-    backIcon: '/images/backIcon.png',
-    exitIcon: '/images/exitIcon.png',
+    backIcon: '/images/icons/backIcon.png',
+    exitIcon: '/images/icons/exitIcon.png',
   },
   myPage: {
-    heartIcon: '/images/heartIcon.png',
-    rectangleIcon: '/images/rectangleIcon.png',
-    settingIcon: '/images/settingIcon.png',
+    heartIcon: '/images/icons/heartIcon.png',
+    rectangleIcon: '/images/icons/rectangleIcon.png',
+    settingIcon: '/images/icons/settingIcon.png',
   },
 };
 
