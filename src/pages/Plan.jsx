@@ -7,7 +7,6 @@ import PlanEditOneTab from '../components/container/PlanEditOneTab';
 import PlanPast from '../components/container/PlanPast';
 import PlanPresent from '../components/container/PlanPresent';
 import Button from '../components/elements/button/Button';
-import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import { getTokenFromSession } from '../shared/utils';
 import _plan from '../state/redux/plan/planSelector';
 import {
@@ -92,7 +91,7 @@ function Plan() {
   };
 
   return (
-    <LayoutWrapper>
+    <>
       <Navbar title="계획">
         {isEditPage
           ? <button type="button" onClick={goToPlanPage}>완료</button>
@@ -155,7 +154,7 @@ function Plan() {
         deletePlan={togglePlanDelete}
       />
       )}
-    </LayoutWrapper>
+    </>
   );
 }
 

@@ -9,7 +9,6 @@ import {
   addDaysAxios, deleteDaysAxios, getPlans, updatePlanDetailAxios,
 } from '../state/redux/plan/planThunk';
 
-import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import Navbar from '../components/container/Navbar';
 import PlanDetailPlan from '../components/presentation/PlanDetailPlan';
 import PlanDetailMap2 from '../components/container/PlanDetailMap2';
@@ -177,47 +176,46 @@ function PlanDetailNew() {
   if (planDetails) {
     return (
       <div className="overflow-auto scrollbar-hide">
-        <LayoutWrapper>
-          <Navbar title={planDetails.title} back>
-            <button type="button" onClick={() => setTabState({ state: MENU, calendar: planDetails })}>
-              <img src="/images/menuIcon_black.png" alt="menu" className="w-[24px] h-[24px]" />
-            </button>
-          </Navbar>
+        <Navbar title={planDetails.title} back>
+          <button type="button" onClick={() => setTabState({ state: MENU, calendar: planDetails })}>
+            <img src="/images/menuIcon_black.png" alt="menu" className="w-[24px] h-[24px]" />
+          </button>
+        </Navbar>
 
-          <div className="bg-main px-[30px] pt-[20px] pb-[10px] flex flex-col">
-            <div className="flex mb-[20px]">
-              {planDetails.members.map((member) => (
-                <img
-                  key={member.userId}
-                  src={member.userProfileImage}
-                  alt={member.userName}
-                  className="w-[22px] h-[22px] rounded-full"
-                />
-              ))}
-            </div>
-            <span className="text-[12px] text-white leading-[14px] font-[600] mb-[35px]">
-              {`${planDetails.travelDestination}, ${moment(planDetails.travelStart).format('MMM DD')} - ${moment(planDetails.travelEnd).format('MMM DD')}`}
-            </span>
-            <button
-              type="button"
-              className="bg-[#393FDC] px-[3px] py-[5px] w-fit h-fit rounded-[14px] mb-[30px] self-center"
-              onClick={toggleViewState}
-            >
-              <span className={(viewState === PLAN || viewState === EDIT || viewState === MAP)
-                ? toggleOnBtnStyle : toggleOffBtnStyle}
-              >
-                계획
-              </span>
-              <span className={viewState === CHAT
-                ? toggleOnBtnStyle : toggleOffBtnStyle}
-              >
-                채팅
-              </span>
-            </button>
+        <div className="bg-main px-[30px] pt-[20px] pb-[10px] flex flex-col">
+          <div className="flex mb-[20px]">
+            {planDetails.members.map((member) => (
+              <img
+                key={member.userId}
+                src={member.userProfileImage}
+                alt={member.userName}
+                className="w-[22px] h-[22px] rounded-full"
+              />
+            ))}
           </div>
+          <span className="text-[12px] text-white leading-[14px] font-[600] mb-[35px]">
+            {`${planDetails.travelDestination}, ${moment(planDetails.travelStart).format('MMM DD')} - ${moment(planDetails.travelEnd).format('MMM DD')}`}
+          </span>
+          <button
+            type="button"
+            className="bg-[#393FDC] px-[3px] py-[5px] w-fit h-fit rounded-[14px] mb-[30px] self-center"
+            onClick={toggleViewState}
+          >
+            <span className={(viewState === PLAN || viewState === EDIT || viewState === MAP)
+              ? toggleOnBtnStyle : toggleOffBtnStyle}
+            >
+              계획
+            </span>
+            <span className={viewState === CHAT
+              ? toggleOnBtnStyle : toggleOffBtnStyle}
+            >
+              채팅
+            </span>
+          </button>
+        </div>
 
-          <section className="bg-main-background w-full h-[calc(100vh_-_245px)] rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
-            {(viewState === PLAN || viewState === EDIT) && (
+        <section className="bg-main-background w-full h-[calc(100vh_-_245px)] rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
+          {(viewState === PLAN || viewState === EDIT) && (
             <PlanDetailPlan
               viewState={viewState}
               tabState={tabState}
@@ -232,18 +230,18 @@ function PlanDetailNew() {
               deleteCalendarDetail={deleteCalendarDetail}
               deleteCalendarDay={deleteCalendarDay}
             />
-            )}
-            {viewState === MAP && (
+          )}
+          {viewState === MAP && (
             <PlanDetailMap2
               toggleMapViewState={toggleMapViewState}
               toggleEditState={toggleEditState}
               calendars={planDetails.calendars}
             />
-            )}
-            {viewState === CHAT && <PlanDetailChat planDetails={planDetails} />}
-          </section>
+          )}
+          {viewState === CHAT && <PlanDetailChat planDetails={planDetails} />}
+        </section>
 
-          {(tabState && (tabState.state === SCHEDULE))
+        {(tabState && (tabState.state === SCHEDULE))
             && (
             <PlanDetailScheduleTab
               handleUpdateSchedule={handleUpdateSchedule}
@@ -252,14 +250,14 @@ function PlanDetailNew() {
               setOnSearchMap={setOnSearchMap}
             />
             )}
-          {(tabState && tabState.state === MENU)
+        {(tabState && tabState.state === MENU)
           && (
           <PlanDetailMenuTab2
             tabState={tabState}
             setTabState={setTabState}
           />
           )}
-          {(tabState && tabState.state === SHARE)
+        {(tabState && tabState.state === SHARE)
           && (
           <PlanDetailShareTab
             tabState={tabState}
@@ -267,7 +265,7 @@ function PlanDetailNew() {
           />
           )}
 
-          {onSearchMap
+        {onSearchMap
           && (
           <PlanDetailSearch
             tabState={tabState}
@@ -275,7 +273,6 @@ function PlanDetailNew() {
             setOnSearchMap={setOnSearchMap}
           />
           )}
-        </LayoutWrapper>
       </div>
     );
   }

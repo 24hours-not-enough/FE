@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import MainFeedTab from '../components/container/MainFeedTab';
 import MainTriplanTab from '../components/container/MainTriplanTab';
 import Navbar from '../components/container/Navbar';
-import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import _place from '../state/redux/place/placeSelector';
 import { getPlace } from '../state/redux/place/placeThunk';
 import { _userInfo } from '../state/redux/user/userSelector';
@@ -216,7 +215,7 @@ function Main() {
   };
 
   return (
-    <LayoutWrapper>
+    <>
       <div className="sticky z-10 bg-white">
         <Navbar title="로고" />
         <form
@@ -273,7 +272,7 @@ function Main() {
         setIsTriplanTab={setIsTriplanTab}
       />
       )}
-    </LayoutWrapper>
+    </>
   );
 }
 
