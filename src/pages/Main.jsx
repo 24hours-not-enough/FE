@@ -4,12 +4,16 @@ import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import MainFeedTab from '../components/container/MainFeedTab';
 import MainTriplanTab from '../components/container/MainTriplanTab';
 import Navbar from '../components/container/Navbar';
+
+import iconSet from '../shared/imageUrl';
+
 import _place from '../state/redux/place/placeSelector';
-import { getPlace } from '../state/redux/place/placeThunk';
 import { _userInfo } from '../state/redux/user/userSelector';
+import { getPlace } from '../state/redux/place/placeThunk';
 
 function Main() {
   const place = useSelector(_place);
@@ -88,17 +92,6 @@ function Main() {
 
         marker.setMap(map);
       }
-
-      // const content = `<img src=${feedPerLocations[0].images[0].imgUrl}
-      // alt="${locationName}_${placeId}" className="w-[12px] h-[12px] rounded-full" />`;
-      // const position = new kakao.maps.LatLng(latitude, longitude);
-      // const customOverlay = new kakao.maps.CustomOverlay({
-      //   position,
-      //   content,
-      //   clickable: true,
-      // });
-
-      // customOverlay.setMap(map);
     });
   });
 
@@ -131,21 +124,9 @@ function Main() {
 
         marker.setMap(map);
       }
-
-      // const content = `<img src=${feedPerLocations[0].images[0].imgUrl}
-      // alt="${locationName}_${placeId}" className="w-[12px] h-[12px] rounded-full" />`;
-      // const position = new kakao.maps.LatLng(latitude, longitude);
-      // const customOverlay = new kakao.maps.CustomOverlay({
-      //   position,
-      //   content,
-      //   clickable: true,
-      // });
-
-      // customOverlay.setMap(map);
     });
   }, [dispatch, place]);
 
-  // 검색 - 검색 결과 설정 필요, 결과 표시하는 거 필요
   const places = new kakao.maps.services.Places();
   const searchOptions = {
     x: coordinates.longitude,
@@ -167,8 +148,6 @@ function Main() {
     e.preventDefault();
     if (searchRef.current.value === '') return;
     places.keywordSearch(searchRef.current.value, searchCallback, searchOptions);
-
-    searchFormRef.current.reset();
   };
 
   // 검색 후 장소 클릭
@@ -216,44 +195,49 @@ function Main() {
 
   return (
     <>
-      <div className="sticky z-10 bg-white">
-        <Navbar title="로고" />
+      <Navbar title={(
         <form
           ref={searchFormRef}
           onSubmit={searchPlace}
-          className="flex mx-[20px] px-[20px] py-[11px] mb-[8px] bg-[#E7E6FE] rounded-[14px] z-10"
+          className="flex px-5 py-1 bg-[#E7E6FE] rounded-[14px] -translate-y-1"
         >
           <input
             ref={searchRef}
             type="text"
             placeholder="가고싶은 곳을 검색해보세요!"
-            className="flex-1 bg-[#E7E6FE] text-black text-[14px] leading-[17px]"
+            className="flex-1 bg-[#E7E6FE] text-black text-[14px] leading-[17px] w-80"
           />
           <button type="submit">검색</button>
         </form>
-        <ul className="flex flex-col gap-y-[8px] px-[15px] mt-[30px]">
-          {onSearch
-        && searchedList.map((searched) => (
-          <li
-            key={searched.id}
-            className="flex justify-between px-[15px] py-[5px] bg-main-background rounded-[8px]"
-          >
-            <div onClick={() =>
-              handleShowInMap({
-                x: searched.x,
-                y: searched.y,
-                locationName: searched.place_name,
-                placeId: `k${searched.id}`,
-              })}
+      )}
+      />
+      {onSearch
+        && (
+        <ul className="flex flex-col gap-y-[8px] px-4 py-2 absolute top-14 left-0 z-10 w-full h-full max-h-[calc(850px_-_64px_-_32px)] overflow-y-auto scrollbar-hide bg-main-background/75">
+          <button type="button" onClick={() => setOnSearch(false)} className="sticky top-0 left-1/2 -translate-x-1/2 w-4 h-4">
+            <img src={iconSet.header.exitIcon} alt="검색 닫기" />
+          </button>
+          {searchedList.map((searched) => (
+            <li
+              key={searched.id}
+              className="flex justify-between px-[15px] py-[5px] bg-main-background rounded-[8px]"
             >
-              <h6 className="text-[1rem] font-[600]">{searched.place_name}</h6>
-              <span className="text-[0.7rem]">{searched.road_address_name}</span>
-            </div>
-            <a href={searched.place_url} className="bg-kakao px-[8px] py-[3px] rounded-[8px] w-fit h-fit text-[12px] font-[500]">카카오맵에서 보기</a>
-          </li>
-        ))}
+              <div onClick={() =>
+                handleShowInMap({
+                  x: searched.x,
+                  y: searched.y,
+                  locationName: searched.place_name,
+                  placeId: `k${searched.id}`,
+                })}
+              >
+                <h6 className="text-[1rem] font-[600]">{searched.place_name}</h6>
+                <span className="text-[0.7rem]">{searched.road_address_name}</span>
+              </div>
+              <a href={searched.place_url} className="bg-kakao px-[8px] py-[3px] rounded-[8px] w-fit h-fit text-[12px] font-[500]">카카오맵에서 보기</a>
+            </li>
+          ))}
         </ul>
-      </div>
+        )}
       <div
         ref={mapRef}
         className="w-full h-full absolute left-0 top-0"
