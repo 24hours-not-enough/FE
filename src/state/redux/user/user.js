@@ -6,7 +6,6 @@ import {
 
 const initialState = {
   userInfo: null,
-  notification: null,
   bookmark: null,
 };
 
@@ -34,7 +33,6 @@ export const userSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         removeToken();
         state.userInfo = null;
-        state.notification = null;
         state.bookmark = null;
       });
   },

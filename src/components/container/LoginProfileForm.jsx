@@ -1,6 +1,9 @@
-import { useRef, useState } from 'react';
+import {
+  useRef, useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import iconSet from '../../shared/imageUrl';
 import { checkNickname } from '../../shared/utils';
 import UserApi from '../../state/data/userApi';
 import { loginUserInfo } from '../../state/redux/user/userThunk';
@@ -8,7 +11,7 @@ import { loginUserInfo } from '../../state/redux/user/userThunk';
 function LoginProfileForm() {
   const nicknameRef = useRef();
   const fileRef = useRef();
-  const [preview, setPreview] = useState('/images/profile_default.jpg');
+  const [preview, setPreview] = useState(`${iconSet.navBar.myPageIcon}`);
   const [duplicationChecked, setDuplicationChecked] = useState(null);
   const [nicknameDescription, setNicknameDescription] = useState({ color: 'red', value: '' });
   const dispatch = useDispatch();
@@ -57,6 +60,11 @@ function LoginProfileForm() {
 
     if (!duplicationChecked) {
       setNicknameDescription({ color: 'red', value: '닉네임 중복 체크를 완료해주세요' });
+      return;
+    }
+
+    if (!profileImage) {
+      alert('프로필 이미지를 등록해주세요');
       return;
     }
 
