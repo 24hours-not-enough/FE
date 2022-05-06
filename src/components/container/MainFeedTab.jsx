@@ -49,6 +49,7 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
     if (bookmark.length > 0
       && bookmark.filter((oneBookmark) => oneBookmark.placeId === placeId).length >= 1) {
       alert('이미 북마크 된 장소입니다.');
+      return;
     }
 
     if (feedPerLocations.length <= 0) {

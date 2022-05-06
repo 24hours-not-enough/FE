@@ -24,7 +24,10 @@ export const addBookmark = createAsyncThunk(
   'place/addBookmark',
   async (placeId, { dispatch }) => {
     const response = await placeApi.addBookmarkAxios(placeId);
-    dispatch(getUser());
+    if (response.result === 'success') {
+      alert('북마크가 등록되었습니다');
+      dispatch(getUser());
+    }
     return { response };
   },
 );
