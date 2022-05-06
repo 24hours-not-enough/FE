@@ -22,6 +22,11 @@ const iconSet = {
     rectangleIcon: '/images/icons/rectangleIcon.png',
     settingIcon: '/images/icons/settingIcon.png',
   },
+  mainFeedTab: {
+    spreadIcon: '/images/icons/spreadIcon.png',
+    bookmarkIcon: '/images/icons/bookmarkIcon.png',
+    menuIcon: '/images/icons/menuIcon_black.png',
+  },
 };
 
 export default iconSet;

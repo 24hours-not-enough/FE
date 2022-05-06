@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import iconSet from '../../shared/imageUrl';
 import { addBookmark, addPlace } from '../../state/redux/place/placeThunk';
 import { _bookmark } from '../../state/redux/user/userSelector';
 
@@ -80,17 +81,18 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
     <section className={`absolute transition-all duration-300 ease-out bottom-0 left-0 z-10 bg-white w-full rounded-t-[30px] ${tabStyle}`}>
       <h5 className="text-[18px] font-[600] leading-[22px] px-[30px] pt-[30px]">{locationName}</h5>
       <span className="text-[12px] text-gray-400 leading-[14px] px-[30px]">{address}</span>
-      <div className="mt-[26px] flex flex-wrap px-[4px] min-h-[290px]">
+      <section className="flex w-full h-72 flex-wrap gap-x-1 gap-y-1 mt-[26px] mx-1 overflow-y-auto scrollbar-hide">
         {feedPerLocations.map((feed) => (
-          <img
-            key={feed.feedId}
-            src={feed.images[0].imgUrl}
-            alt={feed.memo}
-            className="flex w-1/3 h-[calc((100vw_-_12px)_/_3)] p-[2px] rounded-[10px]"
-            onClick={() => goToFeedPage(feed)}
-          />
+          <div className="relative w-[calc((100%_-_16px)_/_3)] pb-[calc((100%_-_16px)_/_3)] h-0 rounded-lg" key={feed.feedId}>
+            <img
+              src={feed.images[0].imgUrl}
+              alt={feed.memo}
+              className="absolute w-full h-full rounded-lg"
+              onClick={() => goToFeedPage(feed)}
+            />
+          </div>
         ))}
-      </div>
+      </section>
       <div className="absolute top-[26px] right-[24px] flex items-center">
         <button
           type="button"
@@ -98,7 +100,7 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
           onClick={putPlaceToBookmark}
         >
           <img
-            src="/images/bookmarkIcon.png"
+            src={iconSet.mainFeedTab.bookmarkIcon}
             alt="bookmark"
             className="w-[18px] h-[18px] mx-auto"
           />
@@ -109,7 +111,7 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
           className="ml-[22px] w-[40px] h-[40px]"
         >
           <img
-            src="/images/menuIcon_black.png"
+            src={iconSet.mainFeedTab.menuIcon}
             alt="menu"
             className="inline-block h-[18px] m-auto"
           />
@@ -118,9 +120,9 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
       <button
         type="button"
         onClick={toggleIsSpread}
-        className="absolute top-[8px] left-1/2 -translate-x-1/2"
+        className="absolute top-[8px] left-1/2 -translate-x-1/2 p-2"
       >
-        <img src="/images/spreadIcon.png" alt="spread button" />
+        <img src={iconSet.mainFeedTab.spreadIcon} alt="spread button" />
       </button>
     </section>
   );
