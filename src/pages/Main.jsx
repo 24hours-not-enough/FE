@@ -82,12 +82,14 @@ function Main() {
           offset: new window.kakao.maps.Point(27, 69),
         };
 
+        const content = `<div class="w-20 h-22 bg-main relative customMarker">
+        <img src="${imageSrc}" alt="${locationName}_${placeId}" class="absolute top-1 left-1 w-[72px] h-[72px] rounded-3xl"/>
+        </div>`;
+
         const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-        const marker = new window.kakao.maps.Marker({
+        const marker = new window.kakao.maps.CustomOverlay({
           position: new window.kakao.maps.LatLng(latitude, longitude),
-          title: locationName,
-          image: markerImage,
-          clickable: true,
+          content,
         });
 
         marker.setMap(map);
@@ -108,18 +110,20 @@ function Main() {
 
       if (feedPerLocations.length > 0) {
         const imageSrc = feedPerLocations[0].images[0].imgUrl;
-        const imageSize = new window.kakao.maps.Size(64, 69);
+        const imageSize = new window.kakao.maps.Size(70, 80);
         const imageOption = {
           alt: `${locationName}_${placeId}`,
           offset: new window.kakao.maps.Point(27, 69),
         };
 
+        const content = `<div className="marker">
+        <img src="${imageSrc}" alt="${locationName}_${placeId}" />
+        </div>`;
+
         const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-        const marker = new window.kakao.maps.Marker({
+        const marker = new window.kakao.maps.CustomOverlay({
           position: new window.kakao.maps.LatLng(latitude, longitude),
-          title: locationName,
-          image: markerImage,
-          clickable: true,
+          content,
         });
 
         marker.setMap(map);
