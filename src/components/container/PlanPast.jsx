@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/no-array-index-key */
 import moment from 'moment';
+import iconSet from '../../shared/imageUrl';
 
 function PlanPast({
   plan, openEditMenu, isEditPage, deletePlan, goToPlanDetailPage, userInfo,
@@ -31,7 +32,7 @@ function PlanPast({
             type="button"
             className="absolute top-[18px] right-[18px]"
           >
-            <img src="/images/planDeleteIcon.png" alt="delete" className="inline-block w-[18px] h-[18px]" />
+            <img src={iconSet.plan.deleteIcon} alt="삭제" className="inline-block w-5 h-5" />
           </button>
         )
         : (
@@ -40,7 +41,7 @@ function PlanPast({
             type="button"
             className="absolute top-[18px] right-[18px]"
           >
-            <img src="/images/menuIcon_black.png" alt="menu" className="inline-block w-[4px] h-[18px]" />
+            <img src={iconSet.plan.menuBlackIcon} alt="menu" className="inline-block w-5 h-5" />
           </button>
         )}
 

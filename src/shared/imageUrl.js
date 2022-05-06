@@ -19,6 +19,17 @@ const iconSet = {
     bookmarkIcon: '/images/icons/bookmarkIcon.png',
     menuIcon: '/images/icons/menuIcon_black.png',
   },
+  plan: {
+    menuIcon: 'images/icons/menuIcon.png',
+    menuBlackIcon: 'images/icons/menuIcon_black.png',
+    editPencilIcon: 'images/icons/edit_pencilIcon.png',
+    deleteRedIcon: 'images/icons/trashIcon_red.png',
+    deleteIcon: 'images/icons/planDeleteIcon.png',
+    openIcon: 'images/icons/dropdownIcon.png',
+  },
+  tab: {
+    exitIcon: 'images/icons/exitIcon.png',
+  },
 };
 
 export default iconSet;
