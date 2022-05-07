@@ -1,12 +1,12 @@
 import {
-  useEffect, useRef, useState,
+  useEffect, useRef,
 } from 'react';
+import iconSet from '../../shared/imageUrl';
 
 function MyPageBookmark({
   bookmarkInfo,
 }) {
   const mapRef = useRef();
-  const [tabState, setTabState] = useState({ state: null });
 
   useEffect(() => {
     const mapOptions = {
@@ -25,24 +25,25 @@ function MyPageBookmark({
 
       if (feedDetailLoc.length > 0) {
         const imageSrc = feedDetailLoc[0].images[0].imgUrl;
-        const imageSize = new window.kakao.maps.Size(64, 69);
-        const imageOption = {
-          alt: `${placeName}_${placeId}`,
-          offset: new window.kakao.maps.Point(27, 69),
-        };
 
-        const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-        marker = new window.kakao.maps.Marker({
+        const content = `
+        <div class="w-20 h-22 bg-main relative customMarker">
+          <img src="${imageSrc}" alt="${placeName}_${placeId}" class="absolute top-1 left-1 w-[72px] h-[72px] rounded-3xl"/>
+        </div>
+        `;
+
+        marker = new window.kakao.maps.CustomOverlay({
           position: new window.kakao.maps.LatLng(latitude, longitude),
-          title: placeName,
-          image: markerImage,
-          clickable: true,
+          content,
         });
       } else {
-        marker = new window.kakao.maps.Marker({
+        marker = new window.kakao.maps.CustomOverlay({
           position: new window.kakao.maps.LatLng(latitude, longitude),
-          title: placeName,
-          clickable: true,
+          content: `
+          <div class="w-20 h-22 bg-main relative customMarker">
+            <img src="${iconSet.logo}" alt="${placeName}_${placeId}" class="absolute top-1 left-1 w-[72px] h-[72px] rounded-3xl"/>
+        </div>
+          `,
         });
       }
 
@@ -55,21 +56,11 @@ function MyPageBookmark({
     map.setBounds(bounds);
   });
 
-  const openMenuTab = () => {
-    setTabState({ state: 'menu' });
-  };
-
   return (
-    <>
-      <div
-        ref={mapRef}
-        className="w-full h-full absolute left-0 top-0"
-        onClick={openMenuTab}
-      />
-      {/* {
-      tabState.state === 'menu' && <div className="absolute top-0 left-0 z-50">메뉴탭</div>
-    } */}
-    </>
+    <div
+      ref={mapRef}
+      className="w-full h-full absolute left-0 top-0"
+    />
   );
 }
 

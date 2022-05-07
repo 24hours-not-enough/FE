@@ -13,6 +13,7 @@ const iconSet = {
     heartIcon: '/images/icons/heartIcon.png',
     rectangleIcon: '/images/icons/rectangleIcon.png',
     settingIcon: '/images/icons/settingIcon.png',
+    plusIcon: '/images/icons/plusIcon.png',
   },
   mainFeedTab: {
     spreadIcon: '/images/icons/spreadIcon.png',
@@ -37,6 +38,7 @@ const iconSet = {
   tab: {
     exitIcon: 'images/icons/exitIcon.png',
   },
+  logo: '/images/triplan_logo.png',
 };
 
 export default iconSet;
