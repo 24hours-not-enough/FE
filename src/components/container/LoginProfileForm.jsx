@@ -86,15 +86,15 @@ function LoginProfileForm() {
       </div>
       <input ref={fileRef} onChange={selectProfile} type="file" accept="image/*" style={{ display: 'none' }} />
       <form className="mx-5" onSubmit={handleSubmit}>
-        <label className="fontSize-xs" htmlFor="닉네임">닉네임</label>
-        <div className="flex justify-between items-center h-12 rounded-xl bg-white">
+        <label className="text-sm" htmlFor="닉네임">닉네임</label>
+        <div className="flex justify-between items-center h-12 rounded-xl bg-white mt-1">
           <input
             ref={nicknameRef}
-            className="pl-5 w-full text-[14px]"
+            className="pl-5 basis-5/6 text-sm"
             type="text"
             placeholder="숫자, 영어, 한글을 조합하여 2~8글자로 입력해주세요!"
           />
-          <button type="button" onClick={checkDuplication}>중복 확인</button>
+          <button type="button" onClick={checkDuplication} className="text-main text-sm basis-1/6">중복확인</button>
         </div>
         <span className={`${nicknameDescriptionColor} block h-[17px]`}>{nicknameDescription.value}</span>
         {duplicationChecked
