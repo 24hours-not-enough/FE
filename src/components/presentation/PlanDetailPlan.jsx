@@ -20,8 +20,8 @@ function PlanDetailPlan({
   return (
     <>
       <div className="flex justify-between mb-[20px]">
-        <button type="button" onClick={toggleMapViewState} className="w-[40px] h-[40px] bg-[#E7E6FE] rounded-[14px]">
-          <img src={iconSet.plan.mapIcon} alt="지도" className="w-[18px] h-[18px] mx-auto" />
+        <button type="button" onClick={toggleMapViewState} className="w-10 h-10 bg-[#E7E6FE] rounded-[14px]">
+          <img src={iconSet.plan.mapIcon} alt="지도" className="w-4.5 h-4.5 mx-auto" />
         </button>
         <button type="button" className="text-main" onClick={toggleEditState}>
           {viewState === PLAN ? '편집' : '완료'}

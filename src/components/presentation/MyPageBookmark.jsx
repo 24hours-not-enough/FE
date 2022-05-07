@@ -14,47 +14,49 @@ function MyPageBookmark({
       level: 3,
     };
     const map = new window.kakao.maps.Map(mapRef.current, mapOptions);
-    const forBoundList = [];
 
-    bookmarkInfo.length > 0
-    && bookmarkInfo.forEach((bookmark) => {
-      let marker;
-      const {
-        placeId, latitude, longitude, placeName, feedDetailLoc,
-      } = bookmark;
+    if (bookmarkInfo && bookmarkInfo.length > 0) {
+      const forBoundList = [];
 
-      if (feedDetailLoc.length > 0) {
-        const imageSrc = feedDetailLoc[0].images[0].imgUrl;
+      bookmarkInfo.forEach((bookmark) => {
+        let marker;
+        const {
+          placeId, latitude, longitude, placeName, feedDetailLoc,
+        } = bookmark;
 
-        const content = `
+        if (feedDetailLoc.length > 0) {
+          const imageSrc = feedDetailLoc[0].images[0].imgUrl;
+
+          const content = `
         <div class="w-20 h-22 bg-main relative customMarker">
           <img src="${imageSrc}" alt="${placeName}_${placeId}" class="absolute top-1 left-1 w-[72px] h-[72px] rounded-3xl"/>
         </div>
         `;
 
-        marker = new window.kakao.maps.CustomOverlay({
-          position: new window.kakao.maps.LatLng(latitude, longitude),
-          content,
-        });
-      } else {
-        marker = new window.kakao.maps.CustomOverlay({
-          position: new window.kakao.maps.LatLng(latitude, longitude),
-          content: `
+          marker = new window.kakao.maps.CustomOverlay({
+            position: new window.kakao.maps.LatLng(latitude, longitude),
+            content,
+          });
+        } else {
+          marker = new window.kakao.maps.CustomOverlay({
+            position: new window.kakao.maps.LatLng(latitude, longitude),
+            content: `
           <div class="w-20 h-22 bg-main relative customMarker">
             <img src="${iconSet.logo}" alt="${placeName}_${placeId}" class="absolute top-1 left-1 w-[72px] h-[72px] rounded-3xl"/>
         </div>
           `,
-        });
-      }
+          });
+        }
 
-      forBoundList.push(new window.kakao.maps.LatLng(latitude, longitude));
-      marker.setMap(map);
-    });
+        forBoundList.push(new window.kakao.maps.LatLng(latitude, longitude));
+        marker.setMap(map);
+      });
 
-    const bounds = new window.kakao.maps.LatLngBounds();
-    forBoundList.forEach((place) => bounds.extend(place));
-    map.setBounds(bounds);
-  });
+      const bounds = new window.kakao.maps.LatLngBounds();
+      forBoundList.forEach((place) => bounds.extend(place));
+      map.setBounds(bounds);
+    }
+  }, []);
 
   return (
     <div
