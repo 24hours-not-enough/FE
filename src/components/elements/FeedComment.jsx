@@ -1,5 +1,3 @@
-import { defaultImg } from '../../shared/utils';
-
 function FeedComment({ comment }) {
   const { creator, content } = comment;
 
@@ -9,7 +7,6 @@ function FeedComment({ comment }) {
         <img
           src={creator.userProfileImage}
           alt={creator.userName}
-          onError={(e) => defaultImg(e)}
           className="w-[30px] h-[30px] rounded-full mr-[10px]"
         />
         <span className="text-[14px] leading=[17px] font-[600]">{creator.userName}</span>

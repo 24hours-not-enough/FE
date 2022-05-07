@@ -11,7 +11,7 @@ function MainTriplanDateButton({
 
   return (
     <button
-      className={`inline-block text-[14px] font-[600] leading-[16.8px] w-[calc((100%_-_90px)_/_3)] h-[36px] mb-[12px] ${buttonStyle}`}
+      className={`inline-block text-[14px] font-[600] leading-[16.8px] w-[calc((100%_-_32px)_/_3)] h-[36px] ${buttonStyle}`}
       type="button"
       onClick={() => handleSelect({
         planId: triplan.planId,

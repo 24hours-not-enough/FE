@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import { useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import iconSet from '../../shared/imageUrl';
 import BottomTab from '../elements/bottomTab';
 
 function PlanDetailShareTab({
@@ -49,9 +50,9 @@ function PlanDetailShareTab({
   return (
     <BottomTab closeTab={() => setTabState(null)}>
       <h3 className="text-center mb-[48px] text-[20px] font-[800]">공유하기</h3>
-      <div className="flex justify-center gap-x-[24px]">
+      <div className="flex justify-center gap-x-[24px] mb-5">
         <button type="button" className="w-[48px] h-[48px] rounded-full bg-kakao" onClick={shareKakao}>
-          <img src="/images/kakaoIcon.png" alt="카카오톡으로 공유하기" className="w-[30px] h-[30px] mx-auto" />
+          <img src={iconSet.plan.kakaoIcon} alt="카카오톡으로 공유하기" className="w-[30px] h-[30px] mx-auto" />
         </button>
         <CopyToClipboard
           text={`https://triplan.co.kr/plan/invitation/${roomId}`}

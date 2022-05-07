@@ -23,7 +23,6 @@ import MyPageProfile from '../components/presentation/MyPageProfile';
 import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
 
 import Navbar from '../components/container/Navbar';
-import LayoutWrapper from '../components/presentation/LayoutWrapper';
 // import MyPageSettings from '../components/presentation/MyPageSettings';
 import { changeUserProfile } from '../state/redux/user/userThunk';
 import MyPageBookmark from '../components/presentation/MyPageBookmark';
@@ -223,7 +222,7 @@ function MyPage() {
   }, [dispatch]);
 
   return (
-    <LayoutWrapper>
+    <>
       <Navbar
         title={headerTitle(location.pathname).title}
         back={headerTitle(location.pathname).back}
@@ -315,7 +314,7 @@ function MyPage() {
           )}
         /> */}
       </Routes>
-    </LayoutWrapper>
+    </>
   );
 }
 

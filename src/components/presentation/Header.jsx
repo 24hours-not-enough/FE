@@ -1,20 +1,15 @@
 import { memo } from 'react';
 
 import iconSet from '../../shared/imageUrl';
-// import useLayout from '../../shared/useLayout';
-// import WebMenuTab from './WebMenuTab';
 
 function Header({
   openTab,
   children,
   back,
   exit,
-  // handleRouter,
   goBack,
   title,
 }) {
-  // const { pc } = useLayout();
-
   const headerLeft = () => {
     if (back === true) {
       return (
@@ -45,9 +40,8 @@ function Header({
     );
   };
 
-  // if (!pc) {
   return (
-    <nav className="sticky top-0 left-0 h-14 z-10 bg-white">
+    <nav className="absolute top-0 left-0 h-14 w-full z-10 bg-white">
       {headerLeft()}
       <h1
         className="absolute left-1/2 top-4 trans font-bold"
@@ -60,10 +54,6 @@ function Header({
       </div>
     </nav>
   );
-  // }
-  // return (
-  //   <WebMenuTab handleRouter={handleRouter} />
-  // );
 }
 
 export default memo(Header);

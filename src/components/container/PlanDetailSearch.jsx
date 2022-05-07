@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { useEffect, useRef, useState } from 'react';
+import iconSet from '../../shared/imageUrl';
 
 function PlanDetailSearch({
   tabState,
@@ -80,12 +81,12 @@ function PlanDetailSearch({
   };
 
   return (
-    <section className="absolute top-[20px] left-0 bg-white h-[90vh] w-full flex justify-center">
-      <div className="absolute top-[55px] left-0 bg-white h-4/5 w-4/5 overflow-hidden z-50 rounded-[20px] p-[10px]">
+    <section className="absolute top-0 left-0 bg-white h-[calc(100%_-_20px)] w-full flex justify-center">
+      <div className="h-full w-full pt-14">
         <form
           ref={searchFormRef}
           onSubmit={searchPlace}
-          className="px-[20px] py-[11px] flex bg-main-background rounded-[14px] mx-[20px] mb-[8px] z-20"
+          className="px-7 py-[11px] flex bg-main-background rounded-[14px] z-20"
         >
           <input
             ref={searchRef}
@@ -94,35 +95,36 @@ function PlanDetailSearch({
             className="flex-1 bg-main-background text-black text-[14px] leading-[17px] z-10"
           />
           <button type="submit">
-            <img src="/images/searchIcon_purple.png" alt="search" className="w-[24px] h-[24px]" />
+            <img src={iconSet.plan.searchIcon} alt="search" className="w-[24px] h-[24px]" />
           </button>
         </form>
-        <ul className="w-full bg-white z-50 overflow-y-auto scrollbar-hide">
-          {searchedList.length > 0
-        && searchedList.map((searched) => (
-          <li
-            key={searched.id}
-            className="flex justify-between px-[15px] py-[5px] bg-main-background rounded-[8px]"
-          >
-            <div onClick={() =>
-              handleShowInMap({
-                x: searched.x,
-                y: searched.y,
-                locationName: searched.place_name,
-                placeId: `k${searched.id}`,
-              })}
+        {searchedList.length > 0
+        && (
+        <ul className="flex flex-col gap-y-[8px] px-4 py-2 absolute top-14 left-0 z-20 w-full h-full max-h-[calc(850px_-_64px_-_32px)] overflow-y-auto scrollbar-hide bg-main-background/75">
+          {searchedList.map((searched) => (
+            <li
+              key={searched.id}
+              className="flex justify-between px-[15px] py-[5px] bg-main-background rounded-[8px]"
             >
-              <h6 className="text-[1rem] font-[600]">{searched.place_name}</h6>
-              <span className="text-[0.7rem]">{searched.road_address_name}</span>
-            </div>
-            <a href={searched.place_url} className="bg-kakao px-[8px] py-[3px] rounded-[8px] w-fit h-fit text-[12px] font-[500]">카카오맵에서 보기</a>
-          </li>
-        ))}
+              <div onClick={() =>
+                handleShowInMap({
+                  x: searched.x,
+                  y: searched.y,
+                  locationName: searched.place_name,
+                  placeId: `k${searched.id}`,
+                })}
+              >
+                <h6 className="text-[1rem] font-[600]">{searched.place_name}</h6>
+                <span className="text-[0.7rem]">{searched.road_address_name}</span>
+              </div>
+              <a href={searched.place_url} className="bg-kakao px-[8px] py-[3px] rounded-[8px] w-fit h-fit text-[12px] font-[500]">카카오맵에서 보기</a>
+            </li>
+          ))}
         </ul>
-        <div ref={mapRef} className="absolute w-full h-full z-10" onClick={handleClick} />
+        )}
+        <div ref={mapRef} className="w-full h-[90%] z-10" onClick={handleClick} />
       </div>
     </section>
-
   );
 }
 

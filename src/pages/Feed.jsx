@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import FeedContent from '../components/container/FeedContent';
 import Navbar from '../components/container/Navbar';
-import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import { likeFeed, unlikeFeed } from '../state/redux/feed/feedThunk';
 import _place from '../state/redux/place/placeSelector';
 import { _userInfo } from '../state/redux/user/userSelector';
@@ -45,7 +44,7 @@ function Feed() {
   };
 
   return (
-    <LayoutWrapper overflow="hide">
+    <>
       <Navbar title={locationName} back />
       <div className="flex w-fit overflow-x-hidden">
         {images.map((image, idx) => (
@@ -66,7 +65,7 @@ function Feed() {
         ))}
       </div>
       <FeedContent feed={feed} userInfo={userInfo} />
-    </LayoutWrapper>
+    </>
   );
 }
 

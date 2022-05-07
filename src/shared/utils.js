@@ -27,6 +27,12 @@ const headerTitle = (pathname) => {
       back: true,
     };
   }
+  if (pathname === '/mypage/mybookmarks') {
+    props = {
+      title: '저장한 장소',
+      back: true,
+    };
+  }
   if (pathname === '/mypage/plan') {
     props = {
       title: '새로운 게시물',
@@ -48,10 +54,6 @@ const headerTitle = (pathname) => {
   return props;
 };
 
-const defaultImg = (e) => {
-  e.target.src = '/images/profile_default.jpg';
-};
-
 export {
-  checkNickname, setTokenToSession, getTokenFromSession, removeToken, headerTitle, defaultImg,
+  checkNickname, setTokenToSession, getTokenFromSession, removeToken, headerTitle,
 };

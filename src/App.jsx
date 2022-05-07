@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
+import MobileView from './components/presentation/MobileView';
 import InviteHandler from './components/container/InviteHandler';
 import LoginHandler from './components/container/LoginHandler';
 import MyPageSettings from './components/presentation/MyPageSettings';
@@ -8,7 +9,6 @@ import Feed from './pages/Feed';
 import Login from './pages/Login';
 import LoginProfile from './pages/LoginProfile';
 import Main from './pages/Main';
-import MobileView from './pages/MobileView';
 import MyPage from './pages/MyPage';
 import Plan from './pages/Plan';
 import PlanCreate from './pages/PlanCreate';

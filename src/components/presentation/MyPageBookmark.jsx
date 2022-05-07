@@ -1,12 +1,12 @@
 import {
-  useEffect, useRef, useState,
+  useEffect, useRef,
 } from 'react';
+import iconSet from '../../shared/imageUrl';
 
 function MyPageBookmark({
   bookmarkInfo,
 }) {
   const mapRef = useRef();
-  const [tabState, setTabState] = useState({ state: null });
 
   useEffect(() => {
     const mapOptions = {
@@ -14,62 +14,55 @@ function MyPageBookmark({
       level: 3,
     };
     const map = new window.kakao.maps.Map(mapRef.current, mapOptions);
-    const forBoundList = [];
 
-    bookmarkInfo.length > 0
-    && bookmarkInfo.forEach((bookmark) => {
-      let marker;
-      const {
-        placeId, latitude, longitude, placeName, feedDetailLoc,
-      } = bookmark;
+    if (bookmarkInfo && bookmarkInfo.length > 0) {
+      const forBoundList = [];
 
-      if (feedDetailLoc.length > 0) {
-        const imageSrc = feedDetailLoc[0].images[0].imgUrl;
-        const imageSize = new window.kakao.maps.Size(64, 69);
-        const imageOption = {
-          alt: `${placeName}_${placeId}`,
-          offset: new window.kakao.maps.Point(27, 69),
-        };
+      bookmarkInfo.forEach((bookmark) => {
+        let marker;
+        const {
+          placeId, latitude, longitude, placeName, feedDetailLoc,
+        } = bookmark;
 
-        const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-        marker = new window.kakao.maps.Marker({
-          position: new window.kakao.maps.LatLng(latitude, longitude),
-          title: placeName,
-          image: markerImage,
-          clickable: true,
-        });
-      } else {
-        marker = new window.kakao.maps.Marker({
-          position: new window.kakao.maps.LatLng(latitude, longitude),
-          title: placeName,
-          clickable: true,
-        });
-      }
+        if (feedDetailLoc.length > 0) {
+          const imageSrc = feedDetailLoc[0].images[0].imgUrl;
 
-      forBoundList.push(new window.kakao.maps.LatLng(latitude, longitude));
-      marker.setMap(map);
-    });
+          const content = `
+        <div class="w-20 h-22 bg-main relative customMarker">
+          <img src="${imageSrc}" alt="${placeName}_${placeId}" class="absolute top-1 left-1 w-[72px] h-[72px] rounded-3xl"/>
+        </div>
+        `;
 
-    const bounds = new window.kakao.maps.LatLngBounds();
-    forBoundList.forEach((place) => bounds.extend(place));
-    map.setBounds(bounds);
-  });
+          marker = new window.kakao.maps.CustomOverlay({
+            position: new window.kakao.maps.LatLng(latitude, longitude),
+            content,
+          });
+        } else {
+          marker = new window.kakao.maps.CustomOverlay({
+            position: new window.kakao.maps.LatLng(latitude, longitude),
+            content: `
+          <div class="w-20 h-22 bg-main relative customMarker">
+            <img src="${iconSet.logo}" alt="${placeName}_${placeId}" class="absolute top-1 left-1 w-[72px] h-[72px] rounded-3xl"/>
+        </div>
+          `,
+          });
+        }
 
-  const openMenuTab = () => {
-    setTabState({ state: 'menu' });
-  };
+        forBoundList.push(new window.kakao.maps.LatLng(latitude, longitude));
+        marker.setMap(map);
+      });
+
+      const bounds = new window.kakao.maps.LatLngBounds();
+      forBoundList.forEach((place) => bounds.extend(place));
+      map.setBounds(bounds);
+    }
+  }, []);
 
   return (
-    <>
-      <div
-        ref={mapRef}
-        className="w-full h-full absolute left-0 top-0"
-        onClick={openMenuTab}
-      />
-      {/* {
-      tabState.state === 'menu' && <div className="absolute top-0 left-0 z-50">메뉴탭</div>
-    } */}
-    </>
+    <div
+      ref={mapRef}
+      className="w-full h-full absolute left-0 top-0"
+    />
   );
 }
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { removeToken } from '../../shared/utils';
+import { removeToken, setTokenToSession } from '../../shared/utils';
 import instance from './axios';
 
 class UserApi {
@@ -9,6 +9,13 @@ class UserApi {
     this.SUCCESS = 'success';
     this.FAIL = 'fail';
     this.base = process.env.REACT_APP_SERVER_IP;
+  }
+
+  async getUser() {
+    return this.axios({
+      method: 'get',
+      url: '/api/user',
+    });
   }
 
   // 카카오 로그인
@@ -22,6 +29,8 @@ class UserApi {
           if (res && res.first === true) {
             navigate('/login/profile', { state: res.tokens, replace: true });
           } else if (res && res.first === false) {
+            setTokenToSession('accessToken', res.tokens.access_token);
+            setTokenToSession('refreshToken', res.tokens.refresh_token);
             navigate('/', { replace: true });
             return res;
           }
@@ -48,6 +57,8 @@ class UserApi {
           if (res && res.first === true) {
             navigate('/login/profile', { state: res.tokens, replace: true });
           } else if (res && res.first === false) {
+            setTokenToSession('accessToken', res.tokens.access_token);
+            setTokenToSession('refreshToken', res.tokens.refresh_token);
             navigate('/', { replace: true });
             return res;
           }
@@ -102,13 +113,6 @@ class UserApi {
         alert('오류가 발생했습니다. 로그인을 다시 시도해주세요');
         navigate('/login', { replace: true });
       });
-  }
-
-  async getUser() {
-    return this.axios({
-      method: 'get',
-      url: '/api/user',
-    });
   }
 
   // 로그아웃

@@ -7,8 +7,9 @@ const userApi = new UserApi();
 
 export const getUser = createAsyncThunk(
   'user/getUser',
-  async () => {
+  async (_, { dispatch }) => {
     const response = await userApi.getUser();
+    dispatch(getPlans());
     return response;
   },
 );
@@ -31,7 +32,6 @@ export const googleLogin = createAsyncThunk(
     const response = await userApi.googleLogin({ code, navigate });
     if (response && response.first === false) {
       dispatch(getUser());
-      dispatch(getPlans());
     }
     return { response };
   },
@@ -42,7 +42,6 @@ export const loginUserInfo = createAsyncThunk(
   async ({ tokens, userInfo, navigate }, { dispatch }) => {
     const response = await userApi.loginUserInfo({ tokens, userInfo, navigate });
     dispatch(getUser());
-    dispatch(getPlans());
     return { response };
   },
 );

@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { defaultImg } from '../../shared/utils';
 import FeedComment from '../elements/FeedComment';
 
 function FeedContent({ feed, userInfo }) {
@@ -32,7 +31,6 @@ function FeedContent({ feed, userInfo }) {
           <img
             src={creator.userProfileImage}
             alt={creator.userName}
-            onError={(e) => defaultImg(e)}
             className="w-[42px] h-[42px] rounded-full"
           />
           <span>{creator.userName}</span>
@@ -53,7 +51,6 @@ function FeedContent({ feed, userInfo }) {
           <img
             src={userInfo.userProfileImage}
             alt={userInfo.userName}
-            onError={(e) => defaultImg(e)}
             className="w-[42px] h-[42px] rounded-full mr-[16px]"
           />
           )

@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import iconSet from '../../shared/imageUrl';
 import { getTokenFromSession } from '../../shared/utils';
 import { _userInfo } from '../../state/redux/user/userSelector';
 
@@ -83,8 +84,8 @@ function PlanDetailChat({ planDetails }) {
   }, [chat.length]);
 
   return (
-    <article>
-      <section ref={chatSectionRef} className="overflow-y-auto h-[600px] scrollbar-hide flex flex-col">
+    <article className="w-full h-[calc(100%_-_80px)]">
+      <section ref={chatSectionRef} className="overflow-y-auto h-full scrollbar-hide flex flex-col">
         {
             chat.map((msg, idx) => {
               const { message, user_id } = msg;
@@ -93,7 +94,7 @@ function PlanDetailChat({ planDetails }) {
                 return (
                   <div key={idx} className="flex mb-[18px] self-end">
                     <img
-                      className="w-[30px] h-[30px] rounded-full mr-[12px]"
+                      className="w-8 h-[30px] rounded-full mr-[12px]"
                       src={sender.userProfileImage}
                       alt={sender.userName}
                     />
@@ -111,7 +112,7 @@ function PlanDetailChat({ planDetails }) {
               return (
                 <div key={idx} className="flex mb-[18px]">
                   <img
-                    className="w-[30px] h-[30px] rounded-full mr-[12px]"
+                    className="w-8 h-8 rounded-full mr-[12px]"
                     src={sender.userProfileImage}
                     alt={sender.userName}
                   />
@@ -128,15 +129,15 @@ function PlanDetailChat({ planDetails }) {
             })
           }
       </section>
-      <section className="sticky bottom-0 left-0 w-full border-solid border-t-[1px] border-[#E8E9F5] flex justify-center bg-main-background">
+      <section className="fixed bottom-0 left-0 w-full h-20 px-5 border-solid border-t-[1px] border-[#E8E9F5] flex justify-center bg-main-background">
         <form
           ref={formRef}
-          className="flex items-center my-[14px] border-solid border-[1px] border-[#E8E9F5] w-[350px] h-[42px] rounded-[16px] pl-[18px] py-[10px] pr-[5px]"
+          className="flex items-center my-[14px] border-solid border-[1px] border-[#E8E9F5] w-full h-10 rounded-[16px] pl-[18px] py-[10px] pr-[5px]"
           onSubmit={sendChat}
         >
-          <input ref={inputRef} type="text" className="bg-main-background pl-[] flex-auto mr-[5px]" />
-          <button type="submit" className="w-[32px] h-[32px] bg-black rounded-[12px]">
-            <img src="/images/sendIcon.png" alt="보내기" className="w-[12px] h-[14px] mx-auto" />
+          <input ref={inputRef} type="text" className="bg-main-background flex-auto mr-[5px]" />
+          <button type="submit" className="w-[32px] h-[32px] bg-black rounded-xl">
+            <img src={iconSet.plan.chatIcon} alt="보내기" className="w-3 h-3.5 mx-auto" />
           </button>
         </form>
       </section>

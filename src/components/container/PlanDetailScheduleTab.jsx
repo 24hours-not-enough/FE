@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import iconSet from '../../shared/imageUrl';
 import BottomTab from '../elements/bottomTab';
 
 const ADD = 'add';
@@ -26,6 +27,7 @@ function PlanDetailScheduleTab({
     const memo = memoRef.current.value;
 
     if (memo === '' && !tabState.added) {
+      alert('장소 또는 메모를 입력해주세요');
       return;
     }
 
@@ -107,12 +109,12 @@ function PlanDetailScheduleTab({
           )}
           {mode === UPDATE
           && (
-          <span className="mr-[12px]">
+          <span className="mr-[12px] font-bold">
             {(mode === UPDATE && tabState.calendar.locationName) ? tabState.calendar.locationName : '장소 추가하기'}
           </span>
           )}
           <button type="button" onClick={searchPlace}>
-            <img src="/images/chooseIcon.png" alt="select place" />
+            <img src={iconSet.plan.chooseIcon} alt="장소 선택" />
           </button>
         </div>
         <input
