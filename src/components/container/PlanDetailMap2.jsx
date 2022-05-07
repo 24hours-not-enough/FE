@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { useEffect, useRef } from 'react';
+import iconSet from '../../shared/imageUrl';
 
 function PlanDetailMap2({ toggleMapViewState, calendars }) {
   const mapRef = useRef(null);
@@ -13,10 +14,10 @@ function PlanDetailMap2({ toggleMapViewState, calendars }) {
     const forLineList = {};
     const forBoundList = [];
 
-    calendars.forEach((calendar) => {
+    calendars.forEach((calendar, calendarIdx) => {
       const { calendarId, calendarDetails } = calendar;
 
-      calendarDetails.forEach((onePlace, idx) => {
+      calendarDetails.forEach((onePlace) => {
         const { latitude, longitude, sort } = onePlace;
         let content;
 
@@ -25,7 +26,7 @@ function PlanDetailMap2({ toggleMapViewState, calendars }) {
         }
 
         if (!forLineList[`${calendarId}`]) {
-          content = `<span class="inline-block text-center w-[22px] h-[22px] rounded-full bg-main text-white">${idx + 1}</span>`;
+          content = `<span class="inline-block text-center w-[22px] h-[22px] rounded-full bg-main text-white">${calendarIdx + 1}</span>`;
           forLineList[`${calendarId}`] = [new kakao.maps.LatLng(latitude, longitude)];
           forBoundList.push(new kakao.maps.LatLng(latitude, longitude));
         } else {
@@ -60,9 +61,9 @@ function PlanDetailMap2({ toggleMapViewState, calendars }) {
 
   return (
     <>
-      <div className="flex mb-[20px]">
-        <button type="button" onClick={toggleMapViewState} className="w-[40px] h-[40px] bg-[#E7E6FE] rounded-[14px] z-50">
-          <img src="/images/mapIcon.png" alt="글" className="w-[18px] h-[18px] mx-auto" />
+      <div className="flex">
+        <button type="button" onClick={toggleMapViewState} className="w-10 h-10 bg-[#E7E6FE] rounded-3.5 z-50">
+          <img src={iconSet.plan.mapIcon} alt="글" className="w-4.5 h-4.5 mx-auto" />
         </button>
       </div>
       <div ref={mapRef} className="absolute bottom-0 left-0 w-full h-full rounded-t-[20px]" />

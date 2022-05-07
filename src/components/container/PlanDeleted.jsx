@@ -25,7 +25,7 @@ function PlanDeleted({ deletedPlan, restorePlan, deletePlanPermanently }) {
       {isOpen
         && (
         <div className="flex flex-col text-[14px] leading-[17px] font-[600]">
-          <div className="w-full h-0.5 border-solid bg-white my-5" />
+          {deletedPlan.length > 0 && <div className="w-full h-0.5 border-solid bg-white my-5" />}
           <div className="flex flex-col gap-y-7">
             {
             deletedPlan.map((plan) => (

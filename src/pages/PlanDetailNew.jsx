@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import _plan from '../state/redux/plan/planSelector';
 import {
-  addDaysAxios, deleteDaysAxios, getPlans, updatePlanDetailAxios,
+  addDaysAxios, deleteDaysAxios, updatePlanDetailAxios,
 } from '../state/redux/plan/planThunk';
 
 import Navbar from '../components/container/Navbar';
@@ -18,6 +18,7 @@ import PlanDetailMenuTab2 from '../components/container/PlanDetailMenuTab2';
 import PlanDetailSearch from '../components/container/PlanDetailSearch';
 import PlanDetailShareTab from '../components/container/PlanDetailShareTab';
 import PlanApi from '../state/data/planApi';
+import iconSet from '../shared/imageUrl';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
@@ -45,18 +46,6 @@ function PlanDetailNew() {
   const [onSearchMap, setOnSearchMap] = useState(false);
 
   const planId = Number(param.planId);
-
-  useEffect(() => {
-    if (plan.length === 0) {
-      dispatch(getPlans());
-    }
-  }, []);
-
-  useEffect(() => {
-    const planDetailInfo = plan.length > 0
-    && plan.filter((onePlan) => onePlan.planId === planId)[0];
-    setPlanDetails(planDetailInfo);
-  }, [plan]);
 
   // 계획, 채팅 view toggle
   const toggleViewState = () => {
@@ -173,12 +162,18 @@ function PlanDetailNew() {
     }));
   };
 
+  useEffect(() => {
+    const planDetailInfo = plan.length > 0
+    && plan.filter((onePlan) => onePlan.planId === planId)[0];
+    setPlanDetails(planDetailInfo);
+  }, [plan]);
+
   if (planDetails) {
     return (
-      <div className="overflow-auto scrollbar-hide">
+      <div className="w-full h-full overflow-hidden">
         <Navbar title={planDetails.title} back>
           <button type="button" onClick={() => setTabState({ state: MENU, calendar: planDetails })}>
-            <img src="/images/menuIcon_black.png" alt="menu" className="w-[24px] h-[24px]" />
+            <img src={iconSet.plan.menuBlackIcon} alt="menu" className="w-[24px] h-[24px]" />
           </button>
         </Navbar>
 
@@ -214,7 +209,7 @@ function PlanDetailNew() {
           </button>
         </div>
 
-        <section className="bg-main-background w-full h-[calc(100vh_-_245px)] rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
+        <section className="bg-main-background w-full h-[calc(100%_-_165px)] rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
           {(viewState === PLAN || viewState === EDIT) && (
             <PlanDetailPlan
               viewState={viewState}
