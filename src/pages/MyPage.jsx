@@ -26,7 +26,6 @@ import Navbar from '../components/container/Navbar';
 // import MyPageSettings from '../components/presentation/MyPageSettings';
 import { changeUserProfile } from '../state/redux/user/userThunk';
 import MyPageBookmark from '../components/presentation/MyPageBookmark';
-import NotificationPage from '../components/presentation/NotificationPage';
 
 function MyPage() {
   const dispatch = useDispatch();
@@ -301,12 +300,12 @@ function MyPage() {
             />
           )}
         />
-        <Route
+        {/* <Route
           path="/notification"
           element={(
             <NotificationPage />
           )}
-        />
+        /> */}
         {/* <Route
           path="/settings"
           element={(

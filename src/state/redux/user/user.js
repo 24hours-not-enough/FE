@@ -5,7 +5,7 @@ import {
 } from './userThunk';
 
 const initialState = {
-  userInfo: null,
+  userInfo: { userName: '', userProfileImage: '/images/icons/myPageIcon.png' },
   bookmark: null,
 };
 
