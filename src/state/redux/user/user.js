@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { removeToken, setTokenToSession } from '../../../shared/utils';
 import {
-  changeUserName, kakaoLogin, googleLogin, loginUserInfo, getUser, logout,
+  changeUserName, loginUserInfo, getUser, logout,
 } from './userThunk';
 
 const initialState = {
-  userInfo: null,
-  notification: null,
+  userInfo: { userName: '', userProfileImage: '/images/icons/myPageIcon.png' },
   bookmark: null,
 };
 
@@ -16,21 +15,9 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(kakaoLogin.fulfilled, (state, { payload }) => {
-        const { response } = payload;
-        if (response && response.first === false) {
-          setTokenToSession('accessToken', response.tokens.access_token);
-          setTokenToSession('refreshToken', response.tokens.refresh_token);
-          state.userInfo = response.userInfo;
-        }
-      })
-      .addCase(googleLogin.fulfilled, (state, { payload }) => {
-        const { response } = payload;
-        if (response && response.first === false) {
-          setTokenToSession('accessToken', response.tokens.access_token);
-          setTokenToSession('refreshToken', response.tokens.refresh_token);
-          state.userInfo = response.userInfo;
-        }
+      .addCase(getUser.fulfilled, (state, { payload }) => {
+        state.userInfo = payload.userInfo;
+        state.bookmark = payload.bookmark;
       })
       .addCase(changeUserName.fulfilled, (state, { payload }) => {
         state.userInfo.userName = payload;
@@ -43,14 +30,9 @@ export const userSlice = createSlice({
           state.userInfo = response.userInfo;
         }
       })
-      .addCase(getUser.fulfilled, (state, { payload }) => {
-        state.userInfo = payload.userInfo;
-        state.bookmark = payload.bookmark;
-      })
       .addCase(logout.fulfilled, (state) => {
         removeToken();
         state.userInfo = null;
-        state.notification = null;
         state.bookmark = null;
       });
   },

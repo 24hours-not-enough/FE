@@ -18,15 +18,12 @@ class PlaceApi {
       data: {
         leftX: x1,
         rightX: x2,
-        bottomY: y1,
-        topY: y2,
+        bottomY: y2,
+        topY: y1,
       },
     })
       .then((res) => res.data)
-      .then((res) => {
-        console.log(res);
-        return res.allLocationsDtoList;
-      });
+      .then((res) => res.allLocationsDtoList);
   }
 
   // 피드 등록
@@ -106,6 +103,15 @@ class PlaceApi {
     return this.axios({
       method: 'delete',
       url: `/api/feed/${feedId}/unlike`,
+    });
+  }
+
+  // 장소등록
+  async addPlaceAxios({ placeData }) {
+    return this.axios({
+      method: 'post',
+      url: '/api/newFeed',
+      data: placeData,
     });
   }
 }

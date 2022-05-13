@@ -1,10 +1,10 @@
+import iconSet from '../../shared/imageUrl';
 import Button from '../elements/button/Button';
 
 const PLAN = 'plan';
 const EDIT = 'edit';
 const SCHEDULE = 'schedule';
 const ADD = 'add';
-// const UPDATE = 'update';
 
 function PlanDetailPlan({
   viewState,
@@ -20,15 +20,15 @@ function PlanDetailPlan({
   return (
     <>
       <div className="flex justify-between mb-[20px]">
-        <button type="button" onClick={toggleMapViewState} className="w-[40px] h-[40px] bg-[#E7E6FE] rounded-[14px]">
-          <img src="/images/mapIcon.png" alt="지도" className="w-[18px] h-[18px] mx-auto" />
+        <button type="button" onClick={toggleMapViewState} className="w-10 h-10 bg-[#E7E6FE] rounded-[14px]">
+          <img src={iconSet.plan.mapIcon} alt="지도" className="w-4.5 h-4.5 mx-auto" />
         </button>
         <button type="button" className="text-main" onClick={toggleEditState}>
           {viewState === PLAN ? '편집' : '완료'}
         </button>
       </div>
 
-      <section className="flex flex-col gap-y-[16px] pb-[20px]">
+      <section className="flex flex-col gap-y-[16px] pb-[20px] w-full h-full overflow-y-auto overflow-x-hidden scrollbar-hide">
         {calendars.map((calendar) => {
           const { calendarId, days, calendarDetails } = calendar;
           return (
@@ -57,7 +57,7 @@ function PlanDetailPlan({
                         {viewState === EDIT
                           ? (
                             <button type="button" className="w-[22px] h-[22px] mr-[22px]" onClick={() => deleteCalendarDetail({ calendarId, calendarDetailsId })}>
-                              <img src="/images/planDeleteIcon.png" alt="삭제" />
+                              <img src={iconSet.plan.deleteIcon} alt="삭제" />
                             </button>
                           )
                           : (
@@ -81,7 +81,7 @@ function PlanDetailPlan({
                 onClick={() => toggleTabState({ state: SCHEDULE, mode: ADD, calendar })}
               >
                 <div className="bg-[#E7E6FE] w-[34px] h-[34px] rounded-full mr-[16px] flex justify-center items-center">
-                  <img src="/images/plusIcon.png" alt="일정 추가" className="w-[8px] h-[8px]" />
+                  <img src={iconSet.plan.plusIcon} alt="일정 추가" className="w-[8px] h-[8px]" />
                 </div>
                 일정 추가하기
               </button>
@@ -96,7 +96,7 @@ function PlanDetailPlan({
           propsClassName="w-full mb-[90px]"
           onClick={handleAddCalendar}
         >
-          <img src="/images/plusIcon.png" alt="일차 추가" />
+          <img src={iconSet.plan.plusIcon} alt="일차 추가" />
         </Button>
         )}
       </section>

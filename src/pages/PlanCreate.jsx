@@ -5,7 +5,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
 // import Button from '../components/elements/button/Button';
 import Calendar from '../components/elements/calendar/Calendar';
-import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import PlanApi from '../state/data/planApi';
 import { createPlan, updatePlan } from '../state/redux/plan/planThunk';
 import { _userInfo } from '../state/redux/user/userSelector';
@@ -57,7 +56,6 @@ function PlanCreate() {
     if (e.target.value !== '') {
       planApi.searchUser(e.target.value)
         .then((res) => {
-          console.log(res);
           if (res.data.userId === loginUser.userId) {
             return;
           }
@@ -66,10 +64,7 @@ function PlanCreate() {
             userName: res.data.userName,
             userId: res.data.userId,
           });
-        })
-        .catch((err) => console.log(err.response));
-      console.log(e.target.value);
-      console.log(searchedUser);
+        });
     }
   };
   const findByUsername = _.debounce(findedUser, 600);
@@ -128,7 +123,7 @@ function PlanCreate() {
   };
 
   return (
-    <LayoutWrapper>
+    <>
       <Navbar title="새로운 트리플랜" back>
         <button type="button" onClick={makeSubmitAction}>{isUpdatePage ? '완료' : '만들기'}</button>
       </Navbar>
@@ -225,7 +220,7 @@ function PlanCreate() {
         {/* {isUpdatePage
           && <Button onClick={inviteByLink} propsClassName="w-full mt-[42px]">링크로 초대하기</Button>} */}
       </form>
-    </LayoutWrapper>
+    </>
   );
 }
 

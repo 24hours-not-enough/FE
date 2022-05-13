@@ -12,7 +12,7 @@ import { setFeedId } from '../state/redux/feed/feed';
 import { addFeedDetail, getFeedDetail } from '../state/redux/feed/feedThunk';
 import instance, { imgApi } from '../state/data/axios';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
-import { _userInfo } from '../state/redux/user/userSelector';
+import { _bookmark, _userInfo } from '../state/redux/user/userSelector';
 
 import iconSet from '../shared/imageUrl';
 import { headerTitle, checkNickname } from '../shared/utils';
@@ -23,9 +23,9 @@ import MyPageProfile from '../components/presentation/MyPageProfile';
 import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
 
 import Navbar from '../components/container/Navbar';
-import LayoutWrapper from '../components/presentation/LayoutWrapper';
 // import MyPageSettings from '../components/presentation/MyPageSettings';
 import { changeUserProfile } from '../state/redux/user/userThunk';
+import MyPageBookmark from '../components/presentation/MyPageBookmark';
 
 function MyPage() {
   const dispatch = useDispatch();
@@ -36,12 +36,13 @@ function MyPage() {
   const endDateRef = useRef();
 
   const userInfo = useSelector(_userInfo);
+  const bookmark = useSelector(_bookmark);
   const myLikes = useSelector(_myLikes);
   const myFeed = useSelector(_myFeed);
   const myFeedId = useSelector(_myFeedId);
 
   const [checkDuplication, setCheckDuplication] = useState({ checked: null, color: 'red', value: '' });
-  const [userNameChange, setUserNameChange] = useState(userInfo.username);
+  const [userNameChange, setUserNameChange] = useState(userInfo && userInfo.username);
   const [profileImgPreview, setProfileImgPreview] = useState(null);
   const [feedTitle, setFeedTitle] = useState('');
   const [feedNum, setFeedNum] = useState(0);
@@ -138,7 +139,6 @@ function MyPage() {
     const formData = new FormData();
     Object.values(e.target.files).map((item) => formData.append('imgFiles', item));
     imgApi.post('/api/feed/image', formData).then((res) => {
-      console.log(Object.keys(res.data), Object.values(res.data));
       setFeedImages([{ fileName: Object.keys(res.data)[0], imgUrl: Object.values(res.data)[0] }]);
     });
   }, [feedNum, feedDetailNum, feedInfo]);
@@ -204,8 +204,6 @@ function MyPage() {
       travelEnd,
     }));
     // handleRouter('/mypage');
-    dispatch(getFeedDetail());
-    navigate('/mypage');
   }, [dispatch, feedInfo, feedTitle, startDateRef, endDateRef]);
 
   useEffect(() => {
@@ -223,7 +221,7 @@ function MyPage() {
   }, [dispatch]);
 
   return (
-    <LayoutWrapper>
+    <>
       <Navbar
         title={headerTitle(location.pathname).title}
         back={headerTitle(location.pathname).back}
@@ -294,6 +292,20 @@ function MyPage() {
             />
           )}
         />
+        <Route
+          path="/mybookmarks"
+          element={(
+            <MyPageBookmark
+              bookmarkInfo={bookmark}
+            />
+          )}
+        />
+        {/* <Route
+          path="/notification"
+          element={(
+            <NotificationPage />
+          )}
+        /> */}
         {/* <Route
           path="/settings"
           element={(
@@ -301,7 +313,7 @@ function MyPage() {
           )}
         /> */}
       </Routes>
-    </LayoutWrapper>
+    </>
   );
 }
 

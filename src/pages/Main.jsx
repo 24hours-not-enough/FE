@@ -4,13 +4,16 @@ import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import MainFeedTab from '../components/container/MainFeedTab';
 import MainTriplanTab from '../components/container/MainTriplanTab';
 import Navbar from '../components/container/Navbar';
-import LayoutWrapper from '../components/presentation/LayoutWrapper';
+
+import iconSet from '../shared/imageUrl';
+
 import _place from '../state/redux/place/placeSelector';
-import { getPlace } from '../state/redux/place/placeThunk';
 import { _userInfo } from '../state/redux/user/userSelector';
+import { getPlace } from '../state/redux/place/placeThunk';
 
 function Main() {
   const place = useSelector(_place);
@@ -71,22 +74,19 @@ function Main() {
         placeId, latitude, longitude, locationName, feedPerLocations,
       } = onePlace;
 
-      const imageSrc = feedPerLocations[0].images[0].imgUrl;
-      const imageSize = new window.kakao.maps.Size(64, 69);
-      const imageOption = {
-        alt: `${locationName}_${placeId}`,
-        offset: new window.kakao.maps.Point(27, 69),
-      };
+      if (feedPerLocations.length > 0) {
+        const imageSrc = feedPerLocations[0].images[0].imgUrl;
+        const content = `<div class="w-20 h-22 bg-main relative customMarker">
+        <img src="${imageSrc}" alt="${locationName}_${placeId}" class="absolute top-1 left-1 w-[72px] h-[72px] rounded-3xl"/>
+        </div>`;
 
-      const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-      const marker = new window.kakao.maps.Marker({
-        position: new window.kakao.maps.LatLng(latitude, longitude),
-        title: locationName,
-        image: markerImage,
-        clickable: true,
-      });
+        const marker = new window.kakao.maps.CustomOverlay({
+          position: new window.kakao.maps.LatLng(latitude, longitude),
+          content,
+        });
 
-      marker.setMap(map);
+        marker.setMap(map);
+      }
     });
   });
 
@@ -101,26 +101,22 @@ function Main() {
         placeId, latitude, longitude, locationName, feedPerLocations,
       } = onePlace;
 
-      const imageSrc = feedPerLocations[0].images[0].imgUrl;
-      const imageSize = new window.kakao.maps.Size(64, 69);
-      const imageOption = {
-        alt: `${locationName}_${placeId}`,
-        offset: new window.kakao.maps.Point(27, 69),
-      };
+      if (feedPerLocations.length > 0) {
+        const imageSrc = feedPerLocations[0].images[0].imgUrl;
+        const content = `<div className="marker">
+        <img src="${imageSrc}" alt="${locationName}_${placeId}" />
+        </div>`;
 
-      const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-      const marker = new window.kakao.maps.Marker({
-        position: new window.kakao.maps.LatLng(latitude, longitude),
-        title: locationName,
-        image: markerImage,
-        clickable: true,
-      });
+        const marker = new window.kakao.maps.CustomOverlay({
+          position: new window.kakao.maps.LatLng(latitude, longitude),
+          content,
+        });
 
-      marker.setMap(map);
+        marker.setMap(map);
+      }
     });
   }, [dispatch, place]);
 
-  // 검색 - 검색 결과 설정 필요, 결과 표시하는 거 필요
   const places = new kakao.maps.services.Places();
   const searchOptions = {
     x: coordinates.longitude,
@@ -129,7 +125,6 @@ function Main() {
 
   const searchCallback = (result, status) => {
     if (status === kakao.maps.services.Status.OK) {
-      console.log(result);
       setOnSearch(true);
       setSearchedList(result);
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -143,8 +138,6 @@ function Main() {
     e.preventDefault();
     if (searchRef.current.value === '') return;
     places.keywordSearch(searchRef.current.value, searchCallback, searchOptions);
-
-    searchFormRef.current.reset();
   };
 
   // 검색 후 장소 클릭
@@ -191,45 +184,50 @@ function Main() {
   };
 
   return (
-    <LayoutWrapper>
-      <div className="sticky z-10 bg-white">
-        <Navbar title="로고" />
+    <>
+      <Navbar title={(
         <form
           ref={searchFormRef}
           onSubmit={searchPlace}
-          className="flex mx-[20px] px-[20px] py-[11px] mb-[8px] bg-[#E7E6FE] rounded-[14px] z-10"
+          className="flex px-5 py-1 bg-[#E7E6FE] rounded-[14px] -translate-y-1"
         >
           <input
             ref={searchRef}
             type="text"
             placeholder="가고싶은 곳을 검색해보세요!"
-            className="flex-1 bg-[#E7E6FE] text-black text-[14px] leading-[17px]"
+            className="flex-1 bg-[#E7E6FE] text-black text-[14px] leading-[17px] w-80"
           />
           <button type="submit">검색</button>
         </form>
-        <ul className="flex flex-col gap-y-[8px] px-[15px] mt-[30px]">
-          {onSearch
-        && searchedList.map((searched) => (
-          <li
-            key={searched.id}
-            className="flex justify-between px-[15px] py-[5px] bg-main-background rounded-[8px]"
-          >
-            <div onClick={() =>
-              handleShowInMap({
-                x: searched.x,
-                y: searched.y,
-                locationName: searched.place_name,
-                placeId: `k${searched.id}`,
-              })}
+      )}
+      />
+      {onSearch
+        && (
+        <ul className="flex flex-col gap-y-[8px] px-4 py-2 absolute top-14 left-0 z-10 w-full h-full max-h-[calc(850px_-_64px_-_32px)] overflow-y-auto scrollbar-hide bg-main-background/75">
+          <button type="button" onClick={() => setOnSearch(false)} className="sticky top-0 left-1/2 -translate-x-1/2 w-4 h-4">
+            <img src={iconSet.header.exitIcon} alt="검색 닫기" />
+          </button>
+          {searchedList.map((searched) => (
+            <li
+              key={searched.id}
+              className="flex justify-between px-[15px] py-[5px] bg-main-background rounded-[8px]"
             >
-              <h6 className="text-[1rem] font-[600]">{searched.place_name}</h6>
-              <span className="text-[0.7rem]">{searched.road_address_name}</span>
-            </div>
-            <a href={searched.place_url} className="bg-kakao px-[8px] py-[3px] rounded-[8px] w-fit h-fit text-[12px] font-[500]">카카오맵에서 보기</a>
-          </li>
-        ))}
+              <div onClick={() =>
+                handleShowInMap({
+                  x: searched.x,
+                  y: searched.y,
+                  locationName: searched.place_name,
+                  placeId: `k${searched.id}`,
+                })}
+              >
+                <h6 className="text-[1rem] font-[600]">{searched.place_name}</h6>
+                <span className="text-[0.7rem]">{searched.road_address_name}</span>
+              </div>
+              <a href={searched.place_url} className="bg-kakao px-[8px] py-[3px] rounded-[8px] w-fit h-fit text-[12px] font-[500]">카카오맵에서 보기</a>
+            </li>
+          ))}
         </ul>
-      </div>
+        )}
       <div
         ref={mapRef}
         className="w-full h-full absolute left-0 top-0"
@@ -248,7 +246,7 @@ function Main() {
         setIsTriplanTab={setIsTriplanTab}
       />
       )}
-    </LayoutWrapper>
+    </>
   );
 }
 

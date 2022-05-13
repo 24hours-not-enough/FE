@@ -23,10 +23,13 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
           <div
             style={{ backgroundColor: '#E7E6FE' }}
             className="grid place-items-center w-10 h-10 rounded-full mr-5"
+            role="button"
+            tabIndex={0}
+            onClick={handleRouter('/mypage/mybookmarks')}
           >
             <img className="w-5 h-5" alt="아이콘1" src={iconSet.myPage.rectangleIcon} />
           </div>
-          <div
+          {/* <div
             style={{ backgroundColor: '#E7E6FE' }}
             className="grid place-items-center w-10 h-10 rounded-full"
             role="button"
@@ -38,18 +41,18 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
               src={iconSet.myPage.heartIcon}
               alt="아이콘2"
             />
-          </div>
+          </div> */}
         </div>
       </div>
-      <div
+      {/* <div
         style={{ backgroundColor: '#E7E6FE' }}
         className="w-10 h-10 ml-5 mt-10 rounded-full flex justify-center items-center"
         role="button"
         tabIndex={0}
         onClick={handleRouter('/mypage/plan')}
       >
-        <img src="/images/plusIcon.png" alt="피드 추가하기" className="w-[14px] h-[14px]" />
-      </div>
+        <img src={iconSet.myPage.plusIcon} alt="피드 추가하기" className="w-[14px] h-[14px]" />
+      </div> */}
       {myFeed.map((feed) => {
         const {
           title, travelStart, travelEnd, feedId,

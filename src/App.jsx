@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
+import MobileView from './components/presentation/MobileView';
 import InviteHandler from './components/container/InviteHandler';
 import LoginHandler from './components/container/LoginHandler';
 import MyPageSettings from './components/presentation/MyPageSettings';
@@ -8,14 +9,11 @@ import Feed from './pages/Feed';
 import Login from './pages/Login';
 import LoginProfile from './pages/LoginProfile';
 import Main from './pages/Main';
-import MobileView from './pages/MobileView';
 import MyPage from './pages/MyPage';
 import Plan from './pages/Plan';
 import PlanCreate from './pages/PlanCreate';
 import PlanDetailNew from './pages/PlanDetailNew';
 import { getTokenFromSession } from './shared/utils';
-import { getFeedDetail } from './state/redux/feed/feedThunk';
-import { getPlans } from './state/redux/plan/planThunk';
 import { _userInfo } from './state/redux/user/userSelector';
 import { getUser } from './state/redux/user/userThunk';
 
@@ -26,10 +24,14 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isTokenInSession && !userInfo) {
+    if (isTokenInSession && !userInfo.userName) {
       dispatch(getUser());
-      dispatch(getPlans());
-      dispatch(getFeedDetail());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isTokenInSession && !userInfo.userName) {
+      dispatch(getUser());
     }
   }, [isTokenInSession, userInfo]);
 

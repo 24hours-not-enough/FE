@@ -65,11 +65,7 @@ class PlanApi {
       url: `/api/plan/${planId}/days/${calendarId}`,
     })
       .then((res) => res)
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response);
-        return err.response;
-      });
+      .catch((err) => err.response);
   }
 
   // 일정 상세등록, 수정
@@ -150,14 +146,7 @@ class PlanApi {
       method: 'post',
       url: `api/plan/${planId}/${calendarId}`,
       data: placeData,
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response);
-      });
+    });
   }
 
   // 초대 url로 들어왔을 때
@@ -170,10 +159,6 @@ class PlanApi {
         if (res.result === this.SUCCESS) {
           navigate('/plan', { replace: true });
         }
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response);
       });
   }
 }

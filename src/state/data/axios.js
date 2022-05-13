@@ -23,7 +23,6 @@ imgApi.interceptors.request.use(
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_IP,
-  // baseURL: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
     accept: '*/*',
@@ -50,25 +49,15 @@ const refresh = () => axios({
     refreshToken: getTokenFromSession('refreshToken'),
   },
 }).then((res) => {
-  console.log(res);
   setTokenToSession('accessToken', res.data.accessToken);
   setTokenToSession('refreshToken', res.data.refreshToken);
-})
-  .catch((error) => {
-    console.log(error);
-    console.log(error.response);
-  });
+});
 
 instance.interceptors.response.use(
-  (response) => {
-    console.log(response);
-    return response.data;
-  },
+  (response) => response.data,
   async (err) => {
     // 토큰 만료됐을 경우 access token 재발급
     if (err.response.status === 401) {
-      console.log(err);
-      console.log(err.response);
       await refresh();
       return axios.create().request({
         ...err.response.config,
@@ -83,15 +72,10 @@ instance.interceptors.response.use(
 );
 
 imgApi.interceptors.response.use(
-  (response) => {
-    console.log(response);
-    return response.data;
-  },
+  (response) => response.data,
   async (err) => {
     // 토큰 만료됐을 경우 access token 재발급
     if (err.response.status === 401) {
-      console.log(err);
-      console.log(err.response);
       await refresh();
       return axios.create().request({
         ...err.response.config,

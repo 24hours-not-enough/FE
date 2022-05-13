@@ -1,5 +1,4 @@
-function MyLikeFeeds(props) {
-  console.log(props);
+function MyLikeFeeds() {
   return (
     <div>
       ㅎㅇㅎㅇ

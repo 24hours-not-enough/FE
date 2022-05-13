@@ -6,10 +6,9 @@ import moment from 'moment';
 
 import _plan from '../state/redux/plan/planSelector';
 import {
-  addDaysAxios, deleteDaysAxios, getPlans, updatePlanDetailAxios,
+  addDaysAxios, deleteDaysAxios, updatePlanDetailAxios,
 } from '../state/redux/plan/planThunk';
 
-import LayoutWrapper from '../components/presentation/LayoutWrapper';
 import Navbar from '../components/container/Navbar';
 import PlanDetailPlan from '../components/presentation/PlanDetailPlan';
 import PlanDetailMap2 from '../components/container/PlanDetailMap2';
@@ -19,6 +18,7 @@ import PlanDetailMenuTab2 from '../components/container/PlanDetailMenuTab2';
 import PlanDetailSearch from '../components/container/PlanDetailSearch';
 import PlanDetailShareTab from '../components/container/PlanDetailShareTab';
 import PlanApi from '../state/data/planApi';
+import iconSet from '../shared/imageUrl';
 
 const PLAN = 'plan';
 const CHAT = 'chat';
@@ -47,18 +47,6 @@ function PlanDetailNew() {
 
   const planId = Number(param.planId);
 
-  useEffect(() => {
-    if (plan.length === 0) {
-      dispatch(getPlans());
-    }
-  }, []);
-
-  useEffect(() => {
-    const planDetailInfo = plan.length > 0
-    && plan.filter((onePlan) => onePlan.planId === planId)[0];
-    setPlanDetails(planDetailInfo);
-  }, [plan]);
-
   // 계획, 채팅 view toggle
   const toggleViewState = () => {
     (viewState === PLAN || viewState === MAP || viewState === EDIT)
@@ -79,14 +67,11 @@ function PlanDetailNew() {
     } else {
       await planApi.checkPlanLock({ planId })
         .then((res) => {
-          console.log(res);
           if (res.result === 'success') {
             setViewState(EDIT);
           }
         })
-        .catch((err) => {
-          console.log(err);
-          console.log(err.response);
+        .catch(() => {
           alert('수정 중입니다');
         });
     }
@@ -120,14 +105,10 @@ function PlanDetailNew() {
         if (calendar.calendarId === calendarId) {
           const updatedCalendar = calendar.calendarDetails.map((calendarDetail) => {
             if (calendarDetail.calendarDetailsId === updated.calendarDetailsId) {
-              console.log(calendarDetail);
               const {
                 calendarDetailsId,
                 locationName, locationMemo, latitude, longitude, sort,
               } = updated;
-              console.log({
-                calendarDetailsId, locationName, locationMemo, latitude, longitude, sort,
-              });
               return {
                 calendarDetailsId, locationName, locationMemo, latitude, longitude, sort,
               };
@@ -181,50 +162,55 @@ function PlanDetailNew() {
     }));
   };
 
+  useEffect(() => {
+    const planDetailInfo = plan.length > 0
+    && plan.filter((onePlan) => onePlan.planId === planId)[0];
+    setPlanDetails(planDetailInfo);
+  }, [plan]);
+
   if (planDetails) {
     return (
-      <div className="overflow-auto scrollbar-hide">
-        <LayoutWrapper>
-          <Navbar title={planDetails.title} back>
-            <button type="button" onClick={() => setTabState({ state: MENU, calendar: planDetails })}>
-              <img src="/images/menuIcon_black.png" alt="menu" className="w-[24px] h-[24px]" />
-            </button>
-          </Navbar>
+      <div className="w-full h-full overflow-hidden">
+        <Navbar title={planDetails.title} back>
+          <button type="button" onClick={() => setTabState({ state: MENU, calendar: planDetails })}>
+            <img src={iconSet.plan.menuBlackIcon} alt="menu" className="w-[24px] h-[24px]" />
+          </button>
+        </Navbar>
 
-          <div className="bg-main px-[30px] pt-[20px] pb-[10px] flex flex-col">
-            <div className="flex mb-[20px]">
-              {planDetails.members.map((member) => (
-                <img
-                  key={member.userId}
-                  src={member.userProfileImage}
-                  alt={member.userName}
-                  className="w-[22px] h-[22px] rounded-full"
-                />
-              ))}
-            </div>
-            <span className="text-[12px] text-white leading-[14px] font-[600] mb-[35px]">
-              {`${planDetails.travelDestination}, ${moment(planDetails.travelStart).format('MMM DD')} - ${moment(planDetails.travelEnd).format('MMM DD')}`}
-            </span>
-            <button
-              type="button"
-              className="bg-[#393FDC] px-[3px] py-[5px] w-fit h-fit rounded-[14px] mb-[30px] self-center"
-              onClick={toggleViewState}
-            >
-              <span className={(viewState === PLAN || viewState === EDIT || viewState === MAP)
-                ? toggleOnBtnStyle : toggleOffBtnStyle}
-              >
-                계획
-              </span>
-              <span className={viewState === CHAT
-                ? toggleOnBtnStyle : toggleOffBtnStyle}
-              >
-                채팅
-              </span>
-            </button>
+        <div className="bg-main px-[30px] pt-[20px] pb-[10px] flex flex-col">
+          <div className="flex mb-[20px]">
+            {planDetails.members.map((member) => (
+              <img
+                key={member.userId}
+                src={member.userProfileImage}
+                alt={member.userName}
+                className="w-[22px] h-[22px] rounded-full"
+              />
+            ))}
           </div>
+          <span className="text-[12px] text-white leading-[14px] font-[600] mb-[35px]">
+            {`${planDetails.travelDestination}, ${moment(planDetails.travelStart).format('MMM DD')} - ${moment(planDetails.travelEnd).format('MMM DD')}`}
+          </span>
+          <button
+            type="button"
+            className="bg-[#393FDC] px-[3px] py-[5px] w-fit h-fit rounded-[14px] mb-[30px] self-center"
+            onClick={toggleViewState}
+          >
+            <span className={(viewState === PLAN || viewState === EDIT || viewState === MAP)
+              ? toggleOnBtnStyle : toggleOffBtnStyle}
+            >
+              계획
+            </span>
+            <span className={viewState === CHAT
+              ? toggleOnBtnStyle : toggleOffBtnStyle}
+            >
+              채팅
+            </span>
+          </button>
+        </div>
 
-          <section className="bg-main-background w-full h-[calc(100vh_-_245px)] rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
-            {(viewState === PLAN || viewState === EDIT) && (
+        <section className="bg-main-background w-full h-[calc(100%_-_165px)] rounded-t-[20px] px-[20px] pt-[20px] relative -translate-y-[20px]">
+          {(viewState === PLAN || viewState === EDIT) && (
             <PlanDetailPlan
               viewState={viewState}
               tabState={tabState}
@@ -239,18 +225,18 @@ function PlanDetailNew() {
               deleteCalendarDetail={deleteCalendarDetail}
               deleteCalendarDay={deleteCalendarDay}
             />
-            )}
-            {viewState === MAP && (
+          )}
+          {viewState === MAP && (
             <PlanDetailMap2
               toggleMapViewState={toggleMapViewState}
               toggleEditState={toggleEditState}
               calendars={planDetails.calendars}
             />
-            )}
-            {viewState === CHAT && <PlanDetailChat planDetails={planDetails} />}
-          </section>
+          )}
+          {viewState === CHAT && <PlanDetailChat planDetails={planDetails} />}
+        </section>
 
-          {(tabState && (tabState.state === SCHEDULE))
+        {(tabState && (tabState.state === SCHEDULE))
             && (
             <PlanDetailScheduleTab
               handleUpdateSchedule={handleUpdateSchedule}
@@ -259,14 +245,14 @@ function PlanDetailNew() {
               setOnSearchMap={setOnSearchMap}
             />
             )}
-          {(tabState && tabState.state === MENU)
+        {(tabState && tabState.state === MENU)
           && (
           <PlanDetailMenuTab2
             tabState={tabState}
             setTabState={setTabState}
           />
           )}
-          {(tabState && tabState.state === SHARE)
+        {(tabState && tabState.state === SHARE)
           && (
           <PlanDetailShareTab
             tabState={tabState}
@@ -274,7 +260,7 @@ function PlanDetailNew() {
           />
           )}
 
-          {onSearchMap
+        {onSearchMap
           && (
           <PlanDetailSearch
             tabState={tabState}
@@ -282,7 +268,6 @@ function PlanDetailNew() {
             setOnSearchMap={setOnSearchMap}
           />
           )}
-        </LayoutWrapper>
       </div>
     );
   }
