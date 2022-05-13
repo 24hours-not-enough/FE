@@ -23,11 +23,6 @@ function MyPageSettings() {
       <section className="w-full h-full bg-main-background">
         <div>
           <ul className="flex flex-col ml-5">
-            <section className="h-80">
-              <li className="pt-[34px] text-[16px] font-bold">
-                <a href="/">피드백 주기</a>
-              </li>
-            </section>
             <section
               style={{ borderTop: '1px solid #E8E8E8' }}
               className="border-t-1"
