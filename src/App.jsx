@@ -14,8 +14,6 @@ import Plan from './pages/Plan';
 import PlanCreate from './pages/PlanCreate';
 import PlanDetailNew from './pages/PlanDetailNew';
 import { getTokenFromSession } from './shared/utils';
-import { getFeedDetail } from './state/redux/feed/feedThunk';
-import { getPlans } from './state/redux/plan/planThunk';
 import { _userInfo } from './state/redux/user/userSelector';
 import { getUser } from './state/redux/user/userThunk';
 
@@ -26,18 +24,14 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isTokenInSession && !userInfo) {
+    if (isTokenInSession && !userInfo.userName) {
       dispatch(getUser());
-      dispatch(getPlans());
-      dispatch(getFeedDetail());
     }
   }, []);
 
   useEffect(() => {
-    if (isTokenInSession && !userInfo) {
+    if (isTokenInSession && !userInfo.userName) {
       dispatch(getUser());
-      dispatch(getPlans());
-      dispatch(getFeedDetail());
     }
   }, [isTokenInSession, userInfo]);
 
