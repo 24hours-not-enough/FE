@@ -55,22 +55,26 @@ function MainTriplanTab({ selectedPlace, setIsTriplanTab }) {
     <section className="absolute bottom-0 left-0 z-10 bg-white w-full rounded-t-[30px] px-[30px] pt-[30px]">
       <h5 className="text-[18px] font-[600] leading-[22px] mb-10">내 트리플랜에 담기</h5>
       <section className="w-full h-72 mb-8 flex flex-col gap-y-8 overflow-auto scrollbar-hide">
-        {plan.map((triplan) => (
-          <section key={triplan.planId}>
-            <h6 className="text-[14px] leading-[16.8px] mb-2">{triplan.title}</h6>
-            <div className="flex flex-wrap gap-x-4 gap-y-3">
-              {triplan.calendars.map((calendar) => (
-                <MainTriplanDateButton
-                  key={calendar.calendarId}
-                  calendar={calendar}
-                  selected={selected}
-                  triplan={triplan}
-                  handleSelect={handleSelect}
-                />
-              ))}
-            </div>
-          </section>
-        ))}
+        {plan.map((triplan) => {
+          if (triplan.delTc && triplan.travelEnd > new Date().toISOString()) {
+            return (
+              <section key={triplan.planId}>
+                <h6 className="text-[14px] leading-[16.8px] mb-2">{triplan.title}</h6>
+                <div className="flex flex-wrap gap-x-4 gap-y-3">
+                  {triplan.calendars.map((calendar) => (
+                    <MainTriplanDateButton
+                      key={calendar.calendarId}
+                      calendar={calendar}
+                      selected={selected}
+                      triplan={triplan}
+                      handleSelect={handleSelect}
+                    />
+                  ))}
+                </div>
+              </section>
+            );
+          } return null;
+        })}
       </section>
       <Button onClick={handlePlaceToTriplan} propsClassName="w-full mb-9" type={buttonStyle}>담기</Button>
     </section>
