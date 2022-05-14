@@ -33,16 +33,22 @@ function MainTriplanTab({ selectedPlace, setIsTriplanTab }) {
       planId: selected.planId,
       calendarId: selected.calendarId,
       placeData: {
-        location: selectedPlace[0].locationName,
+        location: selectedPlace[0].locationName
+          ? selectedPlace[0].locationName
+          : selectedPlace[0].placeName,
         latitude: Number(selectedPlace[0].latitude),
         longitude: Number(selectedPlace[0].longitude),
       },
-    });
-
-    dispatch(getPlans());
-
-    setIsTriplanTab(false);
-    setSelected(null);
+    })
+      .then(() => {
+        dispatch(getPlans());
+        setIsTriplanTab(false);
+        setSelected(null);
+        alert('내 계획에 담기가 완료되었습니다.');
+      })
+      .catch(() => {
+        alert('다시 시도해주세요.');
+      });
   };
 
   return (
