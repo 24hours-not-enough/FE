@@ -15,7 +15,7 @@ function Navbar({ title, children, back }) {
   const [isUser, setIsUser] = useState(false);
 
   useEffect(() => {
-    setIsUser(userInfo
+    setIsUser(userInfo.userName
       ? {
         userName: userInfo.userName,
         userProfileImage: userInfo.userProfileImage,

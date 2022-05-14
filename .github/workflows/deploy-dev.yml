@@ -12,15 +12,16 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@master
 
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-                        ${{ runner.os }}-node-
+                        ${{ runner.os }}-build-
+                        ${{ runner.os }}-
 
       - name: Install Dependencies
         run: yarn
@@ -36,4 +37,4 @@ jobs:
             aws s3 cp \
             --recursive \
             --region ap-northeast-2 \
-            build s3://${{ secrets.DEV_AWS_S3_BUCKET }}
+            build s3://triplan.co.kr

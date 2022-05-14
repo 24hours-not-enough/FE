@@ -32,7 +32,7 @@ export const userSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         removeToken();
-        state.userInfo = null;
+        state.userInfo = initialState.userInfo;
         state.bookmark = null;
       });
   },

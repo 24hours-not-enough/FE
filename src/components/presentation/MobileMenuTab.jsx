@@ -19,7 +19,7 @@ function MobileMenuTab({
             <img className="w-3 h-3 mt-6" alt="exit" src={iconSet.header.exitIcon} />
           </section>
           <section className="w-full grid place-content-center h-56">
-            {isUser
+            {isUser && isUser.userName
               ? (
                 <>
                   <img src={isUser.userProfileImage} alt="프로필" className="w-20 h-20 rounded-full" />
