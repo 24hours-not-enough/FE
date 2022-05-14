@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setFeedId } from '../state/redux/feed/feed';
 import { addFeedDetail, getFeedDetail } from '../state/redux/feed/feedThunk';
+import { changeUserProfile } from '../state/redux/user/userThunk';
 import instance, { imgApi } from '../state/data/axios';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _bookmark, _userInfo } from '../state/redux/user/userSelector';
@@ -21,11 +22,9 @@ import MyPagePlan from '../components/presentation/MyPagePlan';
 import MyPageMain from '../components/presentation/MyPageMain';
 import MyPageProfile from '../components/presentation/MyPageProfile';
 import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
-
-import Navbar from '../components/container/Navbar';
-// import MyPageSettings from '../components/presentation/MyPageSettings';
-import { changeUserProfile } from '../state/redux/user/userThunk';
 import MyPageBookmark from '../components/presentation/MyPageBookmark';
+import MyPageSettings from '../components/presentation/MyPageSettings';
+import Navbar from '../components/container/Navbar';
 
 function MyPage() {
   const dispatch = useDispatch();
@@ -300,18 +299,12 @@ function MyPage() {
             />
           )}
         />
-        {/* <Route
-          path="/notification"
-          element={(
-            <NotificationPage />
-          )}
-        /> */}
-        {/* <Route
+        <Route
           path="/settings"
           element={(
             <MyPageSettings />
           )}
-        /> */}
+        />
       </Routes>
     </>
   );

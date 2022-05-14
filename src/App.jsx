@@ -4,7 +4,6 @@ import { Route, Routes } from 'react-router-dom';
 import MobileView from './components/presentation/MobileView';
 import InviteHandler from './components/container/InviteHandler';
 import LoginHandler from './components/container/LoginHandler';
-import MyPageSettings from './components/presentation/MyPageSettings';
 
 import { getTokenFromSession } from './shared/utils';
 import { _userInfo } from './state/redux/user/userSelector';
@@ -48,7 +47,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/login/profile" element={<LoginProfile />} />
             <Route path="/mypage/*" element={<MyPage />} />
-            <Route path="/mypage/settings" element={<MyPageSettings />} />
             <Route path="/feed/:placeId/:feedId" element={<Feed />} />
             <Route path="/plan" element={<Plan />} />
             <Route path="/plan/create" element={<PlanCreate />} />
