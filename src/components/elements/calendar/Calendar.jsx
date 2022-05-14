@@ -8,7 +8,7 @@ function Calendar({ travelStartRef, travelEndRef }) {
   const [endDate, setEndDate] = useState();
 
   const CustomInputStart = forwardRef(({
-    value, onChange, onClick, placeholderText,
+    value, onChange, onClick,
   }, ref) => (
     <button
       type="button"
@@ -16,14 +16,19 @@ function Calendar({ travelStartRef, travelEndRef }) {
       onClick={onClick}
       onChange={onChange}
       ref={ref}
-      placeholder={placeholderText}
     >
-      {value}
+      {value
+      || (
+      <div className="flex justify-center">
+        <img alt="출발날짜" src="/images/icons/calendarIcon.png" className="w-4 h-4 mr-4" />
+        <span className="opacity-50 min-w-fit">언제부터</span>
+      </div>
+      )}
     </button>
   ));
 
   const CustomInputEnd = forwardRef(({
-    value, onChange, onClick, placeholderText,
+    value, onChange, onClick,
   }, ref) => (
     <button
       type="button"
@@ -31,9 +36,14 @@ function Calendar({ travelStartRef, travelEndRef }) {
       onClick={onClick}
       onChange={onChange}
       ref={ref}
-      placeholder={placeholderText}
     >
-      {value}
+      {value
+      || (
+      <div className="flex justify-center">
+        <img alt="도착날짜" src="/images/icons/calendarIcon.png" className="w-4 h-4 mr-4" />
+        <span className="opacity-50 min-w-fit">언제까지</span>
+      </div>
+      )}
     </button>
   ));
 
@@ -41,8 +51,7 @@ function Calendar({ travelStartRef, travelEndRef }) {
     <div className="flex gap-x-[16px]">
       <DatePicker
         ref={travelStartRef}
-        selected={startDate}
-        placeholderText="언제부터"
+        selected={startDate || null}
         onChange={(date) => setStartDate(date)}
         selectsStart
         startDate={startDate}
@@ -54,8 +63,7 @@ function Calendar({ travelStartRef, travelEndRef }) {
       />
       <DatePicker
         ref={travelEndRef}
-        selected={endDate}
-        placeholderText="언제까지"
+        selected={endDate || null}
         onChange={(date) => setEndDate(date)}
         selectsEnd
         startDate={startDate}

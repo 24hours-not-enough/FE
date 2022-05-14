@@ -44,7 +44,7 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
           </div> */}
         </div>
       </div>
-      {/* <div
+      <div
         style={{ backgroundColor: '#E7E6FE' }}
         className="w-10 h-10 ml-5 mt-10 rounded-full flex justify-center items-center"
         role="button"
@@ -52,7 +52,7 @@ function MyPageMain({ handleRouter, userInfo, myFeed }) {
         onClick={handleRouter('/mypage/plan')}
       >
         <img src={iconSet.myPage.plusIcon} alt="피드 추가하기" className="w-[14px] h-[14px]" />
-      </div> */}
+      </div>
       {myFeed.map((feed) => {
         const {
           title, travelStart, travelEnd, feedId,
