@@ -43,6 +43,7 @@ function MyPage() {
   const [checkDuplication, setCheckDuplication] = useState({ checked: null, color: 'red', value: '' });
   const [userNameChange, setUserNameChange] = useState(userInfo && userInfo.username);
   const [profileImgPreview, setProfileImgPreview] = useState(null);
+  const [placeSearchTab, setPlaceSearchTab] = useState(null);
   const [feedTitle, setFeedTitle] = useState('');
   const [feedNum, setFeedNum] = useState(0);
   const [feedDetailNum, setFeedDetailNum] = useState(0);
@@ -142,18 +143,24 @@ function MyPage() {
     });
   }, [feedNum, feedDetailNum, feedInfo]);
 
-  const handleAddFeedDetailLoc = useCallback(({ index }) => () => {
+  const handleAddFeedDetailLoc = useCallback(({ placeInfo, index }) => () => {
+    console.log(placeInfo, index);
+    const {
+      locationName, latitude, longitude, placeAdress,
+    } = placeInfo;
     const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
     newFeedInfo[index].feedDetailLoc.push({
       feedLocation: {
-        latitude: 0,
-        longitude: 0,
+        latitude,
+        longitude,
         memo: '',
-        placeAdress: '',
+        placeAdress,
+        name: locationName,
       },
       feedDetailLocImg: [],
     });
     setFeedInfo(newFeedInfo);
+    setPlaceSearchTab(null);
   }, [feedInfo]);
 
   const handleAddFeedDetail = useCallback(() => {
@@ -279,6 +286,8 @@ function MyPage() {
               handleAddFeedDetail={handleAddFeedDetail}
               handleAddFeedDetailLoc={handleAddFeedDetailLoc}
               myFeed={myFeed}
+              placeSearchTab={placeSearchTab}
+              setPlaceSearchTab={setPlaceSearchTab}
             />
           )}
         />
