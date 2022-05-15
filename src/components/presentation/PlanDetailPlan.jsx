@@ -24,7 +24,9 @@ function PlanDetailPlan({
           <img src={iconSet.plan.mapIcon} alt="지도" className="w-4.5 h-4.5 mx-auto" />
         </button>
         <button type="button" className="text-main" onClick={toggleEditState}>
-          {viewState === PLAN ? '편집' : '완료'}
+          {viewState === PLAN
+            ? <img src="/images/icons/edit_pencilIcon_main.png" alt="추가 및 수정" className="w-4.5 h-4.5 mx-auto" />
+            : '완료'}
         </button>
       </div>
 
