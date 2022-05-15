@@ -1,15 +1,19 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-key */
 import { memo } from 'react';
 
 import FeedDetailList from './FeedDetailList';
 import Calendar from '../elements/calendar/Calendar';
+import iconSet from '../../shared/imageUrl';
+import MyPagePlanSearch from '../container/MyPagePlanSearch';
 
 function MyPagePlan({
   myFeed,
   feedInfo,
   startDateRef,
   endDateRef,
-  handleAddFeedDetailLoc,
+  placeSearchTab,
+  setPlaceSearchTab,
   handleFocusFeedDetailNumber,
   handleFocusFeedNumber,
   handleChangeFeedTitle,
@@ -17,6 +21,7 @@ function MyPagePlan({
   handleChangeComment,
   handleChangeImageFile,
   handleAddFeedDetail,
+  handleAddFeedDetailLoc,
   handleChangeTitle,
   handleGetFeedId,
 }) {
@@ -53,8 +58,9 @@ function MyPagePlan({
           <div className="border-b pb-3 mb-5">
             <input onChange={handleChangeFeedTitle} className="text-black" placeholder={day} type="text" />
           </div>
-          {feedDetailLoc.map(({ feedDetailLocImg }, num) => (
+          {feedDetailLoc.length > 0 && feedDetailLoc.map(({ feedDetailLocImg }, num) => (
             <FeedDetailList
+              key={num}
               onChangePlace={handleChangePlace}
               feedDetailLocImg={feedDetailLocImg}
               handleChangeImageFile={handleChangeImageFile}
@@ -63,7 +69,7 @@ function MyPagePlan({
               index={num}
             />
           ))}
-          <button onClick={handleAddFeedDetailLoc({ index })} type="button" className="relative -top-3 left-5 text-main">
+          <button onClick={() => setPlaceSearchTab(index)} type="button" className="relative -top-3 left-5 text-main">
             장소 추가하기
           </button>
         </div>
@@ -74,8 +80,17 @@ function MyPagePlan({
         tabIndex={0}
         className="grid place-items-center h-12 bg-white rounded-xl"
       >
-        <img src="/images/plusIcon.png" alt="+" />
+        <img src={iconSet.myPage.plusIcon} alt="+" />
       </div>
+      {
+        placeSearchTab != null
+        && (
+        <MyPagePlanSearch
+          placeSearchTab={placeSearchTab}
+          handleAddFeedDetailLoc={handleAddFeedDetailLoc}
+        />
+        )
+      }
     </div>
   );
 }

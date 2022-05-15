@@ -15,7 +15,7 @@ function Navbar({ title, children, back }) {
   const [isUser, setIsUser] = useState(false);
 
   useEffect(() => {
-    setIsUser(userInfo
+    setIsUser(userInfo.userName
       ? {
         userName: userInfo.userName,
         userProfileImage: userInfo.userProfileImage,
@@ -23,13 +23,14 @@ function Navbar({ title, children, back }) {
       : false);
   }, [userInfo]);
 
-  const handleRouter = useCallback((path) => () => {
-    navigate(path);
-  }, [navigate]);
-
   const toggleTab = useCallback(() => {
     setIsTab((isTab) => !isTab);
   }, [setIsTab]);
+
+  const handleRouter = useCallback((path) => () => {
+    navigate(path);
+    toggleTab();
+  }, [navigate]);
 
   const goBack = useCallback(() => {
     navigate(-1);
