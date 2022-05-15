@@ -29,7 +29,7 @@ function PlanEditOneTab({ selectedPlan, setIsEditMenu, deletePlan }) {
 
   return (
     <div>
-      <div className="absolute w-full h-screen top-0 left-0 opacity-70 bg-[#E5E5E5] z-10" />
+      <div className="absolute w-full h-full top-0 left-0 opacity-70 bg-[#E5E5E5] z-10" />
       <section className="absolute bottom-0 left-0 z-20 bg-white w-full min-h-[240px] rounded-t-[30px] px-[30px] pt-[30px]">
         <h5 className="text-[18px] leading-[22px] font-[700] mb-[44px]">{title}</h5>
         <div className="flex flex-col items-start gap-y-[40px]">

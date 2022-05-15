@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setFeedId } from '../state/redux/feed/feed';
 import { addFeedDetail, getFeedDetail } from '../state/redux/feed/feedThunk';
+import { changeUserProfile } from '../state/redux/user/userThunk';
 import instance, { imgApi } from '../state/data/axios';
 import { _myFeed, _myLikes, _myFeedId } from '../state/redux/feed/feedSelector';
 import { _bookmark, _userInfo } from '../state/redux/user/userSelector';
@@ -21,11 +22,9 @@ import MyPagePlan from '../components/presentation/MyPagePlan';
 import MyPageMain from '../components/presentation/MyPageMain';
 import MyPageProfile from '../components/presentation/MyPageProfile';
 import MyLikeFeeds from '../components/presentation/MyLikeFeeds';
-
-import Navbar from '../components/container/Navbar';
-// import MyPageSettings from '../components/presentation/MyPageSettings';
-import { changeUserProfile } from '../state/redux/user/userThunk';
 import MyPageBookmark from '../components/presentation/MyPageBookmark';
+import MyPageSettings from '../components/presentation/MyPageSettings';
+import Navbar from '../components/container/Navbar';
 
 function MyPage() {
   const dispatch = useDispatch();
@@ -44,6 +43,7 @@ function MyPage() {
   const [checkDuplication, setCheckDuplication] = useState({ checked: null, color: 'red', value: '' });
   const [userNameChange, setUserNameChange] = useState(userInfo && userInfo.username);
   const [profileImgPreview, setProfileImgPreview] = useState(null);
+  const [placeSearchTab, setPlaceSearchTab] = useState(null);
   const [feedTitle, setFeedTitle] = useState('');
   const [feedNum, setFeedNum] = useState(0);
   const [feedDetailNum, setFeedDetailNum] = useState(0);
@@ -143,18 +143,24 @@ function MyPage() {
     });
   }, [feedNum, feedDetailNum, feedInfo]);
 
-  const handleAddFeedDetailLoc = useCallback(({ index }) => () => {
+  const handleAddFeedDetailLoc = useCallback(({ placeInfo, index }) => () => {
+    console.log(placeInfo, index);
+    const {
+      locationName, latitude, longitude, placeAdress,
+    } = placeInfo;
     const newFeedInfo = JSON.parse(JSON.stringify(feedInfo));
     newFeedInfo[index].feedDetailLoc.push({
       feedLocation: {
-        latitude: 0,
-        longitude: 0,
+        latitude,
+        longitude,
         memo: '',
-        placeAdress: '',
+        placeAdress,
+        name: locationName,
       },
       feedDetailLocImg: [],
     });
     setFeedInfo(newFeedInfo);
+    setPlaceSearchTab(null);
   }, [feedInfo]);
 
   const handleAddFeedDetail = useCallback(() => {
@@ -280,6 +286,8 @@ function MyPage() {
               handleAddFeedDetail={handleAddFeedDetail}
               handleAddFeedDetailLoc={handleAddFeedDetailLoc}
               myFeed={myFeed}
+              placeSearchTab={placeSearchTab}
+              setPlaceSearchTab={setPlaceSearchTab}
             />
           )}
         />
@@ -300,18 +308,12 @@ function MyPage() {
             />
           )}
         />
-        {/* <Route
-          path="/notification"
-          element={(
-            <NotificationPage />
-          )}
-        /> */}
-        {/* <Route
+        <Route
           path="/settings"
           element={(
             <MyPageSettings />
           )}
-        /> */}
+        />
       </Routes>
     </>
   );
