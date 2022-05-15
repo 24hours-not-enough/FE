@@ -131,7 +131,7 @@ function Plan() {
 
       <section className="mx-[20px] mt-[100px]">
         <span className="text-[12px] leading-[14px] text-[#A0A0A0] mb-[10px]">지난 트리플랜</span>
-        <ul className="flex flex-wrap gap-x-[16px] gap-y-[14px]">
+        <ul className="flex flex-wrap gap-x-[16px] gap-y-[14px] mb-5">
           {pastList.map((onePlan) => (
             <PlanPast
               key={onePlan.planId}
