@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import iconSet from '../../shared/imageUrl';
 import { addBookmark, addPlace } from '../../state/redux/place/placeThunk';
 import { _bookmark } from '../../state/redux/user/userSelector';
@@ -12,7 +12,7 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
 
   const [address, setAddress] = useState(null);
   const [isSpread, setIsSpread] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const {
@@ -74,9 +74,9 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
     openTriplanTab(data);
   };
 
-  const goToFeedPage = (feed) => {
-    navigate(`/feed/${placeId}/${feed.feedId}`, { state: { feed, locationName } });
-  };
+  // const goToFeedPage = (feed) => {
+  //   navigate(`/feed/${placeId}/${feed.feedId}`, { state: { feed, locationName } });
+  // };
 
   return (
     <section className={`absolute transition-all duration-300 ease-out bottom-0 left-0 z-10 bg-white w-full rounded-t-[30px] ${tabStyle}`}>
@@ -89,7 +89,7 @@ function MainFeedTab({ userInfo, feedTabData, openTriplanTab }) {
               src={feed.images[0].imgUrl}
               alt={feed.memo}
               className="absolute w-full h-full rounded-lg"
-              onClick={() => goToFeedPage(feed)}
+              // onClick={() => goToFeedPage(feed)}
             />
           </div>
         ))}
